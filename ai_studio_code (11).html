@@ -1,0 +1,1183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AARAA - Construction Template Replica</title>
+  <!-- Google Fonts for construction-style typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons for layout iconography -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+  <style>
+    /* Reset & Base Variables */
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    :root {
+      --primary-red: #e31e24;
+      --dark-navy: #0e1a30;
+      --text-dark: #111111;
+      --text-muted: #555555;
+      --bg-light: #f4f6f9;
+      --white: #ffffff;
+      --transition: all 0.3s ease;
+    }
+    body {
+      font-family: 'Poppins', sans-serif;
+      color: var(--text-dark);
+      background-color: var(--white);
+      line-height: 1.6;
+      overflow-x: hidden;
+    }
+    h1, h2, h3, h4, h5 {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      text-transform: uppercase;
+      letter-spacing: -0.5px;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+    img {
+      max-width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    /* Common Components */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      background-color: var(--primary-red);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      padding: 0.85rem 1.8rem;
+      border: none;
+      border-radius: 2px;
+      cursor: pointer;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      transition: var(--transition);
+    }
+    .btn:hover {
+      background-color: #be151a;
+      transform: translateY(-2px);
+    }
+    .btn-arrow::after {
+      content: " \203A";
+      font-size: 1.2rem;
+      margin-left: 8px;
+      line-height: 0;
+    }
+    .section-spacing {
+      padding: 5rem 10%;
+    }
+    @media (max-width: 1024px) {
+      .section-spacing {
+        padding: 4rem 5%;
+      }
+    }
+
+    /* Header & Navigation */
+    header {
+      background-color: var(--white);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    }
+    .nav-container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 1rem 5%;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+    .logo {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 900;
+      font-size: 1.8rem;
+      color: var(--primary-red);
+      letter-spacing: 1px;
+    }
+    .nav-links {
+      display: flex;
+      list-style: none;
+      gap: 2rem;
+    }
+    .nav-links a {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      transition: var(--transition);
+    }
+    .nav-links a:hover {
+      color: var(--primary-red);
+    }
+    .nav-cta {
+      background-color: var(--primary-red);
+      color: var(--white);
+      padding: 0.6rem 1.2rem;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      border-radius: 3px;
+      font-size: 0.85rem;
+    }
+
+    /* Hero Block (Facade Banner) */
+    .hero-banner {
+      width: 100%;
+      height: 450px;
+      background-color: var(--bg-light);
+      position: relative;
+      overflow: hidden;
+    }
+    /* SVG placeholder styling mimic of the colorful facade */
+    .hero-facade {
+      width: 100%;
+      height: 100%;
+    }
+
+    /* Section: We Love To Build */
+    .build-section {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .image-frame {
+      border-radius: 4px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      background-color: #eaeaea;
+    }
+    .build-content .subtitle {
+      color: var(--text-muted);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .build-content h2 {
+      font-size: 2.8rem;
+      line-height: 1.1;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+    }
+    .build-content .highlight-text {
+      font-size: 1.1rem;
+      font-weight: 600;
+      margin-bottom: 1.5rem;
+      color: var(--text-dark);
+    }
+    .build-content p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Section: A Trusted Collaborative Partner */
+    .partner-split-section {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      background-color: var(--dark-navy);
+      color: var(--white);
+    }
+    .partner-left {
+      background-color: #2a3b50;
+      min-height: 400px;
+      position: relative;
+    }
+    .partner-right {
+      padding: 6rem 10% 6rem 8%;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      position: relative;
+    }
+    /* Stylized decorative shape */
+    .partner-right::after {
+      content: "";
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      width: 120px;
+      height: 120px;
+      background: linear-gradient(135deg, transparent 50%, var(--primary-red) 50%);
+      opacity: 0.15;
+    }
+    .partner-icon-badge {
+      font-size: 2.5rem;
+      color: var(--primary-red);
+      margin-bottom: 1.5rem;
+    }
+    .partner-right h2 {
+      font-size: 2.4rem;
+      line-height: 1.2;
+      margin-bottom: 1.5rem;
+    }
+    .partner-right p {
+      color: #a5b1c2;
+      font-size: 0.95rem;
+      margin-bottom: 2rem;
+    }
+
+    /* Section: Just Build (Over a Decade) */
+    .decade-section {
+      background-color: var(--bg-light);
+      text-align: center;
+      position: relative;
+      background-image: radial-gradient(rgba(0,0,0,0.03) 1px, transparent 0);
+      background-size: 24px 24px;
+    }
+    .decade-content {
+      max-width: 900px;
+      margin: 0 auto;
+    }
+    .decade-content .subtitle {
+      font-size: 0.8rem;
+      letter-spacing: 3px;
+      color: var(--text-muted);
+      margin-bottom: 1rem;
+      display: inline-block;
+    }
+    .decade-content h2 {
+      font-size: 2.8rem;
+      line-height: 1.1;
+      margin-bottom: 2rem;
+    }
+    .decade-content h2 span {
+      color: var(--primary-red);
+    }
+    .decade-content p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+      max-width: 800px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Section: Solving Problems */
+    .solving-section {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+    .solving-content h2 {
+      font-size: 2.5rem;
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+    .solving-content h2 span {
+      display: block;
+      color: var(--text-muted);
+      font-size: 1.5rem;
+      margin-top: 0.5rem;
+    }
+    .solving-content p {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 1.5rem;
+    }
+
+    /* Section: Our Sectors */
+    .sectors-section {
+      background-color: var(--white);
+      text-align: center;
+    }
+    .sectors-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .sectors-section .subtitle {
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 3rem;
+      display: block;
+    }
+    .sectors-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .sector-card {
+      background: var(--white);
+      border: 1px solid #eeeeee;
+      border-radius: 4px;
+      overflow: hidden;
+      text-align: left;
+      transition: var(--transition);
+    }
+    .sector-card:hover {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.08);
+      transform: translateY(-5px);
+    }
+    .sector-img {
+      height: 200px;
+      background-color: #ddd;
+      position: relative;
+    }
+    .sector-icon {
+      position: absolute;
+      bottom: 15px;
+      left: 15px;
+      background: rgba(14, 26, 48, 0.95);
+      color: var(--white);
+      width: 45px;
+      height: 45px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      border-radius: 4px;
+      font-size: 1.2rem;
+    }
+    .sector-body {
+      padding: 1.8rem;
+    }
+    .sector-body h3 {
+      font-size: 1.2rem;
+      margin-bottom: 0.8rem;
+    }
+    .sector-body p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+    }
+    .sector-body .link {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      color: var(--text-dark);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+      transition: var(--transition);
+    }
+    .sector-body .link:hover {
+      color: var(--primary-red);
+    }
+
+    /* Section: Why Choose Us */
+    .why-section {
+      background-color: var(--bg-light);
+      text-align: center;
+    }
+    .why-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 3rem;
+    }
+    .pills-grid {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 1rem;
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+    .pill {
+      background: var(--white);
+      padding: 0.9rem 1.8rem;
+      border-radius: 50px;
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    }
+    .pill i {
+      color: var(--primary-red);
+    }
+
+    /* Section: Our Trusted Partners */
+    .partners-section {
+      text-align: center;
+      border-bottom: 1px solid #eeeeee;
+    }
+    .partners-section .subtitle {
+      font-size: 0.85rem;
+      letter-spacing: 2px;
+      color: var(--text-muted);
+      margin-bottom: 0rem;
+    }
+
+    /* Section: Let's Build Together */
+    .callout-section {
+      background-color: var(--bg-light);
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      min-height: 250px;
+    }
+    .callout-bg {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      opacity: 0.15;
+    }
+    .callout-content {
+      position: relative;
+      z-index: 2;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+    }
+    .callout-content h2 {
+      font-size: 2.8rem;
+      line-height: 1;
+      color: var(--text-dark);
+    }
+    .callout-content h2 span {
+      display: block;
+    }
+
+    /* Section: Articles */
+    .articles-section {
+      background-color: var(--white);
+    }
+    .articles-section h2 {
+      font-size: 2.2rem;
+      text-align: center;
+      margin-bottom: 0.5rem;
+    }
+    .articles-section .subtitle {
+      text-align: center;
+      color: var(--text-muted);
+      font-size: 0.9rem;
+      margin-bottom: 3rem;
+      display: block;
+      max-width: 600px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .articles-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+    }
+    .article-card {
+      border: 1px solid #eeeeee;
+      border-radius: 4px;
+      overflow: hidden;
+      position: relative;
+    }
+    .article-img-wrapper {
+      position: relative;
+      height: 220px;
+      background: #eaeaea;
+    }
+    .date-badge {
+      position: absolute;
+      top: 15px;
+      left: 15px;
+      background-color: var(--primary-red);
+      color: var(--white);
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 800;
+      font-size: 1.1rem;
+      padding: 0.4rem 0.8rem;
+      border-radius: 2px;
+    }
+    .article-body {
+      padding: 1.8rem;
+    }
+    .article-body .meta {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      display: block;
+    }
+    .article-body h3 {
+      font-size: 1.1rem;
+      line-height: 1.3;
+      margin-bottom: 1rem;
+    }
+    .article-body .link {
+      font-family: 'Montserrat', sans-serif;
+      font-weight: 700;
+      font-size: 0.8rem;
+      text-transform: uppercase;
+      color: var(--text-dark);
+      transition: var(--transition);
+    }
+    .article-body .link:hover {
+      color: var(--primary-red);
+    }
+    .carousel-dots {
+      display: flex;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 2.5rem;
+    }
+    .dot {
+      width: 10px;
+      height: 10px;
+      background-color: #ddd;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .dot.active {
+      background-color: var(--primary-red);
+    }
+
+    /* Section: We'd Love to Hear From You */
+    .contact-cta-section {
+      text-align: center;
+      background-color: var(--bg-light);
+    }
+    .contact-cta-section h2 {
+      font-size: 2.2rem;
+      margin-bottom: 0.5rem;
+    }
+    .contact-cta-section .subtitle {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      margin-bottom: 3rem;
+      display: block;
+    }
+    .contact-cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 2rem;
+      max-width: 1100px;
+      margin: 0 auto;
+    }
+    .contact-card {
+      background: var(--white);
+      padding: 2.5rem 1.5rem;
+      border-radius: 4px;
+      border: 1px solid #eeeeee;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      transition: var(--transition);
+    }
+    .contact-card:hover {
+      box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+      transform: translateY(-5px);
+    }
+    .contact-icon {
+      background-color: var(--primary-red);
+      color: var(--white);
+      width: 60px;
+      height: 60px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+    .contact-card h3 {
+      font-size: 1.1rem;
+      margin-bottom: 0.8rem;
+    }
+    .contact-card p {
+      color: var(--text-muted);
+      font-size: 0.85rem;
+    }
+
+    /* Footer */
+    footer {
+      background-color: #080f1b;
+      color: var(--white);
+      padding: 5rem 10% 2rem 10%;
+    }
+    .footer-grid {
+      display: grid;
+      grid-template-columns: 1.2fr 1fr 1fr;
+      gap: 4rem;
+      margin-bottom: 4rem;
+    }
+    .footer-about .logo {
+      color: var(--white);
+      margin-bottom: 1.5rem;
+    }
+    .footer-about p {
+      color: #a5b1c2;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .social-links {
+      display: flex;
+      gap: 1rem;
+    }
+    .social-links a {
+      background: rgba(255,255,255,0.05);
+      width: 35px;
+      height: 35px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: var(--transition);
+    }
+    .social-links a:hover {
+      background: var(--primary-red);
+    }
+    .footer-col h3 {
+      font-size: 1.2rem;
+      margin-bottom: 1.8rem;
+      border-left: 3px solid var(--primary-red);
+      padding-left: 10px;
+    }
+    .footer-contact-info p {
+      font-size: 0.9rem;
+      color: #a5b1c2;
+      margin-bottom: 1rem;
+      display: flex;
+      gap: 10px;
+    }
+    .footer-contact-info p i {
+      color: var(--primary-red);
+      margin-top: 4px;
+    }
+    .footer-newsletter p {
+      color: #a5b1c2;
+      font-size: 0.9rem;
+      margin-bottom: 1.5rem;
+    }
+    .newsletter-form {
+      display: flex;
+    }
+    .newsletter-form input {
+      flex: 1;
+      padding: 0.8rem;
+      border: none;
+      border-radius: 2px 0 0 2px;
+      outline: none;
+      font-size: 0.9rem;
+    }
+    .newsletter-form button {
+      background-color: var(--primary-red);
+      color: var(--white);
+      border: none;
+      padding: 0 1.2rem;
+      border-radius: 0 2px 2px 0;
+      cursor: pointer;
+      font-size: 1.1rem;
+    }
+    .footer-bottom {
+      border-top: 1px solid rgba(255,255,255,0.08);
+      padding-top: 2rem;
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.8rem;
+      color: #7f8c8d;
+    }
+
+    /* Responsive Breakdown */
+    @media (max-width: 991px) {
+      .build-section,
+      .partner-split-section,
+      .solving-section {
+        grid-template-columns: 1fr;
+        gap: 2.5rem;
+      }
+      .sectors-grid,
+      .articles-grid,
+      .contact-cards-grid,
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+      }
+      .callout-content {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1.5rem;
+      }
+    }
+    @media (max-width: 768px) {
+      .nav-links {
+        display: none;
+      }
+      .sectors-grid,
+      .articles-grid,
+      .contact-cards-grid,
+      .footer-grid {
+        grid-template-columns: 1fr;
+      }
+      .build-content h2,
+      .decade-content h2,
+      .partner-right h2,
+      .callout-content h2 {
+        font-size: 2rem;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Header & Navigation -->
+  <header>
+    <div class="nav-container">
+      <div class="logo">AARAA</div>
+      <ul class="nav-links">
+        <li><a href="#home">Home</a></li>
+        <li><a href="#about">About</a></li>
+        <li><a href="#sectors">Sectors</a></li>
+        <li><a href="#articles">Articles</a></li>
+        <li><a href="#contact">Contact</a></li>
+      </ul>
+      <a href="#contact" class="nav-cta">GET IN TOUCH</a>
+    </div>
+  </header>
+
+  <!-- Hero Banner -->
+  <section class="hero-banner">
+    <!-- SVG representing the colorful exterior facade of the building at the top -->
+    <svg class="hero-facade" preserveAspectRatio="none" viewBox="0 0 1200 450">
+      <defs>
+        <linearGradient id="skyGrad" x1="0" y1="0" x2="0" y2="1">
+          <stop offset="0%" stop-color="#e3f2fd" />
+          <stop offset="100%" stop-color="#ffffff" />
+        </linearGradient>
+      </defs>
+      <rect width="100%" height="100%" fill="url(#skyGrad)" />
+      <!-- Building main block -->
+      <rect x="50" y="50" width="1100" height="350" fill="#ffffff" stroke="#dddddd" stroke-width="2"/>
+      <!-- Colored vertical layout bands matching the image facade colors -->
+      <g opacity="0.85">
+        <rect x="100" y="80" width="40" height="200" fill="#fbc531" />
+        <rect x="140" y="80" width="40" height="200" fill="#e84118" />
+        <rect x="180" y="80" width="40" height="200" fill="#00a8ff" />
+        <rect x="220" y="80" width="40" height="200" fill="#ff7675" />
+        <rect x="260" y="80" width="40" height="200" fill="#9c27b0" />
+        <rect x="300" y="80" width="40" height="200" fill="#4cd137" />
+        <rect x="340" y="80" width="40" height="200" fill="#fbc531" />
+        <rect x="380" y="80" width="40" height="200" fill="#e84118" />
+        <!-- Dark modern framed center entryway -->
+        <rect x="420" y="160" width="360" height="240" fill="#1e272e" />
+        <rect x="800" y="80" width="40" height="200" fill="#00a8ff" />
+        <rect x="840" y="80" width="40" height="200" fill="#ff7675" />
+        <rect x="880" y="80" width="40" height="200" fill="#9c27b0" />
+        <rect x="920" y="80" width="40" height="200" fill="#4cd137" />
+        <rect x="960" y="80" width="40" height="200" fill="#fbc531" />
+        <rect x="1000" y="80" width="40" height="200" fill="#e84118" />
+      </g>
+      <!-- Structural Windows -->
+      <rect x="150" y="300" width="60" height="50" fill="#d2dae2" />
+      <rect x="270" y="300" width="60" height="50" fill="#d2dae2" />
+      <rect x="870" y="300" width="60" height="50" fill="#d2dae2" />
+      <rect x="990" y="300" width="60" height="50" fill="#d2dae2" />
+    </svg>
+  </section>
+
+  <!-- Section: We Love To Build -->
+  <section class="build-section section-spacing">
+    <div class="image-frame">
+      <!-- SVG representing Construction site & Cranes -->
+      <svg viewBox="0 0 400 500" width="100%" height="100%" style="background:#eef2f7;">
+        <rect width="100%" height="100%" fill="#edf1f6" />
+        <!-- Sky Grid -->
+        <path d="M0,50 Q100,20 200,50 T400,50" fill="none" stroke="#d5dbdb" stroke-width="2"/>
+        <path d="M0,150 Q100,120 200,150 T400,150" fill="none" stroke="#d5dbdb" stroke-width="2"/>
+        <!-- Tower Cranes -->
+        <line x1="120" y1="500" x2="120" y2="100" stroke="#7f8c8d" stroke-width="6" />
+        <line x1="50" y1="120" x2="280" y2="120" stroke="#7f8c8d" stroke-width="4" />
+        <line x1="120" y1="100" x2="50" y2="120" stroke="#95a5a6" stroke-width="2" />
+        <line x1="120" y1="100" x2="180" y2="120" stroke="#95a5a6" stroke-width="2" />
+        <!-- Crane 2 -->
+        <line x1="280" y1="500" x2="280" y2="180" stroke="#95a5a6" stroke-width="4" />
+        <line x1="200" y1="195" x2="360" y2="195" stroke="#95a5a6" stroke-width="3" />
+        <!-- Building Frame Structures -->
+        <rect x="40" y="300" width="120" height="200" fill="none" stroke="#bdc3c7" stroke-width="3" />
+        <line x1="40" y1="350" x2="160" y2="350" stroke="#bdc3c7" stroke-width="2" />
+        <line x1="40" y1="400" x2="160" y2="400" stroke="#bdc3c7" stroke-width="2" />
+        <line x1="40" y1="450" x2="160" y2="450" stroke="#bdc3c7" stroke-width="2" />
+        <line x1="80" y1="300" x2="80" y2="500" stroke="#bdc3c7" stroke-width="2" />
+        <line x1="120" y1="300" x2="120" y2="500" stroke="#bdc3c7" stroke-width="2" />
+        <!-- Concrete blocks -->
+        <rect x="180" y="380" width="150" height="120" fill="#7f8c8d" opacity="0.7"/>
+        <rect x="210" y="320" width="90" height="60" fill="#95a5a6" opacity="0.8"/>
+      </svg>
+    </div>
+    <div class="build-content">
+      <span class="subtitle">ABOUT COMPANY</span>
+      <h2>WE LOVE TO BUILD.<br>IT'S WHO WE ARE AND WHAT WE DO.<br>IT'S WHO WE ARE AND WHAT WE DO.</h2>
+      <p class="highlight-text">
+        At AARAA, it's not just about what we build... It's about how we build.<br>
+        At AARAA, it's not just about what we build... It's about how we build.
+      </p>
+      <p>
+        Building the future requires more than concrete, steel, and machinery. It demands transparency, communication, and a shared dedication to excellence. Together, we build trusted partnerships and exceptional commercial structures.
+      </p>
+      <button class="btn btn-arrow">READ MORE</button>
+    </div>
+  </section>
+
+  <!-- Section: A Trusted Collaborative Partner -->
+  <section class="partner-split-section">
+    <div class="partner-left">
+      <!-- SVG representing a safety professional/worker -->
+      <svg viewBox="0 0 500 450" width="100%" height="100%" preserveAspectRatio="xMidYMid slice" style="background:#1b2a47;">
+        <!-- Industrial gradient background -->
+        <defs>
+          <linearGradient id="workerGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#2a3a5c" />
+            <stop offset="100%" stop-color="#0d1625" />
+          </linearGradient>
+        </defs>
+        <rect width="100%" height="100%" fill="url(#workerGrad)" />
+        <g transform="translate(100, 50)">
+          <!-- Safety Helmet -->
+          <path d="M100,140 C100,80 200,80 200,140 Z" fill="#fbc531" />
+          <rect x="90" y="135" width="120" height="10" rx="3" fill="#fbc531" />
+          <rect x="135" y="90" width="30" height="50" fill="#e1b12c" />
+          <!-- Head / Glasses -->
+          <rect x="115" y="145" width="70" height="60" fill="#f3d3b6" rx="5" />
+          <rect x="110" y="155" width="80" height="20" fill="#2f3640" opacity="0.8" rx="3" />
+          <!-- Safety earmuffs -->
+          <rect x="95" y="150" width="15" height="40" fill="#e84118" rx="5" />
+          <rect x="190" y="150" width="15" height="40" fill="#e84118" rx="5" />
+          <path d="M110,150 Q150,110 190,150" fill="none" stroke="#2f3640" stroke-width="4" />
+          <!-- Jacket / Shoulders -->
+          <path d="M60,240 L240,240 L220,380 L80,380 Z" fill="#e84118" />
+          <!-- Reflective stripes -->
+          <rect x="100" y="240" width="20" height="140" fill="#fbc531" />
+          <rect x="180" y="240" width="20" height="140" fill="#fbc531" />
+          <rect x="60" y="280" width="180" height="20" fill="#ffffff" opacity="0.9" />
+        </g>
+      </svg>
+    </div>
+    <div class="partner-right">
+      <div class="partner-icon-badge">
+        <i class="fa-solid fa-shield-halved"></i>
+      </div>
+      <h2>A Trusted, Collaborative Partner Focused on Your Goals</h2>
+      <p>
+        AARAA is an industry construction partner focused on solving complex challenges, not just building. We provide safety, quality, and renovation, using advanced methods and technology to deliver clear, confident results that matter to you.
+      </p>
+      <div>
+        <button class="btn">LEARN MORE</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Just Build -->
+  <section class="decade-section section-spacing">
+    <div class="decade-content">
+      <span class="subtitle">WHO WE ARE</span>
+      <h2>
+        WE'VE DONE ONE THING FOR OVER A WE'VE DONE ONE THING FOR OVER A DECADE - <span>JUST BUILD</span>
+      </h2>
+      <p>
+        For over ten years, building has been at the heart of everything we do. From concept to completion, we've consistently delivered high-quality construction projects across sectors: commercial, industrial, infrastructure, institutional, renovation, and heavy projects. Our unwavering focus on innovation, craftsmanship, and client satisfaction has earned us a reputation for reliability and excellence. We don't just construct structures—we build trust, value, and lasting partnerships.
+      </p>
+      <p>
+        For over ten years, building has been at the heart of everything we do. From concept to completion, we've consistently delivered high-quality construction projects across sectors: commercial, industrial, infrastructure, institutional, renovation, and heavy projects. Our unwavering focus on innovation, craftsmanship, and client satisfaction has earned us a reputation for reliability and excellence. We don't just construct structures—we build trust, value, and lasting partnerships.
+      </p>
+    </div>
+  </section>
+
+  <!-- Section: Solving Problems -->
+  <section class="solving-section section-spacing">
+    <div class="solving-content">
+      <h2>SOLVING PROBLEMS <span>BEFORE THEY HAPPEN</span></h2>
+      <p>
+        Proactive thinking is at the core of our approach. By anticipating challenges early in the project lifecycle, we minimize risk, prevent delays, and ensure smooth execution.
+      </p>
+      <p>
+        Through meticulous planning, expert foresight, and close collaboration, we identify potential issues before they arise—saving time, cost, and effort.
+      </p>
+      <p>
+        It's not just about fixing problems; it's about preventing them altogether.
+      </p>
+      <p>
+        It's not just about fixing problems; it's about preventing them altogether.
+      </p>
+    </div>
+    <div class="image-frame">
+      <!-- SVG representing Blueprints/Architectural desk -->
+      <svg viewBox="0 0 400 320" width="100%" height="100%" style="background:#1e3c72;">
+        <rect width="100%" height="100%" fill="#1e3c72" />
+        <!-- Blueprint grids -->
+        <g stroke="#2a5298" stroke-width="1">
+          <line x1="0" y1="40" x2="400" y2="40" />
+          <line x1="0" y1="80" x2="400" y2="80" />
+          <line x1="0" y1="120" x2="400" y2="120" />
+          <line x1="0" y1="160" x2="400" y2="160" />
+          <line x1="0" y1="200" x2="400" y2="200" />
+          <line x1="0" y1="240" x2="400" y2="240" />
+          <line x1="0" y1="280" x2="400" y2="280" />
+          <line x1="40" y1="0" x2="40" y2="320" />
+          <line x1="80" y1="0" x2="80" y2="320" />
+          <line x1="120" y1="0" x2="120" y2="320" />
+          <line x1="160" y1="0" x2="160" y2="320" />
+          <line x1="200" y1="0" x2="200" y2="320" />
+          <line x1="240" y1="0" x2="240" y2="320" />
+          <line x1="280" y1="0" x2="280" y2="320" />
+          <line x1="320" y1="0" x2="320" y2="320" />
+          <line x1="360" y1="0" x2="360" y2="320" />
+        </g>
+        <!-- Drawing lines / shapes -->
+        <g stroke="#ffffff" stroke-width="2" fill="none">
+          <rect x="60" y="60" width="280" height="200" />
+          <circle cx="200" cy="160" r="60" />
+          <line x1="60" y1="60" x2="340" y2="260" />
+          <line x1="340" y1="60" x2="60" y2="260" />
+        </g>
+        <!-- Golden ruler on top -->
+        <rect x="250" y="210" width="130" height="20" fill="#fbc531" opacity="0.9" transform="rotate(15, 250, 210)"/>
+        <!-- Compass tool -->
+        <path d="M120,80 L140,140 L160,80" fill="none" stroke="#d2dae2" stroke-width="4" />
+      </svg>
+    </div>
+  </section>
+
+  <!-- Section: Our Sectors -->
+  <section id="sectors" class="sectors-section section-spacing">
+    <h2>OUR SECTORS</h2>
+    <span class="subtitle">Delivering world-class projects and solutions tailored to diverse industries.</span>
+    
+    <div class="sectors-grid">
+      <!-- Sector 1 -->
+      <div class="sector-card">
+        <div class="sector-img">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#bdc3c7"/><text x="50%" y="50%" fill="#7f8c8d" dominant-baseline="middle" text-anchor="middle" font-family="Montserrat" font-weight="bold">COMMERCIAL</text></svg>
+          <div class="sector-icon"><i class="fa-solid fa-building"></i></div>
+        </div>
+        <div class="sector-body">
+          <h3>Commercial</h3>
+          <p>Innovative offices, retail centers, and custom spaces constructed to high standards.</p>
+          <a href="#" class="link">LEARN MORE</a>
+        </div>
+      </div>
+      <!-- Sector 2 -->
+      <div class="sector-card">
+        <div class="sector-img">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#95a5a6"/><text x="50%" y="50%" fill="#7f8c8d" dominant-baseline="middle" text-anchor="middle" font-family="Montserrat" font-weight="bold">INDUSTRIAL</text></svg>
+          <div class="sector-icon"><i class="fa-solid fa-industry"></i></div>
+        </div>
+        <div class="sector-body">
+          <h3>Industrial</h3>
+          <p>State-of-the-art warehouses, factories, and heavy industrial structures.</p>
+          <a href="#" class="link">LEARN MORE</a>
+        </div>
+      </div>
+      <!-- Sector 3 -->
+      <div class="sector-card">
+        <div class="sector-img">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#7f8c8d"/><text x="50%" y="50%" fill="#ffffff" opacity="0.5" dominant-baseline="middle" text-anchor="middle" font-family="Montserrat" font-weight="bold">INFRASTRUCTURE</text></svg>
+          <div class="sector-icon"><i class="fa-solid fa-road"></i></div>
+        </div>
+        <div class="sector-body">
+          <h3>Infrastructure</h3>
+          <p>Bridges, roadways, and civil works designed for endurance and utility.</p>
+          <a href="#" class="link">LEARN MORE</a>
+        </div>
+      </div>
+      <!-- Sector 4 -->
+      <div class="sector-card">
+        <div class="sector-img">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#7f8c8d"/><text x="50%" y="50%" fill="#ffffff" opacity="0.5" dominant-baseline="middle" text-anchor="middle" font-family="Montserrat" font-weight="bold">INSTITUTIONAL</text></svg>
+          <div class="sector-icon"><i class="fa-solid fa-school"></i></div>
+        </div>
+        <div class="sector-body">
+          <h3>Institutional</h3>
+          <p>Schools, universities, and healthcare facilities supporting communities.</p>
+          <a href="#" class="link">LEARN MORE</a>
+        </div>
+      </div>
+      <!-- Sector 5 -->
+      <div class="sector-card">
+        <div class="sector-img">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#95a5a6"/><text x="50%" y="50%" fill="#7f8c8d" dominant-baseline="middle" text-anchor="middle" font-family="Montserrat" font-weight="bold">RENOVATION</text></svg>
+          <div class="sector-icon"><i class="fa-solid fa-trowel-bricks"></i></div>
+        </div>
+        <div class="sector-body">
+          <h3>Renovation</h3>
+          <p>Transforming old layouts into modern, highly-functional properties.</p>
+          <a href="#" class="link">LEARN MORE</a>
+        </div>
+      </div>
+      <!-- Sector 6 -->
+      <div class="sector-card">
+        <div class="sector-img">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#bdc3c7"/><text x="50%" y="50%" fill="#7f8c8d" dominant-baseline="middle" text-anchor="middle" font-family="Montserrat" font-weight="bold">HEAVY PROJECTS</text></svg>
+          <div class="sector-icon"><i class="fa-solid fa-helmet-safety"></i></div>
+        </div>
+        <div class="sector-body">
+          <h3>Heavy Projects</h3>
+          <p>Large-scale complicated builds that demand rigorous design execution.</p>
+          <a href="#" class="link">LEARN MORE</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section: Why Choose Us -->
+  <section class="why-section section-spacing">
+    <h2>Why Choose Us</h2>
+    <div class="pills-grid">
+      <div class="pill"><i class="fa-solid fa-check"></i> Industry Expertise</div>
+      <div class="pill"><i class="fa-solid fa-check"></i> Collaborative Approach</div>
+      <div class="pill"><i class="fa-solid fa-check"></i> Quality Assurance</div>
+      <div class="pill"><i class="fa-solid fa-check"></i> Industry Expertise</div>
+      <div class="pill"><i class="fa-solid fa-check"></i> Client-Centric Solutions</div>
+      <div class="pill"><i class="fa-solid fa-check"></i> Quality Assurance</div>
+      <div class="pill"><i class="fa-solid fa-check"></i> On-Time Delivery</div>
+    </div>
+  </section>
+
+  <!-- Section: Our Trusted Partners -->
+  <section class="partners-section section-spacing">
+    <span class="subtitle">OUR TRUSTED PARTNERS</span>
+  </section>
+
+  <!-- Section: Let's Build Together Callout -->
+  <section class="callout-section section-spacing">
+    <div class="callout-bg">
+      <svg width="100%" height="100%" fill="none">
+        <pattern id="concretePattern" x="0" y="0" width="40" height="40" patternUnits="userSpaceOnUse">
+          <circle cx="2" cy="2" r="1" fill="#7f8c8d" />
+          <circle cx="20" cy="20" r="1.5" fill="#7f8c8d" />
+        </pattern>
+        <rect width="100%" height="100%" fill="url(#concretePattern)" />
+      </svg>
+    </div>
+    <div class="callout-content">
+      <h2>LET'S BUILD<span>LET'S BUILD TOGETHER</span></h2>
+      <button class="btn btn-arrow">CONTACT US</button>
+    </div>
+  </section>
+
+  <!-- Section: Articles -->
+  <section id="articles" class="articles-section section-spacing">
+    <h2>ARTICLES</h2>
+    <span class="subtitle">Stay updated with AARAA Infrastructure's latest projects, innovations, and industry insights shaping the future of construction in India.</span>
+    
+    <div class="articles-grid">
+      <!-- Article 1 -->
+      <div class="article-card">
+        <div class="article-img-wrapper">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#bdc3c7"/></svg>
+          <div class="date-badge">03</div>
+        </div>
+        <div class="article-body">
+          <span class="meta">March 14, 2024 / NEWS</span>
+          <h3>Anishka Infra Power Project - Substation</h3>
+          <a href="#" class="link">READ MORE</a>
+        </div>
+      </div>
+      <!-- Article 2 -->
+      <div class="article-card">
+        <div class="article-img-wrapper">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#95a5a6"/></svg>
+          <div class="date-badge">02</div>
+        </div>
+        <div class="article-body">
+          <span class="meta">February 28, 2024 / CASE STUDY</span>
+          <h3>Solar power plant infrastructure - Karnataka</h3>
+          <a href="#" class="link">READ MORE</a>
+        </div>
+      </div>
+      <!-- Article 3 -->
+      <div class="article-card">
+        <div class="article-img-wrapper">
+          <svg width="100%" height="100%"><rect width="100%" height="100%" fill="#7f8c8d"/></svg>
+          <div class="date-badge">01</div>
+        </div>
+        <div class="article-body">
+          <span class="meta">January 10, 2024 / INSIGHTS</span>
+          <h3>Grid connected rooftop solar for Reliance</h3>
+          <a href="#" class="link">READ MORE</a>
+        </div>
+      </div>
+    </div>
+    
+    <div class="carousel-dots">
+      <div class="dot active"></div>
+      <div class="dot"></div>
+    </div>
+  </section>
+
+  <!-- Section: We'd Love to Hear From You -->
+  <section class="contact-cta-section section-spacing">
+    <h2>WE'D LOVE TO HEAR FROM YOU</h2>
+    <span class="subtitle">If you'd like to know more about our services or how we can help with your project, please get in touch.</span>
+    
+    <div class="contact-cards-grid">
+      <!-- Card 1 -->
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fa-solid fa-envelope"></i></div>
+        <h3>Write Email</h3>
+        <p>info@aaraainfra.com</p>
+      </div>
+      <!-- Card 2 -->
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fa-solid fa-location-dot"></i></div>
+        <h3>Meet with us</h3>
+        <p>AARAA Corporate Building, Delhi, India</p>
+      </div>
+      <!-- Card 3 -->
+      <div class="contact-card">
+        <div class="contact-icon"><i class="fa-solid fa-phone"></i></div>
+        <h3>Call Us</h3>
+        <p>+91 98765 43210</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer>
+    <div class="footer-grid">
+      <div class="footer-about">
+        <div class="logo">AARAA</div>
+        <p>For over ten years, building has been at the heart of everything we do. From concept to completion, we deliver high-quality construction projects across industrial, commercial, and infrastructure sectors.</p>
+        <div class="social-links">
+          <a href="#"><i class="fa-brands fa-facebook-f"></i></a>
+          <a href="#"><i class="fa-brands fa-twitter"></i></a>
+          <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="#"><i class="fa-brands fa-instagram"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col footer-contact-info">
+        <h3>Address</h3>
+        <p><i class="fa-solid fa-location-dot"></i> 5th Floor, Gold-Hill Square Building, Delhi Sector 15, India</p>
+        <p><i class="fa-solid fa-envelope"></i> contact@aaraainfra.com</p>
+        <p><i class="fa-solid fa-phone"></i> +91 123 456 7890</p>
+      </div>
+      
+      <div class="footer-col footer-newsletter">
+        <h3>Subscribe Newsletter</h3>
+        <p>Keep up with our latest construction projects and company news.</p>
+        <div class="newsletter-form">
+          <input type="email" placeholder="Your Email Address" required>
+          <button type="submit"><i class="fa-solid fa-paper-plane"></i></button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <p>&copy; 2026 AARAA Infrastructure. All rights reserved.</p>
+      <p>Terms of Service &bull; Privacy Policy</p>
+    </div>
+  </footer>
+
+</body>
+</html>

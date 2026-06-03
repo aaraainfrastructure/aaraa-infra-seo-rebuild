@@ -1,0 +1,182 @@
+<!-- vendor-form.html -->
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+  <title>Become a Vendor</title>
+  <style>
+    /* Popup Style */
+    .popup {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(0, 0, 0, 0.6);
+      z-index: 9999;
+      justify-content: center;
+      align-items: center;
+    }
+    .popup-content {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      width: 90%;
+      max-width: 500px;
+      position: relative;
+    }
+    .popup-content h2 {
+      margin-top: 0;
+      color: #e0572a;
+    }
+    .popup-content input, .popup-content label {
+      width: 100%;
+      margin-bottom: 10px;
+    }
+    .popup-content input[type='submit'] {
+      background-color: #e0572a;
+      color: white;
+      border: none;
+      padding: 10px;
+      cursor: pointer;
+    }
+    .popup-content .close {
+      position: absolute;
+      top: 10px;
+      right: 15px;
+      cursor: pointer;
+      font-size: 20px;
+    }
+    .success, .error {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+  
+  <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1495102235345639');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=1495102235345639&ev=PageView&noscript=1" alt=""
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.youtube.com"><link rel="dns-prefetch" href="https://connect.facebook.net">
+<meta name="description" content="Register as a vendor with AARAA Infrastructure. We partner with quality suppliers and contractors across India for our construction projects.">
+<link rel="canonical" href="https://www.aaraainfrastructure.com/vendor-form.html">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.aaraainfrastructure.com/#organization",
+  "name": "AARAA Infrastructure Pvt Ltd",
+  "url": "https://www.aaraainfrastructure.com",
+  "logo": "https://www.aaraainfrastructure.com/image/logo/aaraa-logo.png",
+  "description": "AARAA Infrastructure is a leading PAN India construction company specializing in industrial, commercial, institutional, infrastructure, and renewable energy projects with turnkey EPC execution.",
+  "foundingDate": "2012",
+  "founder": {
+    "@type": "Person",
+    "name": "N K"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+91-8681003111",
+    "contactType": "customer service",
+    "email": "info@aaraainfrastructure.com",
+    "availableLanguage": [
+      "English",
+      "Tamil",
+      "Hindi"
+    ]
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "#85 Lotus Tower, Annasalai, Guindy",
+    "addressLocality": "Chennai",
+    "addressRegion": "Tamil Nadu",
+    "postalCode": "600032",
+    "addressCountry": "IN"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/aaraa-infrastructure",
+    "https://www.facebook.com/people/Aaraa-Infrastructure/61577346574499/"
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.aaraainfrastructure.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Vendor Registration",
+      "item": "https://www.aaraainfrastructure.com/vendor-form.html"
+    }
+  ]
+}</script>
+</head>
+<body>
+<main>
+<h1>Vendor Registration Form</h1>
+<a href="javascript:void(0)" class="header-btn" onclick="openPopup()">Become a Vendor</a>
+
+<div class="popup" id="popupForm">
+  <div class="popup-content">
+    <span class="close" onclick="closePopup()">&times;</span>
+    <h2>Vendor Registration</h2>
+    <form id="vendorForm" enctype="multipart/form-data">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email" required>
+      <input type="text" name="phone" placeholder="Phone Number" required>
+      <input type="text" name="company" placeholder="Company Name" required>
+      <input type="text" name="aadhaar" placeholder="Aadhaar Number" required>
+      <input type="text" name="pan" placeholder="PAN Number" required>
+      <input type="text" name="gst" placeholder="GST Number" required>
+      <label>Aadhaar Document (PDF):</label>
+      <input type="file" name="aadhaar_file" accept="application/pdf" required>
+      <label>PAN Document (PDF):</label>
+      <input type="file" name="pan_file" accept="application/pdf" required>
+      <label>GST Document (PDF):</label>
+      <input type="file" name="gst_file" accept="application/pdf" required>
+      <input type="submit" value="Send">
+      <div id="message"></div>
+    </form>
+  </div>
+</div>
+
+<script>
+function openPopup() {
+  document.getElementById('popupForm').style.display = 'flex';
+}
+function closePopup() {
+  document.getElementById('popupForm').style.display = 'none';
+}
+
+// Form handled by Firebase app.js
+</script>
+
+<script src="js/lib/emailjs.bundle.min.js"></script>
+<script type="module" src="js/firebase/app.js"></script>
+</main>
+
+<script src="js/aaraa-popups.js"></script>
+<script src="js/aaraa-modals.js"></script>
+</body>
+</html>

@@ -1,0 +1,299 @@
+/* ================================
+   BRAND MARQUEE – AARAA (FINAL)
+   Seamless | Gapless | Smooth
+================================ */
+
+/* Utility spacing (as used in your HTML) */
+.mt-66 { margin-top: 66px; }
+.mb-2  { margin-bottom: 0.5rem; }
+
+/* -------------------------------
+   Main Marquee Container
+------------------------------- */
+.tf-marquee {
+  width: 100%;
+  overflow: hidden !important;
+  background: #ffffff;
+  padding: 24px 0;
+  display: block !important;
+
+  /* soft edge fade */
+  mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent,
+    black 10%,
+    black 90%,
+    transparent
+  );
+}
+
+/* -------------------------------
+   Wrapper (viewport) - strip styles.css conflicts
+------------------------------- */
+.marquee-wrapper {
+  width: 100% !important;
+  overflow: hidden !important;
+  position: relative !important;
+  display: block !important;
+  min-width: auto !important;
+  flex: none !important;
+  flex-direction: row !important;
+  align-items: center !important;
+  gap: 0 !important;
+  animation: none !important;
+}
+
+/* -------------------------------
+   Moving Track (ONLY this animates)
+------------------------------- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 45s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover */
+.tf-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* -------------------------------
+   Each duplicated group
+------------------------------- */
+.initial-child-container {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+  gap: 0 !important;
+  flex: 0 0 auto !important;
+  min-width: auto !important;
+}
+
+/* -------------------------------
+   Individual Brand Item
+------------------------------- */
+.marquee-child-item {
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------------------------------
+   Brand Link + Image
+------------------------------- */
+.brand-item {
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.brand-item img {
+  height: 60px;
+  width: auto;
+  display: block;
+  object-fit: contain !important;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect */
+.brand-item:hover img {
+  transform: scale(1.1);
+}
+
+/* -------------------------------
+   Override wg-brand from styles.css
+------------------------------- */
+.wg-brand {
+  height: auto !important;
+}
+
+.wg-brand .brand-item {
+  max-width: none !important;
+  width: auto !important;
+  filter: grayscale(100%);
+  opacity: 0.7;
+  transition: all 0.3s ease;
+}
+
+.wg-brand .brand-item:hover {
+  opacity: 1;
+  filter: grayscale(0%);
+}
+
+/* -------------------------------
+   Keyframes
+   Move exactly HALF the track
+------------------------------- */
+@keyframes marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+/* -------------------------------
+   Tablet (768–991px)
+------------------------------- */
+@media (max-width: 991px) {
+  .wg-brand {
+    height: auto !important;
+    margin-top: 70px !important;
+    margin-bottom: 70px !important;
+  }
+  .brand-item img {
+    height: 50px;
+  }
+  .marquee-child-item {
+    padding: 0 20px;
+  }
+  .marquee-track {
+    animation-duration: 50s;
+  }
+}
+
+/* -------------------------------
+   Mobile (<768px)
+------------------------------- */
+@media (max-width: 768px) {
+  .brand-item img {
+    height: 40px;
+  }
+  .marquee-child-item {
+    padding: 0 16px;
+  }
+  .marquee-track {
+    animation-duration: 55s;
+  }
+}
+
+/* -------------------------------
+   Large Desktop (≥1200px)
+------------------------------- */
+@media (min-width: 1200px) {
+  .brand-item img {
+    height: 70px;
+  }
+  .marquee-track {
+    animation-duration: 40s;
+  }
+}
+
+/* -------------------------------
+   Accessibility
+------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: translateX(0);
+  }
+}
+
+/* -------------------------------
+   Wrapper (viewport)
+-------------------------------- */
+.marquee-wrapper {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+/* -------------------------------
+   Moving Track (ONLY this animates)
+-------------------------------- */
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-scroll 40s linear infinite;
+  will-change: transform;
+}
+
+/* Pause on hover */
+.tf-marquee:hover .marquee-track {
+  animation-play-state: paused;
+}
+
+/* -------------------------------
+   Each duplicated group
+-------------------------------- */
+.initial-child-container {
+  display: flex;
+  flex-shrink: 0;
+  align-items: center;
+}
+
+/* -------------------------------
+   Individual Brand Item
+-------------------------------- */
+.marquee-child-item {
+  padding: 0 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* -------------------------------
+   Brand Link + Image
+-------------------------------- */
+.brand-item {
+  display: block;
+  transition: transform 0.3s ease;
+}
+
+.brand-item img {
+  height: 60px;
+  width: auto;
+  display: block;
+  object-fit: contain;
+  transition: transform 0.3s ease;
+}
+
+/* Hover effect */
+.brand-item:hover img {
+  transform: scale(1.1);
+}
+
+/* -------------------------------
+   Keyframes
+   Move exactly HALF the track
+-------------------------------- */
+@keyframes marquee-scroll {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+
+/* -------------------------------
+   Mobile Optimisation
+-------------------------------- */
+@media (max-width: 768px) {
+  .brand-item img {
+    height: 40px;
+  }
+
+  .marquee-child-item {
+    padding: 0 16px;
+  }
+
+  .marquee-track {
+    animation-duration: 55s; /* slower on mobile */
+  }
+}
+
+/* -------------------------------
+   Accessibility
+-------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: translateX(0);
+  }
+}

@@ -1,0 +1,234 @@
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                    DEPLOY STORAGE RULES MANUALLY                           ║
+║                                                                            ║
+║                          ⏱️  Takes 2 Minutes                               ║
+║                          📋 No Code Changes Needed                         ║
+║                          ✅ Resume Uploads Will Work                       ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ STEP 1: OPEN FIREBASE CONSOLE                                              │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Go to: https://console.firebase.google.com/
+
+(Or open Firebase Console in your browser)
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ STEP 2: SELECT YOUR PROJECT                                                │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Click on project: aaraa-infra-web
+
+(You should see it in the list of your projects)
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ STEP 3: NAVIGATE TO STORAGE RULES                                          │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Left sidebar:
+  1. Click "Storage"
+  2. Click "Rules" tab
+
+You should see the current rules editor.
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ STEP 4: COPY THE NEW RULES                                                 │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Open file: MANUAL_STORAGE_RULES_DEPLOYMENT.md
+
+Copy the entire rules block (starting with "rules_version = '2';" 
+and ending with the last closing brace)
+
+The rules are ready to copy - just select all and copy.
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ STEP 5: PASTE INTO FIREBASE CONSOLE                                        │
+└────────────────────────────────────────────────────────────────────────────┘
+
+In Firebase Console:
+
+1. Select all existing rules (Ctrl+A)
+2. Delete them
+3. Paste the new rules (Ctrl+V)
+
+You should see the new rules in the editor.
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ STEP 6: PUBLISH THE RULES                                                  │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Click the "Publish" button
+
+Wait for confirmation message:
+  "Rules published successfully"
+
+Check the "Last published" timestamp - should be current date/time.
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ STEP 7: TEST THE UPLOAD                                                    │
+└────────────────────────────────────────────────────────────────────────────┘
+
+1. Open career.html in your browser
+
+2. Sign in with Google
+
+3. Fill out the career form
+
+4. Upload a resume file
+
+5. Click "Submit"
+
+6. Expected: Success modal appears ✅
+
+If you see the success modal, it worked!
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ VERIFICATION                                                               │
+└────────────────────────────────────────────────────────────────────────────┘
+
+After deployment, verify:
+
+1. Firebase Console
+   - Go to Storage → Rules
+   - Verify new rules are displayed
+   - Check "Last published" timestamp
+
+2. Storage Files
+   - Go to Storage → Files
+   - Navigate to career_applications/ folder
+   - Verify uploaded files appear
+
+3. Career Form
+   - Open career.html
+   - Sign in with Google
+   - Upload a resume
+   - Should succeed without permission error
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ WHAT THESE RULES DO                                                        │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Career Applications:
+  ✅ Authenticated users can upload resumes (max 10MB)
+  ✅ Authenticated users can read their own files
+  ✅ Admins can read/delete all applications
+  ❌ Unauthenticated users cannot access
+
+General Uploads:
+  ✅ Authenticated users can upload to their own folder (max 50MB)
+  ✅ Admins can manage all uploads
+  ❌ Users cannot access other users' files
+
+Public Assets:
+  ✅ Anyone can read public assets
+  ✅ Admins can upload/manage public assets
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ TROUBLESHOOTING                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Still Getting Permission Error?
+
+1. Clear browser cache
+   Ctrl+Shift+Delete → Clear all → Reload page
+
+2. Verify rules deployed
+   Firebase Console → Storage → Rules
+   Check "Last published" timestamp
+
+3. Verify authentication
+   Open console (F12)
+   Run: window.firebaseServices.auth.currentUser
+   Should return user object
+
+4. Try incognito mode
+   Open career.html in incognito window
+   Test upload again
+
+5. Check Firebase Console
+   - Verify rules are published
+   - Check for any error messages
+   - Verify project is correct
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ FILES YOU NEED                                                             │
+└────────────────────────────────────────────────────────────────────────────┘
+
+📄 MANUAL_STORAGE_RULES_DEPLOYMENT.md
+   - Contains the complete rules
+   - Ready to copy/paste
+   - Includes verification steps
+
+📄 storage.rules
+   - Same rules in separate file
+   - For reference
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ QUICK CHECKLIST                                                            │
+└────────────────────────────────────────────────────────────────────────────┘
+
+Before:
+  [ ] Open Firebase Console
+  [ ] Select project: aaraa-infra-web
+  [ ] Navigate to Storage → Rules
+
+During:
+  [ ] Copy rules from MANUAL_STORAGE_RULES_DEPLOYMENT.md
+  [ ] Paste into Firebase Console
+  [ ] Click Publish
+  [ ] Wait for confirmation
+
+After:
+  [ ] Check "Last published" timestamp
+  [ ] Open career.html
+  [ ] Sign in with Google
+  [ ] Upload a resume
+  [ ] Click Submit
+  [ ] Verify success modal appears
+
+
+┌────────────────────────────────────────────────────────────────────────────┐
+│ SUCCESS CRITERIA                                                           │
+└────────────────────────────────────────────────────────────────────────────┘
+
+✅ Rules deployed to Firebase
+✅ Resume upload succeeds
+✅ File appears in Storage console
+✅ Success modal displays
+✅ No permission errors
+
+
+╔════════════════════════════════════════════════════════════════════════════╗
+║                                                                            ║
+║                    🚀 YOU'RE READY TO DEPLOY!                              ║
+║                                                                            ║
+║              1. Open Firebase Console                                      ║
+║              2. Go to Storage → Rules                                      ║
+║              3. Copy rules from MANUAL_STORAGE_RULES_DEPLOYMENT.md         ║
+║              4. Paste into Firebase Console                                ║
+║              5. Click Publish                                              ║
+║                                                                            ║
+║              Takes 2 minutes. Resume uploads will work after!              ║
+║                                                                            ║
+║                          Status: ✅ READY                                  ║
+║                          Date: May 29, 2026                                ║
+║                          Version: 1.0.0                                    ║
+║                                                                            ║
+╚════════════════════════════════════════════════════════════════════════════╝
+

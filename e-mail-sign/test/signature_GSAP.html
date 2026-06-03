@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AARAA Infrastructure - Digital Signature</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Responsive adjustments for mobile clients */
+        @media screen and (max-width: 650px) {
+            .sig-table {
+                width: 100% !important;
+                display: block !important;
+            }
+            .sig-table tbody, .sig-table tr, .sig-table td {
+                display: block !important;
+                width: 100% !important;
+                box-sizing: border-box !important;
+            }
+            .sig-td-left {
+                border-right: none !important;
+                border-bottom: 1px solid #dcdcdc !important;
+                padding-bottom: 20px !important;
+                margin-bottom: 20px !important;
+                text-align: center !important;
+            }
+            .sig-td-center {
+                border-right: none !important;
+                border-bottom: 1px solid #dcdcdc !important;
+                padding: 0 0 20px 0 !important;
+                margin-bottom: 20px !important;
+                text-align: center !important;
+            }
+            .sig-td-right {
+                padding-left: 0 !important;
+            }
+            .services-table {
+                margin: 0 auto !important;
+            }
+            .contact-table {
+                margin: 0 auto !important;
+            }
+            .social-table {
+                margin: 15px auto 0 auto !important;
+            }
+        }
+
+        /* Gemini Animated Border */
+        .gemini-border-wrapper {
+            background: linear-gradient(90deg, #4285f4, #9b72cb, #d96570, #fbbc04, #4285f4);
+            background-size: 400% 100%;
+            animation: gemini-spin 4s linear infinite;
+            padding: 3px; 
+            display: inline-block;
+            margin: 30px; 
+            border-radius: 30px;
+            box-shadow: 0 0 25px rgba(66, 133, 244, 0.4), 0 0 50px rgba(155, 114, 203, 0.2);
+        }
+
+        @keyframes gemini-spin {
+            0% { background-position: 0% 0; }
+            100% { background-position: -400% 0; }
+        }
+
+        .sig-table {
+            transition: box-shadow 0.4s ease;
+            opacity: 0; /* Hidden initially to prevent flash of unstyled text before GSAP loads */
+        }
+        .sig-table:hover {
+            box-shadow: inset 0 0 40px rgba(66, 133, 244, 0.15), inset 0 0 20px rgba(155, 114, 203, 0.1) !important;
+        }
+    </style>
+</head>
+<body style="margin: 0; padding: 0; background-color: #f9f9f9;">
+
+    <div class="gemini-border-wrapper">
+        <table class="sig-table" id="main-signature" width="850" cellpadding="0" cellspacing="0" border="0" style="background-color: #ffffff; font-family: Arial, Helvetica, sans-serif; color: #333333; border-collapse: separate; border-spacing: 0; border-radius: 27px; overflow: hidden;">
+            <tr>
+                <td class="sig-td-left" width="220" valign="middle" style="padding-right: 20px; border-right: 1px solid #dcdcdc; position: relative;">
+                    <table width="100%" cellpadding="0" cellspacing="0" border="0" style="background: url('https://aaraainfrastructure.com/mail-bg.png') center bottom no-repeat; background-size: cover;">
+                        <tr>
+                            <td valign="middle" align="center" style="padding: 20px 10px 20px 20px; height: 120px;">
+                                <img src="https://aaraainfrastructure.com/logo.png" alt="AARAA Infrastructure" width="100%" style="display: block; max-width: 200px; height: auto; border: 0; margin: 0 auto; position: relative; z-index: 2;">
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td class="sig-td-center" width="380" valign="middle" style="padding: 0 25px; border-right: 1px solid #dcdcdc;">
+                    <h1 class="gsap-scramble" style="margin: 0; font-family: 'Times New Roman', Times, serif; font-size: 30px; font-weight: bold; color: #0f172a; text-transform: uppercase; letter-spacing: 2px;">
+                        NANDAKUMAR
+                    </h1>
+                    <p class="gsap-scramble" style="margin: 5px 0 0 0; font-family: Arial, sans-serif; font-size: 11px; font-weight: bold; color: #ED2F39; text-transform: uppercase; letter-spacing: 4px;">
+                        MANAGING DIRECTOR
+                    </p>
+                    
+                    <div style="width: 45px; height: 2px; background-color: #ED2F39; margin: 12px 0 20px 0;"></div>
+                    
+                    <table class="services-table" cellpadding="0" cellspacing="0" border="0" style="width: 100%;">
+                        <tr>
+                            <td align="center" valign="bottom" style="width: 25%; border-right: 1px solid #e0e0e0; padding-right: 5px;">
+                                <i class="fa-regular fa-building" style="color: #ED2F39; font-size: 20px; margin-bottom: 5px; display: block;"></i>
+                                <span class="gsap-scramble" style="font-size: 9px; color: #333333; font-weight: bold;">Commercial</span>
+                            </td>
+                            <td align="center" valign="bottom" style="width: 25%; border-right: 1px solid #e0e0e0; padding: 0 5px;">
+                                <i class="fa-solid fa-industry" style="color: #ED2F39; font-size: 20px; margin-bottom: 5px; display: block;"></i>
+                                <span class="gsap-scramble" style="font-size: 9px; color: #333333; font-weight: bold;">Industrial</span>
+                            </td>
+                            <td align="center" valign="bottom" style="width: 25%; border-right: 1px solid #e0e0e0; padding: 0 5px;">
+                                <i class="fa-solid fa-city" style="color: #ED2F39; font-size: 20px; margin-bottom: 5px; display: block;"></i>
+                                <span class="gsap-scramble" style="font-size: 9px; color: #333333; font-weight: bold;">Infrastructure</span>
+                            </td>
+                            <td align="center" valign="bottom" style="width: 25%; padding-left: 5px;">
+                                <i class="fa-solid fa-solar-panel" style="color: #ED2F39; font-size: 20px; margin-bottom: 5px; display: block;"></i>
+                                <span class="gsap-scramble" style="font-size: 9px; color: #333333; font-weight: bold;">Renewable</span>
+                            </td>
+                        </tr>
+                    </table>
+                </td>
+
+                <td class="sig-td-right" width="250" valign="middle" style="padding-left: 25px; padding-right: 25px; background: url('https://www.transparenttextures.com/patterns/diagonal-stripes.png') top right no-repeat;">
+                    
+                    <table class="contact-table" cellpadding="0" cellspacing="0" border="0" style="font-family: Arial, sans-serif; font-size: 12px; color: #1a1a1a;">
+                        <tr>
+                            <td valign="middle" style="padding-bottom: 8px; width: 25px;">
+                                <i class="fa-solid fa-phone" style="color: #ED2F39; font-size: 14px;"></i>
+                            </td>
+                            <td valign="middle" style="padding-bottom: 8px;">
+                                <a href="tel:+919003003111" class="gsap-scramble" style="color: #1a1a1a; text-decoration: none; font-weight: 500;">+91 - 900 300 3111</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" style="padding-bottom: 8px; width: 25px;">
+                                <i class="fa-regular fa-envelope" style="color: #ED2F39; font-size: 14px;"></i>
+                            </td>
+                            <td valign="middle" style="padding-bottom: 8px;">
+                                <a href="mailto:nk@aaraainfrastructure.com" class="gsap-scramble" style="color: #1a1a1a; text-decoration: none; font-weight: 500;">nk@aaraainfrastructure.com</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="middle" style="padding-bottom: 8px; width: 25px;">
+                                <i class="fa-solid fa-globe" style="color: #ED2F39; font-size: 14px;"></i>
+                            </td>
+                            <td valign="middle" style="padding-bottom: 8px;">
+                                <a href="https://www.aaraainfrastructure.com" class="gsap-scramble" style="color: #1a1a1a; text-decoration: none; font-weight: 500;">www.aaraainfrastructure.com</a>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td valign="top" style="padding-bottom: 0; width: 25px; padding-top: 2px;">
+                                <i class="fa-solid fa-location-dot" style="color: #ED2F39; font-size: 14px;"></i>
+                            </td>
+                            <td valign="middle" style="padding-bottom: 0; line-height: 1.4;">
+                                <span class="gsap-scramble" style="color: #1a1a1a; font-weight: 500;">Corporate Office: #85, 4th Floor, Lotus Tower, Anna Salai, Guindy, Chennai – 600032.</span>
+                            </td>
+                        </tr>
+                    </table>
+
+                    <table class="social-table" cellpadding="0" cellspacing="0" border="0" style="margin-top: 15px;">
+                        <tr>
+                            <td valign="middle" style="padding-right: 12px; border-right: 1px solid #dcdcdc;">
+                                <a href="https://www.linkedin.com/company/aaraa-infrastructure/" style="text-decoration: none;"><i class="fa-brands fa-linkedin-in" style="color: #111111; font-size: 16px;"></i></a>
+                            </td>
+                            <td valign="middle" style="padding: 0 12px; border-right: 1px solid #dcdcdc;">
+                                <a href="https://www.facebook.com/people/Aaraa-Infrastructure/61577346574499/" style="text-decoration: none;"><i class="fa-brands fa-facebook-f" style="color: #111111; font-size: 16px;"></i></a>
+                            </td>
+                            <td valign="middle" style="padding: 0 12px; border-right: 1px solid #dcdcdc;">
+                                <a href="https://www.youtube.com/@AaraaInfrastructure" style="text-decoration: none;"><i class="fa-brands fa-youtube" style="color: #ED2F39; font-size: 16px;"></i></a>
+                            </td>
+                            <td valign="middle" style="padding-left: 12px;">
+                                <a href="https://www.instagram.com/aaraa_infrastructure/" style="text-decoration: none;"><i class="fa-brands fa-instagram" style="color: #ED2F39; font-size: 18px;"></i></a>
+                            </td>
+                        </tr>
+                    </table>
+
+                </td>
+            </tr>
+        </table>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://assets.codepen.io/16327/ScrambleTextPlugin3.min.js"></script>
+    
+    <script>
+        document.addEventListener("DOMContentLoaded", (event) => {
+            gsap.registerPlugin(ScrambleTextPlugin);
+            
+            // Fade in the table to prevent flashing unstyled/unscrambled text
+            gsap.to("#main-signature", { opacity: 1, duration: 0.2 });
+
+            const scrambleElements = document.querySelectorAll('.gsap-scramble');
+            
+            scrambleElements.forEach((el, index) => {
+                const originalText = el.innerText;
+                
+                // Clear the text initially
+                el.innerText = "";
+                
+                // Animate text back in with ScrambleText
+                gsap.to(el, {
+                    duration: 1.5,
+                    scrambleText: {
+                        text: originalText,
+                        chars: "upperAndLowerCase",
+                        revealDelay: 0.2,
+                        speed: 0.6
+                    },
+                    delay: 0.1 * index // Staggers the animation down the signature
+                });
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,716 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Premium Email Signature — {{NAME}}</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;600&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+/* ============================================================
+   PREVIEW PAGE WRAPPER — remove this block for email use
+   ============================================================ */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+body {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f0ede8;
+  font-family: 'DM Sans', 'Helvetica Neue', Arial, sans-serif;
+  padding: 40px 16px;
+}
+
+/* ============================================================
+   SIGNATURE CARD
+   ============================================================ */
+.sig-card {
+  width: 680px;
+  max-width: 100%;
+  background: #ffffff;
+  border-radius: 2px;
+  overflow: hidden;
+  position: relative;
+  box-shadow:
+    0 2px 4px rgba(0,0,0,.04),
+    0 8px 24px rgba(0,0,0,.06),
+    0 32px 64px rgba(0,0,0,.06);
+  animation: cardReveal .8s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes cardReveal {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Top accent bar */
+.sig-accent-bar {
+  height: 3px;
+  background: linear-gradient(90deg, #C0392B 0%, #922b21 50%, #1c1c1c 100%);
+  width: 100%;
+}
+
+/* ============================================================
+   MAIN LAYOUT — three columns
+   ============================================================ */
+.sig-body {
+  display: grid;
+  grid-template-columns: 160px 1fr 1fr;
+  min-height: 140px;
+}
+
+/* ============================================================
+   LEFT — LOGO COLUMN
+   ============================================================ */
+.sig-logo-col {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  border-right: 1px solid #f0ede8;
+  position: relative;
+  overflow: hidden;
+}
+
+.sig-logo-col::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: repeating-linear-gradient(
+    -45deg,
+    transparent,
+    transparent 18px,
+    rgba(192,57,43,.03) 18px,
+    rgba(192,57,43,.03) 19px
+  );
+  pointer-events: none;
+}
+
+/* Logo placeholder — replace the entire .sig-logo-placeholder
+   element with your <img> tag */
+.sig-logo-placeholder {
+  width: 110px;
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  cursor: default;
+  transition: transform .4s cubic-bezier(.22,1,.36,1);
+}
+
+.sig-logo-placeholder:hover {
+  transform: scale(1.04);
+}
+
+/* Example logo SVG — swap with real <img src="logo.png"> */
+.sig-logo-placeholder svg {
+  width: 100%;
+  height: auto;
+}
+
+/* ============================================================
+   CENTER — PERSON DETAILS
+   ============================================================ */
+.sig-person-col {
+  padding: 28px 22px 24px 22px;
+  border-right: 1px solid #f0ede8;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 6px;
+}
+
+/* Name — letter-jump on hover */
+.sig-name {
+  font-family: 'Cormorant Garamond', Georgia, serif;
+  font-size: 22px;
+  font-weight: 600;
+  color: #1a1a1a;
+  letter-spacing: .01em;
+  line-height: 1.1;
+  display: flex;
+  flex-wrap: wrap;
+  cursor: default;
+  animation: fadeSlideIn .6s .15s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes fadeSlideIn {
+  from { opacity: 0; transform: translateX(-8px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.sig-name .letter {
+  display: inline-block;
+  transition: transform .25s cubic-bezier(.34,1.56,.64,1), color .25s;
+}
+
+.sig-name:hover .letter {
+  animation: letterJump .5s cubic-bezier(.34,1.56,.64,1) both;
+  color: #C0392B;
+}
+
+/* stagger each letter */
+.sig-name:hover .letter:nth-child(1)  { animation-delay: .00s; }
+.sig-name:hover .letter:nth-child(2)  { animation-delay: .03s; }
+.sig-name:hover .letter:nth-child(3)  { animation-delay: .06s; }
+.sig-name:hover .letter:nth-child(4)  { animation-delay: .09s; }
+.sig-name:hover .letter:nth-child(5)  { animation-delay: .12s; }
+.sig-name:hover .letter:nth-child(6)  { animation-delay: .15s; }
+.sig-name:hover .letter:nth-child(7)  { animation-delay: .18s; }
+.sig-name:hover .letter:nth-child(8)  { animation-delay: .21s; }
+.sig-name:hover .letter:nth-child(9)  { animation-delay: .24s; }
+.sig-name:hover .letter:nth-child(10) { animation-delay: .27s; }
+.sig-name:hover .letter:nth-child(n+11) { animation-delay: .30s; }
+
+@keyframes letterJump {
+  0%  { transform: translateY(0); }
+  40% { transform: translateY(-6px); }
+  70% { transform: translateY(2px); }
+  100%{ transform: translateY(0); }
+}
+
+.sig-name .space { display: inline-block; width: .28em; }
+
+/* Designation */
+.sig-designation {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  color: #C0392B;
+  animation: fadeSlideIn .6s .25s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Divider */
+.sig-divider {
+  width: 32px;
+  height: 1px;
+  background: linear-gradient(90deg, #C0392B, transparent);
+  margin: 2px 0;
+  animation: dividerExpand .8s .35s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes dividerExpand {
+  from { width: 0; opacity: 0; }
+  to   { width: 32px; opacity: 1; }
+}
+
+/* Company */
+.sig-company {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12.5px;
+  font-weight: 400;
+  color: #4a4a4a;
+  animation: fadeSlideIn .6s .3s cubic-bezier(.22,1,.36,1) both;
+}
+
+/* Website link */
+.sig-website {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11.5px;
+  font-weight: 400;
+  color: #888;
+  text-decoration: none;
+  position: relative;
+  width: fit-content;
+  margin-top: 2px;
+  animation: fadeSlideIn .6s .38s cubic-bezier(.22,1,.36,1) both;
+  transition: color .3s;
+}
+
+.sig-website::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  height: 1px;
+  width: 0;
+  background: #C0392B;
+  transition: width .35s cubic-bezier(.22,1,.36,1);
+}
+
+.sig-website:hover { color: #C0392B; }
+.sig-website:hover::after { width: 100%; }
+
+/* Social icons row */
+.sig-socials {
+  display: flex;
+  gap: 7px;
+  margin-top: 10px;
+  animation: fadeSlideIn .6s .45s cubic-bezier(.22,1,.36,1) both;
+}
+
+.sig-social-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #f5f3f0;
+  border: 1px solid rgba(0,0,0,.07);
+  cursor: pointer;
+  text-decoration: none;
+  transition:
+    background .3s,
+    border-color .3s,
+    transform .35s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .3s;
+  position: relative;
+  overflow: hidden;
+}
+
+.sig-social-btn::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: rgba(192,57,43,.08);
+  opacity: 0;
+  transition: opacity .3s;
+}
+
+.sig-social-btn:hover {
+  background: #fff;
+  border-color: rgba(192,57,43,.3);
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 6px 16px rgba(192,57,43,.15);
+}
+
+.sig-social-btn:hover::before { opacity: 1; }
+
+.sig-social-btn svg {
+  width: 13px;
+  height: 13px;
+  fill: #5a5a5a;
+  transition: fill .3s;
+}
+
+.sig-social-btn:hover svg { fill: #C0392B; }
+
+/* Pulse on hover */
+@keyframes iconPulse {
+  0%   { box-shadow: 0 0 0 0 rgba(192,57,43,.35); }
+  70%  { box-shadow: 0 0 0 8px rgba(192,57,43,0); }
+  100% { box-shadow: 0 0 0 0 rgba(192,57,43,0); }
+}
+
+.sig-social-btn:hover { animation: iconPulse 1s ease infinite; }
+
+/* ============================================================
+   RIGHT — CONTACT DETAILS
+   ============================================================ */
+.sig-contact-col {
+  padding: 28px 20px 24px 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 9px;
+}
+
+.sig-contact-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  animation: fadeSlideIn .6s cubic-bezier(.22,1,.36,1) both;
+}
+
+.sig-contact-item:nth-child(1) { animation-delay: .2s; }
+.sig-contact-item:nth-child(2) { animation-delay: .28s; }
+.sig-contact-item:nth-child(3) { animation-delay: .36s; }
+
+/* Glass icon container */
+.sig-icon-wrap {
+  width: 28px;
+  height: 28px;
+  flex-shrink: 0;
+  border-radius: 6px;
+  background: rgba(192,57,43,.06);
+  border: 1px solid rgba(192,57,43,.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    background .3s,
+    border-color .3s,
+    transform .35s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .3s;
+  cursor: default;
+  backdrop-filter: blur(4px);
+}
+
+.sig-contact-item:hover .sig-icon-wrap {
+  background: rgba(192,57,43,.12);
+  border-color: rgba(192,57,43,.3);
+  transform: scale(1.12);
+  box-shadow: 0 4px 12px rgba(192,57,43,.18);
+  animation: iconPulse 1s ease infinite;
+}
+
+.sig-icon-wrap svg {
+  width: 13px;
+  height: 13px;
+  stroke: #C0392B;
+  fill: none;
+  stroke-width: 1.8;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+
+.sig-contact-text {
+  display: flex;
+  flex-direction: column;
+  gap: 1px;
+  padding-top: 1px;
+}
+
+.sig-contact-label {
+  font-size: 9.5px;
+  font-weight: 500;
+  letter-spacing: .12em;
+  text-transform: uppercase;
+  color: #bbb;
+  line-height: 1;
+}
+
+.sig-contact-value {
+  font-family: 'DM Sans', sans-serif;
+  font-size: 12px;
+  font-weight: 400;
+  color: #2c2c2c;
+  line-height: 1.35;
+  text-decoration: none;
+  position: relative;
+  width: fit-content;
+  transition: color .3s;
+}
+
+a.sig-contact-value::after {
+  content: '';
+  position: absolute;
+  bottom: -1px; left: 0;
+  height: 1px;
+  width: 0;
+  background: #C0392B;
+  transition: width .35s cubic-bezier(.22,1,.36,1);
+}
+
+a.sig-contact-value:hover { color: #C0392B; }
+a.sig-contact-value:hover::after { width: 100%; }
+
+/* Glow on text hover */
+.sig-contact-item:hover .sig-contact-value {
+  text-shadow: 0 0 20px rgba(192,57,43,.15);
+}
+
+/* ============================================================
+   BOTTOM BAR
+   ============================================================ */
+.sig-footer {
+  height: 1px;
+  background: linear-gradient(90deg, #C0392B 0%, #e8e2d9 60%, transparent 100%);
+  opacity: .35;
+}
+
+/* ============================================================
+   FLOATING DECORATIVE ELEMENT (left column accent)
+   ============================================================ */
+.sig-float-dot {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: rgba(192,57,43,.25);
+  animation: floatDot 6s ease-in-out infinite;
+}
+
+.sig-float-dot:nth-child(1) { top: 20%; left: 30%; animation-delay: 0s; }
+.sig-float-dot:nth-child(2) { top: 60%; left: 70%; animation-delay: 2s; }
+.sig-float-dot:nth-child(3) { top: 80%; left: 20%; animation-delay: 4s; }
+
+@keyframes floatDot {
+  0%, 100% { transform: translateY(0) scale(1); opacity: .25; }
+  50%       { transform: translateY(-8px) scale(1.4); opacity: .6; }
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 560px) {
+  .sig-body {
+    grid-template-columns: 1fr;
+  }
+  .sig-logo-col {
+    border-right: none;
+    border-bottom: 1px solid #f0ede8;
+    padding: 24px;
+  }
+  .sig-person-col {
+    border-right: none;
+    border-bottom: 1px solid #f0ede8;
+  }
+  .sig-contact-col { padding-top: 20px; }
+}
+
+/* ============================================================
+   PREVIEW PAGE LABEL
+   ============================================================ */
+.preview-label {
+  position: fixed;
+  bottom: 16px;
+  right: 16px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 11px;
+  color: #999;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<!-- ============================================================
+     PREVIEW HINT
+     ============================================================ -->
+<span class="preview-label">Email Signature Preview</span>
+
+<!-- ============================================================
+     SIGNATURE ROOT — copy everything inside this comment block
+     into your email client's signature editor (HTML mode)
+     ============================================================ -->
+
+<table cellpadding="0" cellspacing="0" border="0" style="border-collapse:collapse;" role="presentation">
+<tr>
+<td>
+
+<!-- Signature Card -->
+<div class="sig-card">
+
+  <!-- Top accent bar -->
+  <div class="sig-accent-bar"></div>
+
+  <!-- Three-column body -->
+  <div class="sig-body">
+
+    <!-- ── LEFT: Logo ── -->
+    <div class="sig-logo-col">
+      <!-- Floating decorative dots -->
+      
+
+      
+          <img src="https://aaraainfrastructure.com/logo.png" width="110" alt="{{COMPANY}} logo" style="display:block;max-width:110px;height:auto;">
+      
+      <div class="sig-logo-placeholder" title="{{AARAA INFRASTRUCTURE}}" aria-label="{{COMPANY}} logo">
+        <svg viewBox="0 0 110 52" xmlns="http://www.w3.org/2000/svg">
+          <!-- Company wordmark placeholder — swap with real logo -->
+          <rect x="0" y="0" width="110" height="52" rx="1" fill="#f5f0ec"/>
+          <rect x="0" y="0" width="4" height="52" fill="#C0392B"/>
+          <text x="14" y="20" font-family="Cormorant Garamond,Georgia,serif" font-size="15" font-weight="600" fill="#1a1a1a" letter-spacing="1">{{COMPANY}}</text>
+          <text x="14" y="36" font-family="DM Sans,Arial,sans-serif" font-size="7.5" font-weight="400" fill="#888" letter-spacing="2" text-transform="uppercase">INFRASTRUCTURE</text>
+          <line x1="14" y1="26" x2="100" y2="26" stroke="#e8e0d8" stroke-width=".5"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- ── CENTER: Person ── -->
+    <div class="sig-person-col">
+
+      <!--
+        NAME — JS splits into individual letters for the jump animation.
+        Fallback plain text is inside .sig-name for no-JS environments.
+      -->
+      <div class="sig-name" id="sigName" aria-label="{{NAME}}">{{ALEKHYA B}}</div>
+
+      <div class="sig-designation">{{Business Head}}</div>
+
+      <div class="sig-divider"></div>
+
+      <div class="sig-company">{{AARAA INFRASTRUCTURE}}</div>
+
+      <!-- Website -->
+      <a class="sig-website" href="https://{{aaraainfrastructure.com}}" target="_blank" rel="noopener">
+        <!-- Globe icon -->
+        <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="#C0392B" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><line x1="2" y1="12" x2="22" y2="12"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg>
+        {{WEBSITE}}
+      </a>
+
+      <!-- Social icons -->
+      <div class="sig-socials">
+
+        <!-- Facebook -->
+        <a class="sig-social-btn" href="#" target="_blank" rel="noopener" title="Facebook" aria-label="Facebook">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+        </a>
+
+        <!-- YouTube -->
+        <a class="sig-social-btn" href="#" target="_blank" rel="noopener" title="YouTube" aria-label="YouTube">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M22.54 6.42a2.78 2.78 0 0 0-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46A2.78 2.78 0 0 0 1.46 6.42 29 29 0 0 0 1 12a29 29 0 0 0 .46 5.58 2.78 2.78 0 0 0 1.95 1.96C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 0 0 1.96-1.96A29 29 0 0 0 23 12a29 29 0 0 0-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#fff" style="fill:#fff"/></svg>
+        </a>
+
+        <!-- LinkedIn -->
+        <a class="sig-social-btn" href="#" target="_blank" rel="noopener" title="LinkedIn" aria-label="LinkedIn">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>
+        </a>
+
+        <!-- Instagram -->
+        <a class="sig-social-btn" href="#" target="_blank" rel="noopener" title="Instagram" aria-label="Instagram">
+          <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" fill="#f5f3f0" style="fill:#f5f3f0"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- ── RIGHT: Contact ── -->
+    <div class="sig-contact-col">
+
+      <!-- Email -->
+      <div class="sig-contact-item">
+        <div class="sig-icon-wrap">
+          <svg viewBox="0 0 24 24"><rect x="2" y="4" width="20" height="16" rx="2"/><polyline points="22,4 12,13 2,4"/></svg>
+        </div>
+        <div class="sig-contact-text">
+          <span class="sig-contact-label">Email</span>
+          <a class="sig-contact-value" href="mailto:{{EMAIL}}">{{EMAIL}}</a>
+        </div>
+      </div>
+
+      <!-- Phone -->
+      <div class="sig-contact-item">
+        <div class="sig-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.27h3a2 2 0 0 1 2 1.72c.127.96.361 1.903.7 2.81a2 2 0 0 1-.45 2.11L7.91 8.91a16 16 0 0 0 6.06 6.06l.91-.91a2 2 0 0 1 2.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        </div>
+        <div class="sig-contact-text">
+          <span class="sig-contact-label">Phone</span>
+          <a class="sig-contact-value" href="tel:{{PHONE}}">{{PHONE}}</a>
+        </div>
+      </div>
+
+      <!-- Address -->
+      <div class="sig-contact-item">
+        <div class="sig-icon-wrap">
+          <svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>
+        </div>
+        <div class="sig-contact-text">
+          <span class="sig-contact-label">Address</span>
+          <span class="sig-contact-value">{{ADDRESS}}</span>
+        </div>
+      </div>
+
+    </div>
+  </div><!-- /.sig-body -->
+
+  <!-- Bottom accent line -->
+  <div class="sig-footer"></div>
+
+</div><!-- /.sig-card -->
+
+</td>
+</tr>
+</table>
+
+<!-- ============================================================
+     JAVASCRIPT — letter-split animation
+     Safe to remove for plain email clients; signature degrades
+     gracefully to non-animated text.
+     ============================================================ -->
+<script>
+(function() {
+  var el = document.getElementById('sigName');
+  if (!el) return;
+  var raw = el.textContent.trim();
+  el.innerHTML = '';
+  for (var i = 0; i < raw.length; i++) {
+    var ch = raw[i];
+    var span = document.createElement('span');
+    if (ch === ' ') {
+      span.className = 'space';
+      span.innerHTML = '&nbsp;';
+    } else {
+      span.className = 'letter';
+      span.textContent = ch;
+    }
+    el.appendChild(span);
+  }
+})();
+</script>
+
+</body>
+</html>
+
+<!--
+================================================================
+  PLACEHOLDER INSTRUCTIONS
+================================================================
+
+Replace every {{TOKEN}} with real data before deploying:
+
+  {{NAME}}        — Full name, e.g. "Alekhya B"
+  {{DESIGNATION}} — Job title, e.g. "Manager BD & Tendering"
+  {{COMPANY}}     — Company name, e.g. "Aaraa Infrastructure"
+  {{WEBSITE}}     — Domain only, e.g. "www.aaraainfrastructure.com"
+  {{EMAIL}}       — Email address
+  {{PHONE}}       — Phone number with country code
+  {{ADDRESS}}     — Full address (short form preferred)
+
+For the LOGO:
+  Replace the <svg> block inside .sig-logo-placeholder with:
+    <img src="https://your-cdn.com/logo.png" width="110" alt="Company logo"
+         style="display:block;max-width:110px;height:auto;">
+
+For SOCIAL LINKS:
+  Replace href="#" on each .sig-social-btn anchor with the real URL.
+
+================================================================
+  CUSTOMIZATION GUIDE
+================================================================
+
+COLOR PALETTE
+  Primary red    → #C0392B  (search & replace all occurrences)
+  Dark charcoal  → #1a1a1a
+  Mid-gray       → #4a4a4a
+  Light bg       → #f0ede8
+
+FONTS
+  Display (name) → 'Cormorant Garamond' (serif, Google Fonts)
+  Body           → 'DM Sans' (sans-serif, Google Fonts)
+  Fallback chain → Georgia / Helvetica Neue / Arial
+
+ANIMATIONS — to reduce motion:
+  Add @media (prefers-reduced-motion: reduce) { * { animation: none !important; transition: none !important; } }
+
+CARD WIDTH:
+  Change width: 680px on .sig-card to suit your email template width.
+
+================================================================
+  EMAIL CLIENT COMPATIBILITY NOTES
+================================================================
+
+✅  Apple Mail (macOS / iOS)      — Full support including animations
+✅  Outlook for Mac               — Full support
+✅  Gmail (web)                   — CSS animations stripped; static fallback intact
+✅  Apple Mail iOS                — Full support
+⚠️  Outlook (Windows 2016-2021)  — Uses Word rendering engine; grid falls back
+                                    to table layout automatically via the <table>
+                                    wrapper. Animations stripped; static OK.
+⚠️  Outlook 365 (Windows)        — Same as above
+ℹ️  Yahoo Mail                    — Animations stripped; static fallback intact
+ℹ️  Samsung Email                 — Partial animation support
+
+RECOMMENDATION:
+  For maximum client compatibility, use the signature as-is in Gmail/Apple Mail.
+  For Outlook Windows, use the plain-table version (see sig-body → replace CSS
+  grid with nested <table> cells).
+
+  The <table> wrapper around the card already exists for Outlook compatibility.
+  Google Fonts load is best-effort; Arial / Georgia fallbacks handle Outlook.
+
+================================================================
+-->

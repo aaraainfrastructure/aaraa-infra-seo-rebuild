@@ -1,0 +1,402 @@
+/* ============================================
+   AARAA Enquiry & Vendor Popups – v2.0
+   Production fixes: overflow, viewport, z-index, responsive
+   ============================================ */
+
+/* Overlay */
+.aaraa-popup-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  background: rgba(0, 0, 0, 0.65);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+  overflow: hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+.aaraa-popup-overlay.active {
+  display: flex;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Modal Box */
+.aaraa-popup-box {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  max-height: 85vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  -webkit-overflow-scrolling: touch;
+  background: #fff;
+  border-radius: 16px;
+  padding: 36px 32px 28px;
+  box-shadow: 0 25px 60px rgba(0, 0, 0, 0.25);
+  transform: scale(0.92) translateY(20px);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  -ms-overflow-style: -ms-autohiding-scrollbar;
+}
+
+.aaraa-popup-overlay.active .aaraa-popup-box {
+  transform: scale(1) translateY(0);
+}
+
+/* Close Button */
+.aaraa-popup-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  border-radius: 50%;
+  background: #f0f0f0;
+  color: #333;
+  font-size: 22px;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.25s ease;
+  z-index: 2;
+  padding: 0;
+  min-width: 36px;
+  min-height: 36px;
+}
+
+.aaraa-popup-close:hover {
+  background: #ed2f39;
+  color: #fff;
+  transform: rotate(90deg);
+}
+
+/* Title */
+.aaraa-popup-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 24px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 6px;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.aaraa-popup-sub {
+  font-size: 14px;
+  color: #888;
+  margin: 0 0 22px;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+}
+
+/* Form Groups */
+.aaraa-popup-group {
+  margin-bottom: 14px;
+}
+
+.aaraa-popup-group label {
+  display: block;
+  font-size: 12px;
+  font-weight: 600;
+  color: #444;
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.aaraa-popup-group label .required {
+  color: #ed2f39;
+}
+
+.aaraa-popup-field {
+  width: 100%;
+  padding: 11px 14px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  font-size: 14px;
+  font-family: 'Montserrat', sans-serif;
+  color: #333;
+  background: #fafafa;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  outline: none;
+  box-sizing: border-box;
+  display: block;
+}
+
+.aaraa-popup-field:focus {
+  border-color: #ed2f39;
+  box-shadow: 0 0 0 3px rgba(237, 47, 57, 0.12);
+  background: #fff;
+}
+
+.aaraa-popup-field.error {
+  border-color: #dc2626 !important;
+  box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.1) !important;
+}
+
+textarea.aaraa-popup-field {
+  resize: vertical;
+  min-height: 70px;
+}
+
+select.aaraa-popup-field {
+  appearance: auto;
+  -webkit-appearance: auto;
+  cursor: pointer;
+}
+
+/* Field Error */
+.aaraa-popup-error {
+  color: #dc2626;
+  font-size: 11px;
+  margin-top: 3px;
+  display: none;
+  font-family: 'Montserrat', sans-serif;
+}
+
+.aaraa-popup-error.show {
+  display: block;
+}
+
+/* Form Row (2 columns) */
+.aaraa-popup-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+/* Button Row */
+.aaraa-popup-btns {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+
+/* Submit Button */
+.aaraa-popup-submit {
+  flex: 1;
+  padding: 13px 24px;
+  border: none;
+  border-radius: 8px;
+  background: #ed2f39;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 600;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.aaraa-popup-submit:hover:not(:disabled) {
+  background: #d01f29;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 16px rgba(237, 47, 57, 0.3);
+}
+
+.aaraa-popup-submit:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+/* Close Button (secondary) */
+.aaraa-popup-btn-close {
+  padding: 13px 24px;
+  border: 1.5px solid #e0e0e0;
+  border-radius: 8px;
+  background: #fff;
+  color: #555;
+  font-size: 15px;
+  font-weight: 500;
+  font-family: 'Montserrat', sans-serif;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  min-height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.aaraa-popup-btn-close:hover {
+  background: #f5f5f5;
+  border-color: #ccc;
+}
+
+/* Spinner */
+.aaraa-popup-spinner {
+  display: none;
+  width: 18px;
+  height: 18px;
+  border: 2.5px solid rgba(255, 255, 255, 0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: aaraaSpin 0.7s linear infinite;
+}
+
+.aaraa-popup-submit.loading .aaraa-popup-spinner {
+  display: inline-block;
+}
+
+.aaraa-popup-submit.loading .aaraa-popup-btn-text {
+  opacity: 0.7;
+}
+
+@keyframes aaraaSpin {
+  to { transform: rotate(360deg); }
+}
+
+/* Success Message */
+.aaraa-popup-success {
+  display: none;
+  text-align: center;
+  padding: 20px 10px;
+}
+
+.aaraa-popup-success.show {
+  display: block;
+}
+
+.aaraa-popup-success-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 50%;
+  background: #e8f5e9;
+  color: #2e7d32;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 28px;
+  margin: 0 auto 14px;
+}
+
+.aaraa-popup-success-title {
+  font-family: 'Roboto Condensed', sans-serif;
+  font-size: 22px;
+  font-weight: 700;
+  color: #111;
+  margin: 0 0 8px;
+}
+
+.aaraa-popup-success-msg {
+  font-size: 14px;
+  color: #666;
+  line-height: 1.6;
+  margin: 0 0 18px;
+  font-family: 'Montserrat', sans-serif;
+}
+
+/* Custom Scrollbar */
+.aaraa-popup-box::-webkit-scrollbar { width: 6px; }
+.aaraa-popup-box::-webkit-scrollbar-track { background: transparent; }
+.aaraa-popup-box::-webkit-scrollbar-thumb { background: #ccc; border-radius: 3px; }
+
+/* Body Lock */
+body.aaraa-popup-open {
+  overflow: hidden !important;
+  padding-right: var(--aaraa-scrollbar-width, 0px);
+  position: relative;
+}
+
+html.aaraa-popup-open {
+  overflow: hidden !important;
+}
+
+/* Ensure proper stacking across all popup systems */
+.aaraa-popup-overlay,
+.ai-modal-overlay,
+#aaraa-success-modal {
+  will-change: opacity;
+}
+
+/* Guarantee popup overlay stacks ABOVE all page content */
+.aaraa-popup-overlay.active {
+  z-index: 99999;
+}
+
+/* Guarantee popup box is always centered in overlay (desktop/tablet) */
+@media (min-width: 481px) {
+  .aaraa-popup-overlay.active .aaraa-popup-box {
+    margin: auto;
+  }
+}
+
+/* Error Message (inside popup) */
+.aaraa-popup-error-message {
+  display: none;
+  background: #fef2f2;
+  border: 1px solid #fecaca;
+  border-left: 4px solid #dc2626;
+  color: #991b1b;
+  padding: 12px 16px;
+  border-radius: 8px;
+  margin-bottom: 16px;
+  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  line-height: 1.5;
+  word-break: break-word;
+}
+
+/* Responsive: Tablet */
+@media (max-width: 768px) {
+  .aaraa-popup-overlay { padding: 16px; }
+  .aaraa-popup-box { padding: 28px 20px 20px; max-width: 100%; border-radius: 14px; max-height: 85vh; }
+  .aaraa-popup-row { grid-template-columns: 1fr; }
+  .aaraa-popup-title { font-size: 20px; }
+  .aaraa-popup-btns { flex-direction: column; }
+  .aaraa-popup-sub { font-size: 13px; }
+}
+
+/* Responsive: Mobile */
+@media (max-width: 480px) {
+  .aaraa-popup-overlay {
+    padding: 0;
+    align-items: flex-end;
+    overflow: hidden;
+  }
+  .aaraa-popup-box {
+    padding: 24px 16px 16px;
+    border-radius: 16px 16px 0 0;
+    max-height: 90vh;
+    max-width: 100%;
+    width: 100%;
+    margin-top: auto;
+  }
+  .aaraa-popup-title { font-size: 18px; }
+  .aaraa-popup-sub { font-size: 12px; margin-bottom: 16px; }
+  .aaraa-popup-field { padding: 10px 12px; font-size: 16px; }
+  .aaraa-popup-group { margin-bottom: 12px; }
+  .aaraa-popup-close { top: 10px; right: 10px; width: 32px; height: 32px; font-size: 18px; min-width: 32px; min-height: 32px; }
+  .aaraa-popup-submit { padding: 14px 20px; font-size: 14px; min-height: 44px; }
+  .aaraa-popup-btn-close { padding: 14px 20px; font-size: 14px; min-height: 44px; }
+  .aaraa-popup-btns { gap: 8px; }
+  textarea.aaraa-popup-field { min-height: 60px; }
+}
+
+/* Extra small devices */
+@media (max-width: 360px) {
+  .aaraa-popup-box { padding: 20px 12px 12px; max-height: 88vh; }
+  .aaraa-popup-field { padding: 8px 10px; font-size: 14px; }
+  .aaraa-popup-submit { padding: 12px 16px; font-size: 13px; min-height: 40px; }
+  .aaraa-popup-btn-close { padding: 12px 16px; font-size: 13px; min-height: 40px; }
+  .aaraa-popup-title { font-size: 16px; }
+}

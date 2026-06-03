@@ -1,0 +1,222 @@
+/* ============================================
+   AARAA i18n – Language Switcher & i18n utilities
+   ============================================ */
+
+/* Prevent FOUC for non-English pages */
+html:not(.aaraa-i18n-loaded) body.aaraa-i18n-loading {
+  opacity: 0;
+}
+
+html.aaraa-i18n-loaded body {
+  opacity: 1;
+  transition: opacity 0.25s ease;
+}
+
+/* ============================================
+   Language Switcher – Fixed position
+   Above the existing floating Google Review icon
+   ============================================ */
+
+.aaraa-lang-switcher {
+  position: fixed;
+  bottom: 216px;
+  right: 18px;
+  z-index: 10002;
+  font-family: 'Montserrat', sans-serif;
+  font-size: 13px;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.aaraa-lang-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 8px 14px;
+  background: rgba(0, 0, 0, 0.75);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  border-radius: 30px;
+  color: #fff;
+  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  line-height: 1;
+  min-width: 0;
+  white-space: nowrap;
+}
+
+.aaraa-lang-btn:hover,
+.aaraa-lang-btn:focus-visible {
+  background: rgba(0, 0, 0, 0.9);
+  border-color: rgba(237, 47, 57, 0.6);
+  outline: none;
+}
+
+.aaraa-lang-icon {
+  font-size: 16px;
+  line-height: 1;
+}
+
+.aaraa-lang-current {
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+}
+
+.aaraa-lang-arrow {
+  font-size: 10px;
+  opacity: 0.7;
+  transition: transform 0.2s ease;
+}
+
+.aaraa-lang-btn[aria-expanded="true"] .aaraa-lang-arrow {
+  transform: rotate(180deg);
+}
+
+/* Dropdown */
+.aaraa-lang-dropdown {
+  position: absolute;
+  bottom: calc(100% + 6px);
+  right: 0;
+  min-width: 150px;
+  background: rgba(20, 20, 20, 0.95);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 6px 0;
+  margin: 0;
+  list-style: none;
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.3);
+  z-index: 10003;
+}
+
+.aaraa-lang-option {
+  display: block;
+  padding: 10px 18px;
+  color: rgba(255, 255, 255, 0.85);
+  text-decoration: none;
+  font-size: 13px;
+  font-family: 'Montserrat', sans-serif;
+  font-weight: 400;
+  transition: all 0.15s ease;
+  cursor: pointer;
+  white-space: nowrap;
+  border: none;
+  background: none;
+  text-align: left;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.aaraa-lang-option:hover,
+.aaraa-lang-option:focus-visible {
+  background: rgba(237, 47, 57, 0.15);
+  color: #fff;
+  outline: none;
+}
+
+.aaraa-lang-option.active {
+  color: #ed2f39;
+  font-weight: 600;
+  position: relative;
+}
+
+.aaraa-lang-option.active::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 4px;
+  bottom: 4px;
+  width: 3px;
+  background: #ed2f39;
+  border-radius: 0 2px 2px 0;
+}
+
+/* ============================================
+   Responsive: Mobile
+   ============================================ */
+
+@media (max-width: 768px) {
+  .aaraa-lang-switcher {
+    bottom: 200px;
+    right: 14px;
+  }
+
+  .aaraa-lang-btn {
+    padding: 6px 12px;
+    font-size: 12px;
+  }
+
+  .aaraa-lang-current {
+    font-size: 11px;
+  }
+
+  .aaraa-lang-dropdown {
+    min-width: 130px;
+    right: 0;
+  }
+
+  .aaraa-lang-option {
+    padding: 8px 14px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .aaraa-lang-switcher {
+    bottom: 170px;
+    right: 10px;
+  }
+
+  .aaraa-lang-btn {
+    padding: 5px 10px;
+    font-size: 11px;
+    border-radius: 20px;
+  }
+
+  .aaraa-lang-icon {
+    font-size: 13px;
+  }
+
+  .aaraa-lang-current {
+    font-size: 10px;
+  }
+
+  .aaraa-lang-dropdown {
+    min-width: 110px;
+    border-radius: 8px;
+    bottom: calc(100% + 4px);
+  }
+
+  .aaraa-lang-option {
+    padding: 7px 12px;
+    font-size: 11px;
+  }
+}
+
+/* ============================================
+   Hidden utility for i18n-placeholder text
+   ============================================ */
+
+[data-i18n]:empty::before {
+  content: attr(data-i18n);
+  opacity: 0.3;
+}
+
+/* Ensure html element respects scroll lock */
+html.aaraa-i18n-loaded {
+  scroll-behavior: smooth;
+}
+
+/* Print: hide language switcher */
+@media print {
+  .aaraa-lang-switcher {
+    display: none !important;
+  }
+}

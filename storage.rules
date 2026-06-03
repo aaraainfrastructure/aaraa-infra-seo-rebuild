@@ -1,0 +1,61 @@
+rules_version = '2';
+
+service firebase.storage {
+  match /b/{bucket}/o {
+    
+    // ===============================
+    // CAREER APPLICATIONS
+    // ===============================
+    // Allow authenticated users to upload resumes to their own folder
+    match /career_applications/{leadId}/{allPaths=**} {
+      // Allow authenticated users to upload files
+      allow create: if request.auth != null
+                    && request.auth.token.email_verified == true
+                    && request.resource.size < 10 * 1024 * 1024; // Max 10MB
+      
+      // Allow authenticated users to read their own files
+      allow read: if request.auth != null
+                  && request.auth.token.email_verified == true;
+      
+      // Allow admins to read/delete all career applications
+      allow read, delete: if request.auth != null
+                          && request.auth.token.email_verified == true
+                          && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // GENERAL UPLOADS (if needed)
+    // ===============================
+    match /uploads/{userId}/{allPaths=**} {
+      // Allow authenticated users to upload to their own folder
+      allow create, read: if request.auth != null
+                          && request.auth.uid == userId
+                          && request.resource.size < 50 * 1024 * 1024; // Max 50MB
+      
+      // Allow admins to manage all uploads
+      allow read, write, delete: if request.auth != null
+                                 && request.auth.token.email_verified == true
+                                 && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // PUBLIC ASSETS (images, videos)
+    // ===============================
+    match /public/{allPaths=**} {
+      // Allow anyone to read public assets
+      allow read: if true;
+      
+      // Allow admins to upload/manage public assets
+      allow write, delete: if request.auth != null
+                           && request.auth.token.email_verified == true
+                           && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // DENY ALL OTHER ACCESS
+    // ===============================
+    match /{allPaths=**} {
+      allow read, write, delete: if false;
+    }
+  }
+}

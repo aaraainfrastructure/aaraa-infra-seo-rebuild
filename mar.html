@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AARAA Infrastructure Brand Marquee | Construction Excellence PAN India</title>
+    <style>
+        /* --- General Setup (For Demo Purposes) --- */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f8f9fa;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        /* --- Utility Classes from your snippet --- */
+        .mt-66 { margin-top: 66px; }
+        .mb-2 { margin-bottom: 0.5rem; }
+
+        /* --- Marquee Container --- */
+        .tf-marquee {
+            width: 100%;
+            max-width: 1200px; /* or 100% depending on layout */
+            background: white;
+            padding: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            
+            /* Optional: Add a fade effect on sides */
+            mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+            -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+        }
+
+        /* --- Wrapper: Holds the scrolling tracks --- */
+        .marquee-wrapper {
+            display: flex;
+            overflow: hidden; /* Hides the content that goes outside */
+            user-select: none;
+            gap: 0; /* No gap here, gap is handled in items */
+        }
+
+        /* --- The Moving Track --- */
+        .initial-child-container {
+            display: flex;
+            flex-shrink: 0;
+            align-items: center;
+            justify-content: space-around;
+            
+            /* The Animation Logic */
+            /* We move it exactly -100% of its own width */
+            animation: scroll-left 40s linear infinite;
+        }
+
+        /* --- Individual Items --- */
+        .marquee-child-item {
+            padding: 0 30px; /* Spacing between brands */
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .brand-item {
+            display: block;
+            text-decoration: none;
+            transition: transform 0.3s ease, filter 0.3s ease;
+        }
+
+        .brand-item img {
+            display: block;
+            height: 60px;     /* Fixed height ensures alignment */
+            width: auto;      /* Width adjusts automatically */
+            object-fit: contain;
+            
+            /* REMOVED: Grayscale filter so images show original color */
+            /* filter: grayscale(100%) opacity(0.7); */
+            transition: all 0.3s ease;
+        }
+
+        /* --- Hover Effects --- */
+        
+        /* Bring color back on hover */
+        .brand-item:hover img {
+            /* REMOVED: Filter reset as it is no longer needed */
+            /* filter: grayscale(0%) opacity(1); */
+            transform: scale(1.1);
+        }
+
+        /* Pause animation when user hovers the container */
+        .marquee-wrapper:hover .initial-child-container {
+            animation-play-state: paused;
+        }
+
+        /* --- The Keyframe Animation --- */
+        @keyframes scroll-left {
+            from {
+                transform: translateX(0);
+            }
+            to {
+                transform: translateX(-100%);
+            }
+        }
+
+        /* --- Mobile Responsiveness --- */
+        @media (max-width: 768px) {
+            .brand-item img {
+                height: 40px; /* Smaller logos on mobile */
+            }
+            .marquee-child-item {
+                padding: 0 15px; /* Tighter spacing on mobile */
+            }
+        }
+    </style>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.youtube.com"><link rel="dns-prefetch" href="https://connect.facebook.net">
+<meta name="description" content="AARAA Infrastructure brand showcase - trusted construction partner for industrial, commercial, and institutional projects across India.">
+<link rel="canonical" href="https://www.aaraainfrastructure.com/mar.html">
+
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.aaraainfrastructure.com/#organization",
+  "name": "AARAA Infrastructure Pvt Ltd",
+  "url": "https://www.aaraainfrastructure.com",
+  "logo": "https://www.aaraainfrastructure.com/image/logo/aaraa-logo.png",
+  "description": "AARAA Infrastructure is a leading PAN India construction company specializing in industrial, commercial, institutional, infrastructure, and renewable energy projects with turnkey EPC execution.",
+  "foundingDate": "2012",
+  "founder": {
+    "@type": "Person",
+    "name": "N K"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+91-8681003111",
+    "contactType": "customer service",
+    "email": "info@aaraainfrastructure.com",
+    "availableLanguage": [
+      "English",
+      "Tamil",
+      "Hindi"
+    ]
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "#85 Lotus Tower, Annasalai, Guindy",
+    "addressLocality": "Chennai",
+    "addressRegion": "Tamil Nadu",
+    "postalCode": "600032",
+    "addressCountry": "IN"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/aaraa-infrastructure",
+    "https://www.facebook.com/people/Aaraa-Infrastructure/61577346574499/"
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.aaraainfrastructure.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Brand",
+      "item": "https://www.aaraainfrastructure.com/mar.html"
+    }
+  ]
+}</script>
+</head>
+<body>
+<main>
+<h1>AARAA Infrastructure - Brand Marquee</h1>
+
+    <!-- Structure -->
+    <div class="tf-marquee wg-brand mt-66 mb-2">
+        <div class="marquee-wrapper">
+            
+            <!-- GROUP 1: Original Set of Brands (1-21) -->
+            <div class="initial-child-container">
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-1.png" alt="Brand 1"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-2.png" alt="Brand 2"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-3.png" alt="Brand 3"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-4.png" alt="Brand 4"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-5.png" alt="Brand 5"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-6.png" alt="Brand 6"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-7.png" alt="Brand 7"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-8.png" alt="Brand 8"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-9.png" alt="Brand 9"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-10.png" alt="Brand 10"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-11.png" alt="Brand 11"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-12.png" alt="Brand 12"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-13.png" alt="Brand 13"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-14.png" alt="Brand 14"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-15.png" alt="Brand 15"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-16.png" alt="Brand 16"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-17.png" alt="Brand 17"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-18.png" alt="Brand 18"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-19.png" alt="Brand 19"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-20.png" alt="Brand 20"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-21.png" alt="Brand 21"></a></div>
+            </div>
+
+            <!-- GROUP 2: DUPLICATE Set (Essential for seamless loop) -->
+            <!-- This exact copy ensures there is no gap when the first set scrolls off -->
+            <div class="initial-child-container">
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-1.png" alt="Brand 1"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-2.png" alt="Brand 2"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-3.png" alt="Brand 3"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-4.png" alt="Brand 4"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-5.png" alt="Brand 5"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-6.png" alt="Brand 6"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-7.png" alt="Brand 7"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-8.png" alt="Brand 8"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-9.png" alt="Brand 9"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-10.png" alt="Brand 10"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-11.png" alt="Brand 11"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-12.png" alt="Brand 12"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-13.png" alt="Brand 13"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-14.png" alt="Brand 14"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-15.png" alt="Brand 15"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-16.png" alt="Brand 16"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-17.png" alt="Brand 17"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-18.png" alt="Brand 18"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-19.png" alt="Brand 19"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-20.png" alt="Brand 20"></a></div>
+                <div class="marquee-child-item"><a class="brand-item" href="#"><img loading="lazy" decoding="async" src="image/brand/brand-21.png" alt="Brand 21"></a></div>
+            </div>
+
+        </div>
+    </div>
+
+</main>
+</body>
+</html>

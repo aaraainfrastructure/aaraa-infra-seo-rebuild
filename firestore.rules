@@ -1,0 +1,115 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    // Helper: check if request is from your website domain
+    function isAuthorizedDomain() {
+      return request.headers.origin in [
+        'https://aaraainfrastructure.com',
+        'https://www.aaraainfrastructure.com',
+        'https://aaraa-infra-web.web.app',
+        'https://aaraa-infra-web.firebaseapp.com',
+        'http://localhost:5500',
+        'http://localhost:3000',
+        'http://127.0.0.1:5500',
+        'http://localhost:8080'
+      ];
+    }
+
+    // Helper: timestamp validation
+    function isValidTimestamp() {
+      return request.resource.data.createdAt == request.time;
+    }
+
+    // Helper: validate required lead fields exist
+    function isValidLead() {
+      let data = request.resource.data;
+      return data.keys().hasAll(['leadId', 'formType', 'sourcePage', 'createdAt'])
+        && data.name is string
+        && data.mobile is string
+        && data.name.size() >= 2;
+    }
+
+    // Helper: basic rate limit by IP (max 20 writes per minute)
+    function isRateLimited() {
+      return get(/databases/$(database)/documents/rate_limits/$(request.auth.uid == null ? request.origin : request.auth.uid)).data.requests > 20;
+    }
+
+    // ===============================
+    // LEADS COLLECTION
+    // ===============================
+    match /leads/{leadId} {
+      // Allow anyone to create a lead (website visitors)
+      allow create: if request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
+                    && request.resource.data.createdAt == request.time;
+
+      // Only authenticated admins can read/update/delete leads
+      allow read, update, delete: if request.auth != null
+                                   && request.auth.token.email_verified == true
+                                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+
+      // Validate lead fields on create
+      allow create: if request.resource.data.leadId is string
+                    && request.resource.data.formType is string
+                    && request.resource.data.sourcePage is string
+                    && request.resource.data.createdAt is string
+                    && request.resource.data.name is string
+                    && request.resource.data.mobile is string;
+    }
+
+    // ===============================
+    // NEWSLETTER COLLECTION
+    // ===============================
+    match /newsletter/{docId} {
+      allow create: if request.resource.data.email is string
+                    && request.resource.data.email.matches('^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,}$')
+                    && request.resource.data.subscribedAt is string;
+
+      allow read: if request.auth != null;
+      allow update, delete: if false;
+    }
+
+    // ===============================
+    // CALLBACK REQUESTS
+    // ===============================
+    match /callback_requests/{docId} {
+      allow create: if request.resource.data.phone is string
+                    && request.resource.data.phone.size() >= 10;
+
+      allow read, update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    // ===============================
+    // CONTACT MESSAGES
+    // ===============================
+    match /contact_messages/{docId} {
+      allow create: if request.resource.data.name is string
+                    && request.resource.data.name.size() >= 2;
+
+      allow read, update: if request.auth != null;
+      allow delete: if false;
+    }
+
+    // ===============================
+    // ADMIN ACCESS (all collections)
+    // ===============================
+    match /{collection}/{docId} {
+      allow read: if request.auth != null
+                  && request.auth.token.email_verified == true;
+      allow write: if request.auth != null
+                   && request.auth.token.email_verified == true
+                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // RATE LIMITING COUNTERS
+    // ===============================
+    match /rate_limits/{clientId} {
+      allow read: if true;
+      allow create, update: if request.resource.data.requests is number
+                            && request.resource.data.windowStart is number;
+    }
+  }
+}

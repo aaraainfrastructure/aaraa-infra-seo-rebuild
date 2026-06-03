@@ -1,0 +1,7 @@
+WEBSITE AUDIT REPORT
+====================
+
+Total Files: 1044
+Source Files: 240
+Unused Assets: 488
+Orphan Pages: 76

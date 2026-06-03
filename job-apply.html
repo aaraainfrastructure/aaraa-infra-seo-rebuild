@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Careers | Aaraa Infrastructure</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <style>
+    body { font-family: sans-serif; margin: 0; padding: 2rem; background: #f8f9fa; }
+    h2 { text-align: center; margin-bottom: 1rem; }
+    .accordion { background: #fff; border: 1px solid #ccc; margin-bottom: 0.5rem; border-radius: 5px; }
+    .accordion-header { padding: 1rem; cursor: pointer; font-weight: bold; background: #e9ecef; }
+    .accordion-content { display: none; padding: 1rem; background: #fff; }
+    .apply-btn { margin-top: 1rem; background: #007bff; color: #fff; padding: 0.5rem 1rem; border: none; border-radius: 3px; cursor: pointer; }
+    .modal { display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.5); }
+    .modal-content { background: #fff; padding: 2rem; max-width: 400px; margin: 10% auto; border-radius: 8px; }
+    .modal-content input, .modal-content textarea { width: 100%; margin-bottom: 1rem; padding: 0.5rem; }
+    .close { float: right; font-size: 1.2rem; cursor: pointer; }
+  </style>
+  
+  <!-- Meta Pixel Code -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window, document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '1495102235345639');
+fbq('track', 'PageView');
+</script>
+<noscript><img height="1" width="1" style="display:none"
+loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=1495102235345639&ev=PageView&noscript=1" alt=""
+/></noscript>
+<!-- End Meta Pixel Code -->
+
+
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="preconnect" href="https://cdn.jsdelivr.net"><link rel="preconnect" href="https://www.googletagmanager.com"><link rel="dns-prefetch" href="https://www.youtube.com"><link rel="dns-prefetch" href="https://connect.facebook.net">
+<meta name="description" content="Apply for career opportunities at AARAA Infrastructure. Join our team of engineering and construction professionals across India.">
+<link rel="canonical" href="https://www.aaraainfrastructure.com/job-apply.html">
+
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": "https://www.aaraainfrastructure.com/#organization",
+  "name": "AARAA Infrastructure Pvt Ltd",
+  "url": "https://www.aaraainfrastructure.com",
+  "logo": "https://www.aaraainfrastructure.com/image/logo/aaraa-logo.png",
+  "description": "AARAA Infrastructure is a leading PAN India construction company specializing in industrial, commercial, institutional, infrastructure, and renewable energy projects with turnkey EPC execution.",
+  "foundingDate": "2012",
+  "founder": {
+    "@type": "Person",
+    "name": "N K"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+91-8681003111",
+    "contactType": "customer service",
+    "email": "info@aaraainfrastructure.com",
+    "availableLanguage": [
+      "English",
+      "Tamil",
+      "Hindi"
+    ]
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "#85 Lotus Tower, Annasalai, Guindy",
+    "addressLocality": "Chennai",
+    "addressRegion": "Tamil Nadu",
+    "postalCode": "600032",
+    "addressCountry": "IN"
+  },
+  "sameAs": [
+    "https://www.linkedin.com/company/aaraa-infrastructure",
+    "https://www.facebook.com/people/Aaraa-Infrastructure/61577346574499/"
+  ]
+}</script>
+<script type="application/ld+json">{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://www.aaraainfrastructure.com/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Careers",
+      "item": "https://www.aaraainfrastructure.com/career.html"
+    },
+    {
+      "@type": "ListItem",
+      "position": 3,
+      "name": "Apply",
+      "item": "https://www.aaraainfrastructure.com/job-apply.html"
+    }
+  ]
+}</script>
+</head>
+<body>
+<main>
+<h1>Submit Your Job Application</h1>
+
+<h2>Join Our Team</h2>
+
+<div id="career-accordion">
+
+  <!-- Accordion Items -->
+</div>
+
+<!-- Modal Form -->
+<div id="applyModal" class="modal">
+  <div class="modal-content">
+    <span class="close" onclick="closeModal()">&times;</span>
+    <h3 id="positionTitle">Apply Now</h3>
+    <form id="applyForm" method="POST" enctype="multipart/form-data" data-form-type="career">
+      <input type="hidden" name="position" id="positionInput">
+      <input type="text" name="name" placeholder="Full Name" required>
+      <input type="email" name="email" placeholder="Email Address" required>
+      <input type="tel" name="phone" placeholder="Phone Number" required>
+      <input type="file" name="resume" required>
+      <button type="submit" class="apply-btn">Submit Application</button>
+    </form>
+  </div>
+</div>
+
+<script>
+  const jobs = [
+    { title: "Site Engineer", description: "Responsible for managing daily site operations, ensuring work quality, and coordinating with contractors and teams." },
+    { title: "Construction Manager", description: "Oversees the entire construction process, ensuring timely project delivery, cost control, and adherence to safety protocols." },
+    { title: "Project Manager", description: "Manages project planning, execution, and closure. Coordinates between clients, architects, and construction teams." },
+    { title: "Quantity Surveyor", description: "Prepares tender documents, cost estimations, and ensures financial efficiency for construction projects." },
+    { title: "Planning Engineer", description: "Develops detailed project schedules, monitors progress, and implements planning methodologies for efficient execution." },
+    { title: "Business Development", description: "Identifies new business opportunities, builds client relationships, and works on strategies for business growth." },
+    { title: "Architect", description: "Designs innovative building plans, collaborates with clients for requirements, and ensures aesthetic and functional excellence." },
+    { title: "Structural Engineer", description: "Analyzes and designs building structures, ensuring stability, strength, and compliance with engineering standards." }
+  ];
+
+  const container = document.getElementById('career-accordion');
+  jobs.forEach(job => {
+    const item = document.createElement('div');
+    item.className = 'accordion';
+    item.innerHTML = `
+      <div class="accordion-header" onclick="toggleAccordion(this)">${job.title}</div>
+      <div class="accordion-content">
+        <p>${job.description}</p>
+        <button class="apply-btn" onclick="openModal('${job.title}')">Apply Now</button>
+      </div>
+    `;
+    container.appendChild(item);
+  });
+
+  function toggleAccordion(header) {
+    const content = header.nextElementSibling;
+    content.style.display = (content.style.display === 'block') ? 'none' : 'block';
+  }
+
+  function openModal(position) {
+    document.getElementById('applyModal').style.display = 'block';
+    document.getElementById('positionTitle').innerText = `Apply for ${position}`;
+    document.getElementById('positionInput').value = position;
+  }
+
+  function closeModal() {
+    document.getElementById('applyModal').style.display = 'none';
+  }
+
+  window.onclick = function(e) {
+    if (e.target == document.getElementById('applyModal')) closeModal();
+  };
+</script>
+
+<script src="js/lib/emailjs.bundle.min.js"></script>
+<script type="module" src="js/firebase/app.js"></script>
+</main>
+</body>
+</html>

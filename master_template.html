@@ -1,0 +1,957 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Expert {{SERVICE}} in {{CITY}}. Premium turnkey construction by AARAA Infrastructure. On-time delivery, ISO-certified quality &amp; end-to-end solutions. Call +91 868 100 3111">
+    <meta name="keywords" content="{{KEYWORDS}}, {{SERVICE}} near me in {{CITY}}, top contractors near {{CITY}}, turnkey construction {{CITY}}, industrial construction contractors {{CITY}}">
+    <meta name="author" content="AARAA Infrastructure Pvt. Ltd.">
+    <title>{{SERVICE}} in {{CITY}} | AARAA Infrastructure - Turnkey Construction</title>
+    
+    <!-- Advanced SEO -->
+    <link rel="canonical" href="https://aaraainfrastructure.com/{{FILENAME}}">
+    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1">
+    <meta name="geo.region" content="IN-TN">
+    <meta name="geo.placename" content="{{CITY}}">
+    
+    <!-- Preconnect & Performance -->
+    <link rel="preconnect" href="https://www.google.com" crossorigin>
+    <link rel="preconnect" href="https://maps.googleapis.com" crossorigin>
+    <link rel="dns-prefetch" href="https://picsum.photos">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Open Graph -->
+    <meta property="og:title" content="{{SERVICE}} in {{CITY}} | AARAA Infrastructure">
+    <meta property="og:description" content="Best {{SERVICE}} company in {{CITY}}. Premium turnkey solutions with 100% on-time delivery.">
+    <meta property="og:image" content="https://aaraainfrastructure.com/logo.png">
+    <meta property="og:url" content="https://aaraainfrastructure.com/{{FILENAME}}">
+    <meta property="og:type" content="website">
+    
+    <!-- Schema: Local Business -->
+    <script type="application/ld+json">
+    {{JSON_LD}}
+    </script>
+    
+    <!-- Schema: FAQPage -->
+    <script type="application/ld+json">
+    {{FAQ_SCHEMA}}
+    </script>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="https://aaraainfrastructure.com/logo.png" type="image/png">
+    
+    <style>
+        :root {
+            --primary: #ed2f39;
+        }
+        
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+            line-height: 1.6;
+            color: #222;
+            overflow-x: hidden;
+        }
+        
+        h1, h2, h3 {
+            font-weight: 700;
+            line-height: 1.2;
+        }
+        
+        /* HEADER */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 50;
+            background: rgba(255, 255, 255, 0.92);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+        }
+        
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: #222;
+        }
+        
+        .logo img {
+            height: 48px;
+        }
+        
+        .logo-text {
+            font-size: 1.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+        }
+        
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 2.5rem;
+        }
+        
+        nav a {
+            text-decoration: none;
+            color: #222;
+            font-weight: 500;
+            font-size: 1.05rem;
+            position: relative;
+        }
+        
+        nav a:after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background-color: var(--primary);
+            transition: width 0.3s ease;
+        }
+        
+        nav a:hover:after {
+            width: 100%;
+        }
+        
+        .cta-button {
+            background: var(--primary);
+            color: white;
+            padding: 14px 32px;
+            border-radius: 9999px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .cta-button:hover {
+            transform: translateY(-3px);
+            background: #d42730;
+        }
+        
+        /* MOBILE MENU */
+        .mobile-menu {
+            display: none;
+            font-size: 1.75rem;
+            cursor: pointer;
+            color: #222;
+        }
+        
+        .mobile-nav {
+            display: none;
+            position: fixed;
+            top: 76px;
+            left: 0;
+            right: 0;
+            background: rgba(255,255,255,0.98);
+            backdrop-filter: blur(20px);
+            padding: 2rem;
+            box-shadow: 0 10px 15px rgba(0,0,0,0.1);
+            z-index: 9999;
+            animation: slideDown 0.4s ease forwards;
+        }
+        
+        @keyframes slideDown {
+            from { transform: translateY(-20px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        
+        .mobile-nav ul {
+            list-style: none;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+        
+        /* HERO */
+        .hero {
+            height: 100vh;
+            min-height: 700px;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            align-items: center;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            inset: 0;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.4s cubic-bezier(0.4, 0, 0.2, 1);
+            transform: scale(1.05);
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.10) 100%);
+            z-index: 1;
+        }
+        
+        .hero-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            position: relative;
+            z-index: 2;
+            text-align: left;
+        }
+        
+        .hero h1 {
+            font-size: clamp(2.8rem, 5.5vw, 5.2rem);
+            color: white;
+            line-height: 1.05;
+            margin-bottom: 1rem;
+        }
+        
+        .hero p {
+            font-size: clamp(1.1rem, 2.5vw, 1.4rem);
+            color: white;
+            max-width: 48ch;
+            margin-bottom: 2.5rem;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-buttons {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .hero h1 { font-size: 2.8rem; }
+        }
+        
+        /* FIXED FORM STYLING - ENQUIRY FORMS (Contact + Popup) */
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: 500;
+            color: #222;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 18px 24px;
+            border: 2px solid #ddd;
+            border-radius: 9999px;
+            font-size: 1.05rem;
+            transition: all 0.3s ease;
+            background: white;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--primary);
+            outline: none;
+            box-shadow: 0 0 0 4px rgba(237, 47, 57, 0.15);
+        }
+        
+        .form-group textarea {
+            border-radius: 2rem;
+            min-height: 130px;
+            resize: vertical;
+        }
+        
+        /* Contact Form Button */
+        #contactForm button {
+            width: 100%;
+            background: var(--primary);
+            color: white;
+            padding: 18px 24px;
+            border: none;
+            border-radius: 9999px;
+            font-size: 1.25rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        #contactForm button:hover {
+            background: #d42730;
+            transform: translateY(-2px);
+        }
+        
+        /* Sticky Mobile CTA */
+        .sticky-cta {
+            display: none;
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            right: 20px;
+            background: var(--primary);
+            color: white;
+            padding: 16px 24px;
+            border-radius: 9999px;
+            box-shadow: 0 10px 30px rgba(237,47,57,0.4);
+            z-index: 99999;
+            text-align: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+        
+        @media (max-width: 768px) {
+            .sticky-cta {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                gap: 12px;
+            }
+        }
+        
+        /* Floating Call Button */
+        .floating-call {
+            position: fixed;
+            bottom: 90px;
+            right: 20px;
+            background: #22c55e;
+            color: white;
+            width: 60px;
+            height: 60px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.8rem;
+            box-shadow: 0 10px 30px rgba(34,197,94,0.4);
+            z-index: 99998;
+            text-decoration: none;
+        }
+        
+        /* Sections */
+        section { padding: 120px 0; }
+        
+        .section-header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+        
+        .section-header span {
+            color: var(--primary);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        
+        .section-header h2 {
+            font-size: 3rem;
+        }
+        
+        /* Popup */
+        #leadPopup, #callbackPopup {
+            display: none;
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.85);
+            z-index: 100000;
+            align-items: center;
+            justify-content: center;
+        }
+        
+        #leadPopup > div, .callback-content {
+            background: white;
+            max-width: 520px;
+            width: 92%;
+            border-radius: 2rem;
+            overflow: hidden;
+            box-shadow: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+        }
+        
+        /* Toast */
+        .toast {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background: #111;
+            color: white;
+            padding: 16px 24px;
+            border-radius: 9999px;
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.2);
+            display: none;
+            align-items: center;
+            gap: 12px;
+            z-index: 99999;
+        }
+        
+        @media (max-width: 768px) {
+            nav ul { display: none; }
+            .mobile-menu { display: block; }
+        }
+        
+        /* Hidden SEO */
+        .hidden-seo {
+            position: absolute;
+            left: -9999px;
+            height: 1px;
+            overflow: hidden;
+            width: 1px;
+        }
+    </style>
+</head>
+<body>
+    <!-- HEADER -->
+    <header>
+        <div class="nav-container">
+            <a href="https://www.aaraainfrastructure.com" class="logo">
+                <img src="https://aaraainfrastructure.com/logo.png" alt="AARAA Infrastructure" loading="eager">
+                
+            </a>
+            
+            <nav>
+                <ul>
+                    <li><a href="https://www.aaraainfrastructure.com">Home</a></li>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#services">Services</a></li>
+                    <li><a href="#contact">Contact</a></li>
+                </ul>
+            </nav>
+            
+            <a href="#" onclick="showLeadPopup(); return false;" class="cta-button">
+                Get Quote
+            </a>
+            
+            <div class="mobile-menu" onclick="toggleMobileMenu()">☰</div>
+        </div>
+        
+        <div class="mobile-nav" id="mobileNav">
+            <ul>
+                <li><a href="https://www.aaraainfrastructure.com" onclick="toggleMobileMenu()">Home</a></li>
+                <li><a href="#about" onclick="toggleMobileMenu()">About</a></li>
+                <li><a href="#services" onclick="toggleMobileMenu()">Services</a></li>
+                <li><a href="#contact" onclick="toggleMobileMenu()">Contact</a></li>
+                <li style="margin-top:1rem;">
+                    <a href="#" onclick="toggleMobileMenu(); showLeadPopup(); return false;" class="cta-button" style="width:100%; justify-content:center;">Get Quote</a>
+                </li>
+            </ul>
+        </div>
+    </header>
+    
+    <!-- HERO -->
+    <section class="hero">
+        <div class="hero-slide active" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('solar-infrastructure-road-construction-epc-aaraa-infrastructure.webp');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('peb-industrial-building-construction-epc-project.webp');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('solar-wind-hybrid-infrastructure-team-execution-aaraa-infrastructure.webp');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('https://picsum.photos/id/1016/2000/1200');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('https://picsum.photos/id/201/2000/1200');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('https://picsum.photos/id/251/2000/1200');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('https://picsum.photos/id/29/2000/1200');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        <div class="hero-slide" style="background-image: linear-gradient(rgba(0,0,0,0.10), rgba(0,0,0,0.10)), url('https://picsum.photos/id/1005/2000/1200');" alt="Best {{SERVICE}} company in {{CITY}}" title="Top {{SERVICE}} contractors in {{CITY}}"></div>
+        
+        
+        
+        <div class="hero-content">
+            <h1>{{SERVICE}} in {{CITY}}</h1>
+            <p>Premium turnkey {{SERVICE}} delivered with uncompromising quality, on-time execution and world-class engineering excellence.</p>
+            
+            <div class="hero-buttons">
+                <a href="#" onclick="showLeadPopup(); return false;" class="cta-button" style="font-size:1.35rem; padding:20px 48px;">
+                    Get Instant Quote
+                </a>
+                <a href="tel:+918681003111" class="cta-button" style="background:transparent; border:2px solid white; color:white; font-size:1.35rem; padding:20px 48px;">
+                    📞 +91 868 100 3111
+                </a>
+            </div>
+            
+            <div style="margin-top:2.5rem; color:white; font-size:1.05rem; opacity:0.95;">
+                Limited project slots available this month • Trusted by 42+ clients in {{CITY}}
+            </div>
+        </div>
+    </section>
+    
+    <!-- ABOUT -->
+    <section id="about">
+        <div class="section-header">
+            <span>LEADING {{SERVICE}} EXPERTS</span>
+            <h2>{{SERVICE}} in {{CITY}} – Built with Excellence Since 2012</h2>
+        </div>
+        
+        <div style="max-width:1400px; margin:0 auto; padding:0 2rem; display:grid; grid-template-columns:1fr 1fr; gap:5rem; align-items:center;">
+            <div>
+                <p>AARAA Infrastructure is {{CITY}}'s most trusted name for premium {{SERVICE}}. With 12+ years of proven expertise, we deliver turnkey solutions that combine world-class engineering, unmatched quality, and absolute reliability.</p>
+                <p>From concept to handover, every {{SERVICE}} project in {{CITY}} is executed with zero compromise.</p>
+                <div style="margin-top:2.5rem; font-size:1.4rem; color:var(--primary); font-weight:700;">100% On-Time Delivery • 42+ Happy Clients in {{CITY}} Region</div>
+            </div>
+            <div style="background:#f8f8f8; border-radius:2rem; padding:2rem; text-align:center; font-size:3.5rem;">🏗️ {{SERVICE}} in {{CITY}}</div>
+        </div>
+    </section>
+    
+    <!-- SERVICES -->
+    <section id="services" style="background:#f8f8f8;">
+        <div class="section-header">
+            <span>OUR CAPABILITIES</span>
+            <h2>Complete {{SERVICE}} Solutions in {{CITY}}</h2>
+        </div>
+        <div style="max-width:1400px; margin:0 auto; padding:0 2rem; display:grid; grid-template-columns:repeat(auto-fit,minmax(340px,1fr)); gap:2rem;">
+            <div class="service-card" style="background:white; border-radius:2rem; padding:2.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div style="width:68px;height:68px;background:#f8f8f8;border-radius:9999px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:2rem;">🏗️</div>
+                <h3>Turnkey Execution</h3>
+                <p>Complete {{SERVICE}} from design to handover in {{CITY}}.</p>
+            </div>
+            <div class="service-card" style="background:white; border-radius:2rem; padding:2.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div style="width:68px;height:68px;background:#f8f8f8;border-radius:9999px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:2rem;">🏭</div>
+                <h3>Industrial Excellence</h3>
+                <p>PEB, factories &amp; heavy infrastructure in {{CITY}}.</p>
+            </div>
+            <div class="service-card" style="background:white; border-radius:2rem; padding:2.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div style="width:68px;height:68px;background:#f8f8f8;border-radius:9999px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:2rem;">🛣️</div>
+                <h3>Infrastructure Projects</h3>
+                <p>Roads, bridges &amp; civic works across {{CITY}}.</p>
+            </div>
+            <div class="service-card" style="background:white; border-radius:2rem; padding:2.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div style="width:68px;height:68px;background:#f8f8f8;border-radius:9999px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:2rem;">☀️</div>
+                <h3>Renewable Integration</h3>
+                <p>Solar &amp; green energy ready {{SERVICE}}.</p>
+            </div>
+            <div class="service-card" style="background:white; border-radius:2rem; padding:2.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div style="width:68px;height:68px;background:#f8f8f8;border-radius:9999px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:2rem;">🏢</div>
+                <h3>Commercial &amp; Residential</h3>
+                <p>Luxury &amp; Grade-A spaces in {{CITY}}.</p>
+            </div>
+            <div class="service-card" style="background:white; border-radius:2rem; padding:2.5rem; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                <div style="width:68px;height:68px;background:#f8f8f8;border-radius:9999px;display:flex;align-items:center;justify-content:center;margin-bottom:2rem;font-size:2rem;">✅</div>
+                <h3>MEP &amp; Fit-Outs</h3>
+                <p>Complete mechanical, electrical &amp; interior solutions.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- INTERNAL LINKS -->
+    <section style="background:#f8f8f8; padding:3rem 0; text-align:center;">
+        <div class="section-header">
+            <h2>{{SERVICE}} in Other Major Cities</h2>
+        </div>
+        <div style="max-width:1200px; margin:0 auto; padding:0 2rem; font-size:1.15rem; line-height:2.2;">
+            {{INTERNAL_LINKS}}
+        </div>
+    </section>
+    
+    <!-- FAQ -->
+    <section style="padding:100px 0; background:white;">
+        <div class="section-header">
+            <span>FREQUENTLY ASKED</span>
+            <h2>{{SERVICE}} in {{CITY}} – Your Questions Answered</h2>
+        </div>
+        <div style="max-width:1100px; margin:0 auto; padding:0 2rem;">
+            <!-- 10+ FAQ items as before -->
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>What is the cost of {{SERVICE}} in {{CITY}}?</h3>
+                <p>Cost depends on project scale, specifications, and site conditions. AARAA offers transparent pricing with a detailed BOQ. Contact us for a free quote tailored to your requirements in {{CITY}}.</p>
+            </div>
+            <!-- Remaining FAQ items (same as previous version) -->
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>How long does a typical {{SERVICE}} project take in {{CITY}}?</h3>
+                <p>Most projects are completed in 9–24 months depending on size and complexity. We guarantee on-time delivery with strict project management and milestone tracking.</p>
+            </div>
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>Do you provide end-to-end turnkey {{SERVICE}} in {{CITY}}?</h3>
+                <p>Yes. From design, statutory approvals, construction, MEP, interiors to final handover — everything is handled under one roof with a single point of contact.</p>
+            </div>
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>What quality certifications does AARAA hold for {{SERVICE}} projects in {{CITY}}?</h3>
+                <p>We are ISO 9001:2015, ISO 14001, and OHSAS 18001 certified. All projects follow BIS, NBC, and local regulatory standards.</p>
+            </div>
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>How do I choose the right contractor for {{SERVICE}} in {{CITY}}?</h3>
+                <p>Look for proven track record, on-time delivery, transparent pricing, and ISO certification. AARAA has delivered 58+ landmark projects across India with 100% client satisfaction.</p>
+            </div>
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>Can you handle government approvals for {{SERVICE}} in {{CITY}}?</h3>
+                <p>Yes. Our dedicated team manages all statutory approvals, environmental clearances, and local body permissions required for {{SERVICE}} projects in {{CITY}}.</p>
+            </div>
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>What materials do you use for {{SERVICE}} projects in {{CITY}}?</h3>
+                <p>We use only premium, BIS-certified materials from reputed brands. Every project undergoes rigorous quality checks at every stage.</p>
+            </div>
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>Do you offer after-sales support after completing {{SERVICE}} in {{CITY}}?</h3>
+                <p>Yes. We provide 12-month defect liability period and dedicated maintenance support for all completed {{SERVICE}} projects in {{CITY}}.</p>
+            </div>
+            <div class="faq-item" style="margin-bottom:2rem;border-bottom:1px solid #eee;padding-bottom:2rem;">
+                <h3>Why should I choose AARAA for {{SERVICE}} in {{CITY}}?</h3>
+                <p>12+ years of excellence, 100% on-time delivery, ISO-certified processes, and a proven track record with 58+ landmark projects across India.</p>
+            </div>
+            <div class="faq-item">
+                <h3>Are you available for urgent {{SERVICE}} projects in {{CITY}}?</h3>
+                <p>Yes. We maintain a dedicated rapid-response team for time-critical projects in {{CITY}} and surrounding areas.</p>
+            </div>
+        </div>
+    </section>
+    
+    <!-- WHY CHOOSE US -->
+    <section id="why" style="background:#f8f8f8;">
+        <div class="section-header">
+            <span>THE AARAA ADVANTAGE</span>
+            <h2>Why {{CITY}} Trusts Us for {{SERVICE}}</h2>
+        </div>
+        <div style="max-width:1400px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:3rem;text-align:center;">
+            <div><h3 style="font-size:3.5rem;color:var(--primary);">12+</h3><p>Years of Excellence</p></div>
+            <div><h3 style="font-size:3.5rem;color:var(--primary);">58+</h3><p>Projects Delivered</p></div>
+            <div><h3 style="font-size:3.5rem;color:var(--primary);">100%</h3><p>On-Time Delivery</p></div>
+            <div><h3 style="font-size:3.5rem;color:var(--primary);">42+</h3><p>Clients in {{CITY}} Region</p></div>
+        </div>
+    </section>
+    
+    <!-- TESTIMONIALS -->
+    <section id="testimonials">
+        <div class="section-header">
+            <span>CLIENT VOICES FROM {{CITY}}</span>
+            <h2>What Developers Say About Our {{SERVICE}}</h2>
+        </div>
+        <div id="testimonialSlider" style="max-width:1200px;margin:0 auto;padding:0 2rem;display:flex;overflow:hidden;gap:2rem;"></div>
+    </section>
+    
+    <!-- STRONG CTA -->
+    <section style="background:linear-gradient(135deg,#ed2f39,#c21f28);color:white;text-align:center;padding:6rem 2rem;">
+        <h2 style="font-size:3rem;">Ready for World-Class {{SERVICE}} in {{CITY}}?</h2>
+        <p style="font-size:1.5rem;max-width:700px;margin:1.5rem auto;">Speak to our leadership team today. Your project deserves the AARAA standard.</p>
+        <a href="tel:+918681003111" style="background:white;color:#ed2f39;padding:20px 48px;border-radius:9999px;font-size:1.4rem;font-weight:700;margin:0 1rem;">📞 +91 868 100 3111</a>
+        <a href="#" onclick="showLeadPopup(); return false;" class="cta-button" style="font-size:1.4rem;padding:20px 48px;">Get Quote in 4 Minutes</a>
+    </section>
+    
+    <!-- CONTACT SECTION - FIXED FORM CSS -->
+    <section id="contact">
+        <div class="section-header">
+            <span>START YOUR {{SERVICE}} PROJECT IN {{CITY}}</span>
+            <h2>Contact AARAA Today</h2>
+        </div>
+        
+        <div style="max-width:1400px;margin:0 auto;padding:0 2rem;display:grid;grid-template-columns:1fr 1fr;gap:5rem;">
+            <!-- Fixed Form -->
+            		
+			<form id="contactForm"  method="POST">
+                <input type="hidden" name="_subject" value="Lead from Gowri – {{SERVICE}} Inquiry in {{CITY}}">
+                <input type="hidden" name="_captcha" value="false">
+                <input type="hidden" name="_next" value="https://aaraainfrastructure.com/thank-you.html">
+                
+                <div class="form-group">
+                    <label>Name <span style="color:#ed2f39;">*</span></label>
+                    <input type="text" name="name" id="c-name" required>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.5rem;">
+                    <div class="form-group">
+                        <label>Phone <span style="color:#ed2f39;">*</span></label>
+                        <input type="tel" name="phone" id="c-phone" pattern="[0-9]{10}" placeholder="8681003111" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span style="color:#ed2f39;">*</span></label>
+                        <input type="email" name="email" id="c-email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Project Type</label>
+                    <select name="project_type" id="c-type">
+                        <option value="">Select Project Type</option>
+                        <option value="Residential">Residential</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Renewable">Renewable Energy</option>
+                        <option value="Interior">Interior Fit-Out</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Message / Requirements</label>
+                    <textarea name="message" id="c-message" rows="5" placeholder="Tell us about your vision..."></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width:100%; padding:18px 24px; font-size:1.25rem;">
+                    SEND ENQUIRY FOR {{SERVICE}} IN {{CITY}}
+                </button>
+            </form>
+            
+            <!-- Map + Addresses -->
+            <div>
+                <div style="border-radius:2rem; overflow:hidden; box-shadow:0 20px 40px rgba(0,0,0,0.1); height:420px; background:#eee;">
+                    <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3887.0!2d80.211!3d13.01!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a5266f0a3a3a3a3%3A0x1234567890abcdef!2sLotus%20Tower%2C%20Anna%20Salai%2C%20Guindy%2C%20Chennai%20600032!5e0!3m2!1sen!2sin!4v1730000000000" 
+                            width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+                </div>
+                
+                <div style="margin-top:2rem; background:white; border-radius:2rem; padding:2rem; box-shadow:0 10px 30px rgba(0,0,0,0.08);">
+                    <div style="display:flex; gap:1.5rem; margin-bottom:1.5rem;">
+                        <div style="font-size:1.8rem;">🏢</div>
+                        <div>
+                            <strong>Corporate Office</strong><br>
+                            Lotus Tower Anna Salai, Guindy, Chennai 600032
+                        </div>
+                    </div>
+                    <div style="display:flex; gap:1.5rem;">
+                        <div style="font-size:1.8rem;">🏢</div>
+                        <div>
+                            <strong>Branch Office</strong><br>
+                            WeWork, Oberoi Commerz II, Mumbai 400063
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- FOOTER -->
+    <footer>
+        <div style="background:#111;color:#ddd;padding:4rem 2rem 3rem;">
+            <div style="max-width:1400px; margin:0 auto; padding:0 2rem; display:grid; grid-template-columns:2fr 1fr 1fr 1fr; gap:4rem;">
+                <div>
+                    <a href="https://www.aaraainfrastructure.com" class="logo" style="color:white;">
+                        <img src="https://aaraainfrastructure.com/logo.png" alt="AARAA Infrastructure" style="height:64px; filter:brightness(0) invert(1);">
+                        
+                    </a>
+                    <p style="margin-top:1.5rem; max-width:360px;">Premium turnkey construction. Precision engineering. Timeless excellence.</p>
+                    <p style="margin-top:2rem; font-size:0.95rem; opacity:0.7;">© 2012–2026 AARAA Infrastructure Pvt. Ltd. All Rights Reserved.</p>
+                </div>
+                
+                <div>
+                    <strong style="color:white; display:block; margin-bottom:1rem;">Company</strong>
+                    <a href="#about" style="display:block; color:#ddd; text-decoration:none; margin-bottom:8px;">About Us</a>
+                    <a href="#services" style="display:block; color:#ddd; text-decoration:none; margin-bottom:8px;">Services</a>
+                    <a href="#" style="display:block; color:#ddd; text-decoration:none; margin-bottom:8px;">Careers</a>
+                    <a href="#" style="display:block; color:#ddd; text-decoration:none;">Blog</a>
+                </div>
+                
+                <div>
+                    <strong style="color:white; display:block; margin-bottom:1rem;">Services</strong>
+                    <a href="#services" style="display:block; color:#ddd; text-decoration:none; margin-bottom:8px;">Commercial</a>
+                    <a href="#services" style="display:block; color:#ddd; text-decoration:none; margin-bottom:8px;">Industrial &amp; PEB</a>
+                    <a href="#services" style="display:block; color:#ddd; text-decoration:none; margin-bottom:8px;">Infrastructure</a>
+                    <a href="#services" style="display:block; color:#ddd; text-decoration:none; margin-bottom:8px;">Renewables</a>
+                    <a href="#services" style="display:block; color:#ddd; text-decoration:none;">Interior Fit-Outs</a>
+                </div>
+                
+                <div>
+                    <strong style="color:white; display:block; margin-bottom:1rem;">Follow Us</strong>
+                    <div style="display:flex; gap:20px; margin-top:1rem; font-size:1.8rem;">
+                        <a href="https://www.facebook.com/people/Aaraa-Infrastructure/61577346574499/" target="_blank" rel="noopener" style="color:#ddd;"><i class="fab fa-facebook-f"></i></a>
+                        <a href="https://www.instagram.com/aaraa_infrastructure/" target="_blank" rel="noopener" style="color:#ddd;"><i class="fab fa-instagram"></i></a>
+                        <a href="https://www.linkedin.com/company/aaraa-infrastructure/" target="_blank" rel="noopener" style="color:#ddd;"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="https://www.youtube.com/@AaraaInfrastructure" target="_blank" rel="noopener" style="color:#ddd;"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    <div style="margin-top:3rem;">
+                        <div style="font-size:0.95rem;">Call us anytime</div>
+                        <a href="tel:+918681003111" style="color:white; font-size:1.6rem; font-weight:700; text-decoration:none;">+91 868 100 3111</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div style="border-top:1px solid #222; padding:1.5rem 2rem; text-align:center; font-size:0.9rem; opacity:0.6;">
+            Master Template v2.2 • Production Ready
+        </div>
+    </footer>
+    
+    <!-- LEAD POPUP - Fixed styling -->
+    <div onclick="if(event.target.id === 'leadPopup') hideLeadPopup()" id="leadPopup" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:100000; align-items:center; justify-content:center;">
+        <div onclick="event.stopImmediatePropagation()" style="background:white; max-width:520px; width:92%; border-radius:2rem; overflow:hidden; box-shadow:0 25px 50px -12px rgb(0 0 0 / 0.25);">
+            <div style="padding:2rem 2.5rem 1rem; border-bottom:1px solid #eee; display:flex; justify-content:space-between; align-items:center;">
+                <h3 style="font-size:1.75rem;">Let's start your project</h3>
+                <span onclick="hideLeadPopup()" style="font-size:2rem; cursor:pointer; line-height:1;">×</span>
+            </div>
+            
+            <form id="leadForm"  method="POST" style="padding:2rem 2.5rem;">
+                <input type="hidden" name="_subject" value="Lead from Gowri – {{SERVICE}} Inquiry in {{CITY}}">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <div class="form-group">
+                    <label>Name <span style="color:#ed2f39">*</span></label>
+                    <input type="text" name="name" id="lead-name" required>
+                </div>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:1.25rem;">
+                    <div class="form-group">
+                        <label>Phone <span style="color:#ed2f39">*</span></label>
+                        <input type="tel" name="phone" id="lead-phone" pattern="[0-9]{10}" required>
+                    </div>
+                    <div class="form-group">
+                        <label>Email <span style="color:#ed2f39">*</span></label>
+                        <input type="email" name="email" id="lead-email" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label>Project Type</label>
+                    <select name="project_type" id="lead-type" required>
+                        <option value="">Choose one</option>
+                        <option value="Residential">Residential</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Industrial">Industrial</option>
+                        <option value="Infrastructure">Infrastructure</option>
+                        <option value="Renewable">Renewable Energy</option>
+                        <option value="Interior">Interior Fit-Out</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Budget Range</label>
+                    <select name="budget" id="lead-budget">
+                        <option value="">Select range</option>
+                        <option value="Under 5 Cr">Under ₹5 Cr</option>
+                        <option value="5 - 15 Cr">₹5 – 15 Cr</option>
+                        <option value="15 - 50 Cr">₹15 – 50 Cr</option>
+                        <option value="Above 50 Cr">Above ₹50 Cr</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Message</label>
+                    <textarea name="message" id="lead-message" rows="3" placeholder="Project brief or timeline..."></textarea>
+                </div>
+                <button type="submit" class="cta-button" style="width:100%; padding:20px; font-size:1.25rem;">
+                    SUBMIT &amp; GET INSTANT CONSULTATION
+                </button>
+                <p style="text-align:center; margin-top:1rem; font-size:0.9rem; color:#666;">We respect your privacy. Response within 4 minutes.</p>
+            </form>
+        </div>
+    </div>
+    
+    <!-- CALLBACK POPUP -->
+    <div id="callbackPopup" onclick="if(event.target.id === 'callbackPopup') hideCallbackPopup()">
+        <div class="callback-content" onclick="event.stopImmediatePropagation()">
+            <h3 style="font-size:1.8rem; margin-bottom:1rem;">Get a call back in 2 minutes</h3>
+            <p style="margin-bottom:1.5rem; color:#555;">Our team will call you instantly. Just enter your number.</p>
+            
+            <form id="callbackForm"  method="POST">
+                <input type="hidden" name="_subject" value="Callback Request – {{SERVICE}} in {{CITY}}">
+                <input type="hidden" name="_captcha" value="false">
+                
+                <input type="tel" name="phone" id="callback-phone" pattern="[0-9]{10}" placeholder="+91 868 100 3111" 
+                       style="width:100%; padding:18px 24px; border:2px solid #ddd; border-radius:9999px; font-size:1.1rem; margin-bottom:1.5rem;" required>
+                
+                <button type="submit" class="cta-button" style="width:100%; padding:20px; font-size:1.25rem;">
+                    YES, CALL ME NOW
+                </button>
+            </form>
+            
+            <div onclick="hideCallbackPopup()" style="margin-top:1.5rem; color:#999; cursor:pointer; font-size:0.95rem;">No thanks, I'll call later</div>
+        </div>
+    </div>
+    
+    <!-- Sticky CTA + Floating Call -->
+    <a href="#" onclick="showLeadPopup(); return false;" class="sticky-cta">
+        🚀 Get Quote Now <span style="margin-left:auto;">→</span>
+    </a>
+    <a href="tel:+918681003111" class="floating-call">📞</a>
+    
+    <!-- Hidden SEO -->
+    <div class="hidden-seo" aria-hidden="true">
+        <p>AARAA Infrastructure is a leading turnkey construction projects company offering industrial construction contractors, commercial building contractors, EPC contractors India, PEB structure companies, infrastructure development company, solar EPC contractors and institutional construction services across major cities including Chennai, Mumbai, Bangalore, Delhi, Hyderabad and more.</p>
+    </div>
+    
+    <!-- Toast -->
+    <div id="toast" class="toast">
+        <span style="font-size:1.5rem;">✅</span>
+        <span id="toast-text" style="font-weight:600;"></span>
+    </div>
+    
+    <script>
+        /**
+         * PRODUCTION-READY MASTER TEMPLATE v2.2
+         * CSS bug for enquiry forms FIXED
+         */
+        
+        const CONFIG = { city: "{{CITY}}", service: "{{SERVICE}}" };
+        
+        window.toggleMobileMenu = function() {
+            const nav = document.getElementById('mobileNav');
+            nav.style.display = nav.style.display === 'block' ? 'none' : 'block';
+        };
+        
+        window.showLeadPopup = function() {
+            document.getElementById('leadPopup').style.display = 'flex';
+        };
+        
+        window.hideLeadPopup = function() {
+            document.getElementById('leadPopup').style.display = 'none';
+        };
+        
+        function showCallbackPopup() {
+            if (sessionStorage.getItem('callbackShown')) return;
+            document.getElementById('callbackPopup').style.display = 'flex';
+            sessionStorage.setItem('callbackShown', 'true');
+        }
+        
+        window.hideCallbackPopup = function() {
+            document.getElementById('callbackPopup').style.display = 'none';
+        };
+        
+        function showToast(text) {
+            const toast = document.getElementById('toast');
+            const textEl = document.getElementById('toast-text');
+            textEl.textContent = text;
+            toast.style.display = 'flex';
+            setTimeout(() => {
+                toast.style.opacity = '0';
+                setTimeout(() => { toast.style.display = 'none'; toast.style.opacity = '1'; }, 400);
+            }, 5200);
+        }
+        
+        function initExitIntent() {
+            const leadPopup = document.getElementById('leadPopup');
+            if (leadPopup) {
+                leadPopup.addEventListener('click', function(e) {
+                    if (e.target.id === 'leadPopup') {
+                        hideLeadPopup();
+                        setTimeout(showCallbackPopup, 500);
+                    }
+                });
+            }
+        }
+        
+        function startHeroSlider() {
+            const slides = document.querySelectorAll('.hero-slide');
+            let index = 0;
+            setInterval(() => {
+                slides[index].classList.remove('active');
+                index = (index + 1) % slides.length;
+                slides[index].classList.add('active');
+            }, 5500);
+        }
+        
+        function initialize() {
+            console.log('%c🚀 AARAA Master Template v2.2 – Enquiry form CSS FIXED', 'background:#ed2f39;color:white;padding:4px 8px;border-radius:4px;');
+            startHeroSlider();
+            initExitIntent();
+            
+            setTimeout(() => {
+                if (document.getElementById('leadPopup').style.display !== 'flex') showLeadPopup();
+            }, 10000);
+        }
+        
+        window.onload = initialize;
+    </script>
+<script src="js/lib/emailjs.bundle.min.js"></script>
+<script type="module" src="js/firebase/app.js"></script>
+
+<script src="js/aaraa-popups.js"></script>
+<script src="js/aaraa-modals.js"></script>
+</body>
+</html>

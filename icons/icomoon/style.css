@@ -1,0 +1,483 @@
+@font-face {
+  font-family: 'icomoon';
+  src:  url('fonts/icomoonc48a.eot?c17tgc');
+  src:  url('fonts/icomoonc48a.eot?c17tgc#iefix') format('embedded-opentype'),
+    url('fonts/icomoonc48a.ttf?c17tgc') format('truetype'),
+    url('fonts/icomoonc48a.woff?c17tgc') format('woff'),
+    url('fonts/icomoonc48a.svg?c17tgc#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+[class^="icon-"], [class*=" icon-"] {
+  /* use !important to prevent issues with browser extensions that change fonts */
+  font-family: 'icomoon' !important;
+  speak: never;
+  font-style: normal;
+  font-weight: normal;
+  font-variant: normal;
+  text-transform: none;
+  line-height: 1;
+
+  /* Better Font Rendering =========== */
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.icon-clean-energy:before {
+  content: "\e984";
+}
+.icon-grid:before {
+  content: "\e990";
+}
+.icon-conversation1:before {
+  content: "\e994";
+}
+.icon-heart-no-bg:before {
+  content: "\e993";
+}
+.icon-heart:before {
+  content: "\e992";
+}
+.icon-chat1:before {
+  content: "\e98c";
+}
+.icon-multiple-users:before {
+  content: "\e98e";
+}
+.icon-medal-ribbon:before {
+  content: "\e98f";
+}
+.icon-funding:before {
+  content: "\e98d";
+}
+.icon-eye:before {
+  content: "\e98b";
+}
+.icon-circle-arrows:before {
+  content: "\e98a";
+}
+.icon-star:before {
+  content: "\e989";
+}
+.icon-time:before {
+  content: "\e988";
+}
+.icon-close:before {
+  content: "\e987";
+}
+.icon-volume-up:before {
+  content: "\e986";
+}
+.icon-check:before {
+  content: "\e985";
+}
+.icon-checked:before {
+  content: "\e983";
+}
+.icon-filter:before {
+  content: "\e982";
+}
+.icon-list:before {
+  content: "\e991";
+}
+.icon-menu1:before {
+  content: "\e97c";
+}
+.icon-pinterest:before {
+  content: "\e972";
+}
+.icon-tag:before {
+  content: "\e971";
+}
+.icon-calling:before {
+  content: "\e97e";
+}
+.icon-thunder:before {
+  content: "\e97d";
+}
+.icon-reply:before {
+  content: "\e97b";
+}
+.icon-calendar:before {
+  content: "\e97a";
+}
+.icon-share:before {
+  content: "\e979";
+}
+.icon-arrow-right-2:before {
+  content: "\e977";
+}
+.icon-map-pin2:before {
+  content: "\e974";
+}
+.icon-call:before {
+  content: "\e975";
+}
+.icon-user:before {
+  content: "\e933";
+}
+.icon-arrow-menu:before {
+  content: "\e930";
+}
+.icon-arrow-next:before {
+  content: "\e97f";
+}
+.icon-arrow-prev:before {
+  content: "\e980";
+}
+.icon-Play:before {
+  content: "\e973";
+}
+.icon-search:before {
+  content: "\e976";
+}
+.icon-map-pin:before {
+  content: "\e92e";
+}
+.icon-mail:before {
+  content: "\e926";
+}
+.icon-arrow-right:before {
+  content: "\e904";
+}
+.icon-hard-hat:before {
+  content: "\e908";
+}
+.icon-car-key:before {
+  content: "\e920";
+}
+.icon-address:before {
+  content: "\e900";
+}
+.icon-agreement:before {
+  content: "\e901";
+}
+.icon-alliance:before {
+  content: "\e902";
+}
+.icon-architect:before {
+  content: "\e903";
+}
+.icon-blueprint:before {
+  content: "\e905";
+}
+.icon-building:before {
+  content: "\e906";
+}
+.icon-callback:before {
+  content: "\e907";
+}
+.icon-client222-01:before {
+  content: "\e909";
+}
+.icon-commitment:before {
+  content: "\e90a";
+}
+.icon-Community11-01:before {
+  content: "\e90b";
+}
+.icon-cone:before {
+  content: "\e90c";
+}
+.icon-construction:before {
+  content: "\e90d";
+}
+.icon-construction-worker:before {
+  content: "\e90e";
+}
+.icon-consulting1:before {
+  content: "\e90f";
+}
+.icon-conversation:before {
+  content: "\e910";
+}
+.icon-costumer:before {
+  content: "\e911";
+}
+.icon-crane:before {
+  content: "\e912";
+}
+.icon-customer-review:before {
+  content: "\e913";
+}
+.icon-customer-support:before {
+  content: "\e914";
+}
+.icon-data-collection:before {
+  content: "\e915";
+}
+.icon-data-quality:before {
+  content: "\e916";
+}
+.icon-deal1:before {
+  content: "\e917";
+}
+.icon-development:before {
+  content: "\e918";
+}
+.icon-email11:before {
+  content: "\e919";
+}
+.icon-Employees-11-01-01:before {
+  content: "\e91a";
+}
+.icon-engineer:before {
+  content: "\e91b";
+}
+.icon-engineering:before {
+  content: "\e91c";
+}
+.icon-envelope:before {
+  content: "\e91d";
+}
+.icon-file:before {
+  content: "\e91e";
+}
+.icon-file22:before {
+  content: "\e91f";
+}
+.icon-hammer:before {
+  content: "\e921";
+}
+.icon-hammer11:before {
+  content: "\e922";
+}
+.icon-hand-saw:before {
+  content: "\e923";
+}
+.icon-handshake:before {
+  content: "\e924";
+}
+.icon-hard-hat-2:before {
+  content: "\e925";
+}
+.icon-helmet:before {
+  content: "\e927";
+}
+.icon-interview:before {
+  content: "\e928";
+}
+.icon-iphone:before {
+  content: "\e929";
+}
+.icon-layer:before {
+  content: "\e92a";
+}
+.icon-leadership:before {
+  content: "\e92b";
+}
+.icon-location:before {
+  content: "\e92c";
+}
+.icon-location-pin:before {
+  content: "\e92d";
+}
+.icon-mail111:before {
+  content: "\e92f";
+}
+.icon-network:before {
+  content: "\e931";
+}
+.icon-notification-bell:before {
+  content: "\e932";
+}
+.icon-promotion:before {
+  content: "\e934";
+}
+.icon-quote-01:before {
+  content: "\e935";
+}
+.icon-remodeling:before {
+  content: "\e936";
+}
+.icon-right-arrow11:before {
+  content: "\e937";
+}
+.icon-left-arrow11:before {
+  content: "\e978";
+}
+.icon-right-arrow222:before {
+  content: "\e938";
+}
+.icon-roof:before {
+  content: "\e939";
+}
+.icon-save-energy:before {
+  content: "\e93a";
+}
+.icon-screw:before {
+  content: "\e93b";
+}
+.icon-security:before {
+  content: "\e93c";
+}
+.icon-shield:before {
+  content: "\e93d";
+}
+.icon-shopping-cart:before {
+  content: "\e93e";
+}
+.icon-sketch:before {
+  content: "\e93f";
+}
+.icon-teamwork:before {
+  content: "\e940";
+}
+.icon-under-construction:before {
+  content: "\e941";
+}
+.icon-urban-planning:before {
+  content: "\e942";
+}
+.icon-venn-diagram:before {
+  content: "\e943";
+}
+.icon-wood:before {
+  content: "\e944";
+}
+.icon-asbestos:before {
+  content: "\e945";
+}
+.icon-calculator:before {
+  content: "\e946";
+}
+.icon-composite:before {
+  content: "\e947";
+}
+.icon-fire:before {
+  content: "\e948";
+}
+.icon-house:before {
+  content: "\e949";
+}
+.icon-joist:before {
+  content: "\e94a";
+}
+.icon-menu:before {
+  content: "\e94b";
+}
+.icon-question:before {
+  content: "\e94c";
+}
+.icon-settings:before {
+  content: "\e94d";
+}
+.icon-team:before {
+  content: "\e94e";
+}
+.icon-broken-pipe:before {
+  content: "\e94f";
+}
+.icon-deal:before {
+  content: "\e950";
+}
+.icon-faucet:before {
+  content: "\e951";
+}
+.icon-honesty:before {
+  content: "\e952";
+}
+.icon-like-1:before {
+  content: "\e953";
+}
+.icon-pipeline:before {
+  content: "\e954";
+}
+.icon-plumber:before {
+  content: "\e955";
+}
+.icon-tap:before {
+  content: "\e956";
+}
+.icon-trusted:before {
+  content: "\e957";
+}
+.icon-water-meter:before {
+  content: "\e958";
+}
+.icon-1266213:before {
+  content: "\e959";
+}
+.icon-air:before {
+  content: "\e95a";
+}
+.icon-chat:before {
+  content: "\e95b";
+}
+.icon-consulting:before {
+  content: "\e95c";
+}
+.icon-customer-service:before {
+  content: "\e95d";
+}
+.icon-down-arrow:before {
+  content: "\e95e";
+}
+.icon-easy-installation:before {
+  content: "\e95f";
+}
+.icon-electric-power:before {
+  content: "\e960";
+}
+.icon-gear:before {
+  content: "\e961";
+}
+.icon-idea:before {
+  content: "\e962";
+}
+.icon-pin:before {
+  content: "\e963";
+}
+.icon-plug:before {
+  content: "\e964";
+}
+.icon-quote-icon-01:before {
+  content: "\e965";
+}
+.icon-shield1:before {
+  content: "\e966";
+}
+.icon-shield222:before {
+  content: "\e967";
+}
+.icon-support:before {
+  content: "\e968";
+}
+.icon-wallet:before {
+  content: "\e969";
+}
+.icon-warm:before {
+  content: "\e96a";
+}
+.icon-idea1:before {
+  content: "\e96b";
+}
+.icon-link:before {
+  content: "\e96c";
+}
+.icon-plan:before {
+  content: "\e96d";
+}
+.icon-right-arrow:before {
+  content: "\e96e";
+}
+.icon-left-arrow:before {
+  content: "\e981";
+}
+.icon-technical-drawing:before {
+  content: "\e96f";
+}
+.icon-bubble:before {
+  content: "\e970";
+}
+.icon-facebook:before {
+  content: "\ea90";
+}
+.icon-instagram:before {
+  content: "\ea92";
+}
+.icon-twitter:before {
+  content: "\ea96";
+}
