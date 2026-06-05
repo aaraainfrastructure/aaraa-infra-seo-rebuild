@@ -475,6 +475,48 @@ async function handleFormSubmit(form, event) {
 
     let result
 
+    // ⭐ NEW: TRY API BRIDGE FIRST ⭐
+    let bridgeResult = null
+    const formData = new FormData(form)
+
+    if (window.AARAA_BRIDGE && window.AARAA_BRIDGE.preprocess) {
+      try {
+        bridgeResult = await window.AARAA_BRIDGE.preprocess(formData, formType)
+        logDebug('API Bridge result:', bridgeResult)
+
+        if (bridgeResult && bridgeResult.success && bridgeResult.backend) {
+          // Backend submission successful - skip Firebase
+          console.log('[handleFormSubmit] Backend submission succeeded:', bridgeResult.backendResponse)
+          
+          if (analytics) {
+            try {
+              logEvent(analytics, 'form_submission', {
+                form_type: formType,
+                backend: true,
+                success: true
+              })
+            } catch {}
+          }
+
+          Toast.success('Thank You!', SUCCESS_MESSAGE)
+          setTimeout(() => {
+            SuccessModal.show({ title: 'Thank You!', message: SUCCESS_MESSAGE })
+          }, CONFIG.successModalDelay)
+          
+          showFormSuccess(form)
+          dispatchFormResult(form, true, null)
+          
+          form.removeAttribute('data-firebase-processing')
+          setButtonLoading(submitBtn, false)
+          return  // Exit early - no need for Firebase submission
+        }
+      } catch (bridgeError) {
+        console.warn('[handleFormSubmit] Bridge preprocessing failed, falling back to Firebase:', bridgeError)
+        // Fall through to Firebase submission below
+      }
+    }
+
+    // ⭐ FALLBACK: USE FIREBASE IF BRIDGE FAILS ⭐
     if (formType === 'Newsletter Form') {
       const emailInput = form.querySelector('[type="email"], input[name="email"], input[name="subscribeEmail"]')
       const email = emailInput ? emailInput.value.trim() : ''
@@ -493,7 +535,7 @@ async function handleFormSubmit(form, event) {
       result = await submitLead(form, formType)
     }
 
-    logDebug('Submission result:', result)
+    logDebug('Firebase submission result:', result)
 
     if (analytics) {
       try {
@@ -502,7 +544,8 @@ async function handleFormSubmit(form, event) {
           lead_id: result.leadId,
           success: true,
           offline: result.offline || false,
-          emailSent: result.emailSent || false
+          emailSent: result.emailSent || false,
+          backend: false
         })
       } catch {}
     }
