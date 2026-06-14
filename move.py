@@ -48,8 +48,8 @@ for file_path in files_to_copy:
         os.makedirs(os.path.dirname(dst), exist_ok=True)
 
         shutil.copy2(src, dst)
-        print(f"✓ Copied: {file_path}")
+        print(f"[OK] Copied: {file_path}")
     else:
-        print(f"✗ Missing: {file_path}")
+        print(f"[MISSING]: {file_path}")
 
 print(f"\nDone! Files copied to:\n{destination_root}")

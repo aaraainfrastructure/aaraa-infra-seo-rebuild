@@ -21,7 +21,7 @@ const RECIPIENT_EMAIL = 'aaraainfrastructure@gmail.com'
 
 // Form-specific recipient emails for routing applications to appropriate departments
 const FORM_RECIPIENT_EMAILS = {
-  'Career Form': 'hr@aaraainfrastructure.com',
+  'Career Form': 'aaraainfrastructure@gmail.com',
   'Vendor Registration Form': 'aaraainfrastructure@gmail.com',
   'Contact Form': 'aaraainfrastructure@gmail.com',
   'Quick Enquiry Form': 'aaraainfrastructure@gmail.com',

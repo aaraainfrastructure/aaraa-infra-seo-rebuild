@@ -8,15 +8,11 @@ const rateLimit = require('express-rate-limit');
 const nodemailer = require('nodemailer');
 require('dotenv').config();
 
-console.log('EMAIL_USER =', process.env.EMAIL_USER);
-console.log('EMAIL_PASS exists =', !!process.env.EMAIL_PASS);
-console.log('RECIPIENT_EMAIL =', process.env.RECIPIENT_EMAIL);
-
 const app = express();
 const PORT = process.env.PORT || 3001;
 
 /* ---------- Paths ---------- */
-const ROOT_DIR = path.join(__dirname, '..');
+const ROOT_DIR = path.join(__dirname, '..'); // Adjust based on your folder structure
 
 /* ---------- Security ---------- */
 app.use(helmet({
@@ -31,25 +27,6 @@ app.use(cors({
   methods: ['POST', 'GET'],
   allowedHeaders: ['Content-Type']
 }));
-
-/* ---------- Language Routing Middleware ---------- */
-const LANG_PREFIX = /^\/(en|hi|ta|te|kn|ml|mr)(\/|$)/;
-
-app.use(function (req, res, next) {
-  if (req.path.startsWith('/api/')) return next();
-  if (req.path.startsWith('/locales/')) return next();
-
-  const match = req.path.match(LANG_PREFIX);
-  if (match) {
-    const lang = match[1];
-    const rest = match[2] ? req.path.slice(match[1].length + 1) : '/';
-    req.aaraaLang = lang;
-    req.url = rest;
-    req._aaraaOriginalUrl = req.originalUrl;
-    res.setHeader('X-AARAA-Lang', lang);
-  }
-  next();
-});
 
 /* ---------- Static Files ---------- */
 app.use(express.static(ROOT_DIR, {
@@ -74,7 +51,7 @@ app.use(express.json({ limit: '1mb' }));
 /* ---------- Rate Limit ---------- */
 const limiter = rateLimit({
   windowMs: 60 * 1000,
-  max: 10,
+  max: 15,
   message: { success: false, message: 'Too many requests. Please wait before submitting again.' }
 });
 app.use('/api/submit', limiter);
@@ -84,23 +61,11 @@ const transporter = nodemailer.createTransport({
   host: process.env.SMTP_HOST || 'smtp.gmail.com',
   port: parseInt(process.env.SMTP_PORT || '587'),
   secure: process.env.SMTP_SECURE === 'true',
- auth: {
-  user: process.env.SMTP_USER,
-  pass: process.env.SMTP_PASS
-}
-});
-
-
-// --- DEBUGGING: Verify SMTP connection ---
-transporter.verify((error, success) => {
-  if (error) {
-    console.error('[DEBUG - SMTP Auth Error]:', error);
-  } else {
-    console.log('[DEBUG - SMTP Auth Success]: Nodemailer is ready to send messages');
+  auth: {
+    user: process.env.SMTP_USER,
+    pass: process.env.SMTP_PASS
   }
 });
-// -----------------------------------------
-
 
 /* ---------- Helper: Detect Form Type ---------- */
 function detectFormType(data) {
@@ -130,32 +95,46 @@ function buildEmailHTML(data, formType) {
     clientPhone: 'Phone Number',
     reason: 'Reason for Connection',
     description: 'Description',
-    subject: 'Subject'
+    subject: 'Subject',
+    service: 'Service Interested In',
+    location: 'Project Location',
+    vendorCategory: 'Vendor Category',
+    experience: 'Years of Experience',
+    website: 'Website',
+    services: 'Services Provided'
   };
 
   let rows = '';
   for (const [key, value] of Object.entries(data)) {
-    if (!value || key.startsWith('_')) continue;
+    // Exclude system fields and terms checkboxes from the email
+    if (!value || key.startsWith('_') || ['leadType', 'sourceUrl', 'terms'].includes(key)) continue;
+    
     const label = labelMap[key] || key.charAt(0).toUpperCase() + key.slice(1);
-    rows += `<tr><td style="padding:8px 12px;border:1px solid #ddd;font-weight:600;background:#f5f5f5;font-family:sans-serif;">${label}</td><td style="padding:8px 12px;border:1px solid #ddd;font-family:sans-serif;">${value}</td></tr>`;
+    rows += `<tr>
+      <td style="padding:10px 15px; border:1px solid #ddd; font-weight:600; background:#f9f9f9; width:35%; font-family:sans-serif;">${label}</td>
+      <td style="padding:10px 15px; border:1px solid #ddd; font-family:sans-serif;">${value}</td>
+    </tr>`;
   }
 
   const titles = {
     vendor: 'New Vendor Registration',
     enquiry: 'New Quick Enquiry',
-    enquiry_bottom: 'New Project Enquiry'
+    enquiry_bottom: 'New Project Enquiry',
+    email: 'New Email Request',
+    callback: 'New Call Back Request',
+    contact: 'New General Contact'
   };
 
   return `
-    <div style="max-width:600px;margin:0 auto;font-family:sans-serif;">
-      <div style="background:#ed2f39;color:#fff;padding:24px;text-align:center;border-radius:8px 8px 0 0;">
-        <h2 style="margin:0;font-size:22px;">${titles[formType] || 'New Form Submission'}</h2>
-        <p style="margin:4px 0 0;opacity:0.9;">AARAA Infrastructure</p>
+    <div style="max-width:650px; margin:0 auto; font-family:sans-serif; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
+      <div style="background:#ed2f39; color:#fff; padding:24px; text-align:center;">
+        <h2 style="margin:0; font-size:22px;">${titles[formType] || 'New Form Submission'}</h2>
+        <p style="margin:4px 0 0; opacity:0.9;">AARAA Infrastructure</p>
       </div>
-      <table style="width:100%;border-collapse:collapse;border:1px solid #ddd;">
+      <table style="width:100%; border-collapse:collapse;">
         ${rows}
       </table>
-      <div style="padding:16px;text-align:center;color:#888;font-size:12px;border:1px solid #ddd;border-top:none;border-radius:0 0 8px 8px;">
+      <div style="padding:16px; text-align:center; color:#888; font-size:12px; background:#f5f5f5; border-top:1px solid #ddd;">
         Submitted via ${data.source || 'aaraainfrastructure.com'} &bull; ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
       </div>
     </div>
@@ -165,94 +144,54 @@ function buildEmailHTML(data, formType) {
 /* ---------- API Endpoint ---------- */
 app.post('/api/submit', upload.none(), async (req, res) => {
   try {
-    // --- DEBUGGING: Log incoming request body ---
-    console.log(`\n[DEBUG - Incoming Request to /api/submit]:`, JSON.stringify(req.body, null, 2));
+    const data = req.body;
+    const formType = data.leadType || detectFormType(data);
 
-const data = req.body;
-
-const formType =
-  data.leadType ||
-  detectFormType(data);
-
-    // Add metadata
-    data.source =
-  req.hostname ||
-  'aaraainfrastructure.com';
+    data.source = req.hostname || 'aaraainfrastructure.com';
     data.submittedAt = new Date().toISOString();
 
-   const subjects = {
-  enquiry: `[AARAA Website] Quick Enquiry | ${data.name || ''}`,
-
-  email: `[AARAA Website] Email Request | ${data.name || ''}`,
-
-  callback: `[AARAA Website] Call Back Request | ${data.name || ''}`,
-
-  contact: `[AARAA Website] Project Enquiry | ${data.name || ''}`,
-
-  vendor: `[AARAA Website] Vendor Registration | ${data.company || data.name || ''}`,
-
-  enquiry_bottom: `[AARAA Website] Project Enquiry | ${data.name || ''}`
-};
+    const subjects = {
+      enquiry: `[AARAA Website] Quick Enquiry | ${data.name || ''}`,
+      email: `[AARAA Website] Email Request | ${data.name || ''}`,
+      callback: `[AARAA Website] Call Back Request | ${data.name || ''}`,
+      contact: `[AARAA Website] General Enquiry | ${data.name || ''}`,
+      vendor: `[AARAA Website] Vendor Registration | ${data.company || data.name || ''}`,
+      enquiry_bottom: `[AARAA Website] Project Enquiry | ${data.name || ''}`
+    };
 
     const subject = subjects[formType] || '[AARAA Website] New Form Submission';
     const html = buildEmailHTML(data, formType);
-    const recipient = process.env.RECIPIENT_EMAIL || 'aaraainfrastructure@gmail.com';
+    
+    // Explicitly enforce routing to standard email as per requirements
+    const recipient = 'aaraainfrastructure@gmail.com'; 
 
     const mailOptions = {
-  from: '"AARAA Infrastructure Website" <aaraainfrastructure@gmail.com>',
-  replyTo: data.email || undefined,
-  to: recipient,
-  subject,
-  html
-};
+      from: '"AARAA Infrastructure Website" <no-reply@aaraainfrastructure.com>',
+      replyTo: data.email || undefined,
+      to: recipient,
+      subject,
+      html
+    };
 
     await transporter.sendMail(mailOptions);
-
     console.log(`[${new Date().toISOString()}] ${subject} – sent to ${recipient}`);
 
-    const successResponse = {
+    res.json({
       success: true,
       message: 'Your enquiry has been submitted successfully.',
       formType: formType
-    };
-    
-    // --- DEBUGGING: Log success response ---
-    console.log(`[DEBUG - Outgoing Success Response]:`, JSON.stringify(successResponse));
-    res.json(successResponse);
+    });
 
   } catch (err) {
-    // --- DEBUGGING: Log exact Nodemailer error stack ---
-    console.error('\n[DEBUG - Full Mail Error Stack]:', err);
-    
-    const errorResponse = {
+    console.error('\n[Error] Mail Delivery Failed:', err);
+    res.status(500).json({
       success: false,
-      message: 'Failed to send email. Please try again later.'
-    };
-
-    // --- DEBUGGING: Log error response ---
-    console.error(`[DEBUG - Outgoing Error Response]:`, JSON.stringify(errorResponse));
-    res.status(500).json(errorResponse);
+      message: 'Failed to send email. Please try again later or contact us directly.'
+    });
   }
-});
-
-/* ---------- Health Check ---------- */
-app.get('/api/health', (req, res) => {
-  res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
 /* ---------- Start ---------- */
 app.listen(PORT, '0.0.0.0', () => {
-  console.log(`AARAA Server running on http://localhost:${PORT}`);
-  console.log(`API: POST http://localhost:${PORT}/api/submit`);
-  console.log(`Health: GET http://localhost:${PORT}/api/health`);
-  console.log(`Language routes:`);
-  console.log(`  /        – English (default)`);
-  console.log(`  /en/     – English`);
-  console.log(`  /hi/     – Hindi`);
-  console.log(`  /ta/     – Tamil`);
-  console.log(`  /te/     – Telugu`);
-  console.log(`  /kn/     – Kannada`);
-  console.log(`  /ml/     – Malayalam`);
-  console.log(`  /mr/     – Marathi`);
-  console.log(`Static root: ${ROOT_DIR}`);
+  console.log(`AARAA Server running on port ${PORT}`);
 });

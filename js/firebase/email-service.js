@@ -115,7 +115,7 @@ function buildEmailParams(formData, formType) {
   let emailSubject = 'WEB ENQUIRY'
   
   if (formType === 'Career Form') {
-    recipientEmail = 'hr@aaraainfrastructure.com'
+    recipientEmail = 'aaraainfrastructure@gmail.com'
     emailSubject = 'NEW CAREER APPLICATION'
   }
 

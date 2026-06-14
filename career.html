@@ -908,6 +908,11 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
   
   <script type="text/javascript" src="js/main.js"></script>
 
+  <script src="js/lib/emailjs.bundle.min.js"></script>
+  <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
+  <script src="js/api-bridge.js"></script>
+  <script type="module" src="js/firebase/app.js"></script>
+
   <!-- Popup/Modal handlers -->
   <script src="js/aaraa-popups.js"></script>
   <script src="js/aaraa-modals.js"></script>
@@ -1114,7 +1119,7 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
           resumeUrl: resumeUrl,
           status: "New",
           submittedAt: serverTimestamp(),
-          to: ["hr@aaraainfrastructure.com", "digital@aaraainfrastructure.com"],
+          to: ["aaraainfrastructure@gmail.com", "hr@aaraainfrastructure.com", "digital@aaraainfrastructure.com"],
           message: {
             subject: `New Job Application: ${formData.get("position")} - ${formData.get("name")}`,
             html: `
