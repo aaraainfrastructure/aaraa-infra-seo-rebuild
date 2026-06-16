@@ -117,6 +117,17 @@ const DEFAULT_LEAD_TYPES = {
 // ============================================================================
 
 /**
+ * Resolve the backend URL based on the current environment
+ */
+function getBackendUrl(endpoint) {
+  const host = window.location.hostname;
+  if (host === 'localhost' || host === '127.0.0.1' || host === '') {
+    return `http://localhost:3001${endpoint}`;
+  }
+  return endpoint;
+}
+
+/**
  * Normalize field names from form data
  */
 function normalizeFieldNames(data) {
@@ -239,15 +250,17 @@ async function submitToBackend(normalizedData, formType, retryCount = 0) {
     // Convert to FormData
     const formData = createFormData(dataWithFields);
     
+    const backendUrl = getBackendUrl('/api/submit');
+
     // Log submission
-    console.log('[API Bridge] Submitting to /api/submit', {
+    console.log('[API Bridge] Submitting to ' + backendUrl, {
       formType,
       attempt: retryCount + 1,
       maxAttempts: MAX_RETRIES + 1
     });
     
     // Make the request
-    const response = await fetch('/api/submit', {
+    const response = await fetch(backendUrl, {
       method: 'POST',
       body: formData,
       headers: {
@@ -392,7 +405,8 @@ window.AARAA_BRIDGE = window.AARAA_BRIDGE || {
 
   testBackendConnectivity: async function() {
     try {
-      const response = await fetch('/api/health', {
+      const backendUrl = getBackendUrl('/api/health');
+      const response = await fetch(backendUrl, {
         method: 'GET',
         headers: { 'Accept': 'application/json' }
       });
