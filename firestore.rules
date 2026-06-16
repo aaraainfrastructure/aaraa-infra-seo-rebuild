@@ -130,8 +130,7 @@ service cloud.firestore {
     // ===============================
     match /career_applications/{docId} {
       allow create: if request.auth != null
-                    && request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
-                    && request.resource.data.createdAt == request.time;
+                    && request.auth.token.email_verified == true;
       allow read, update, delete: if request.auth != null
                                    && request.auth.token.email_verified == true
                                    && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');

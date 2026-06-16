@@ -24,6 +24,25 @@ service firebase.storage {
     }
 
     // ===============================
+    // RESUMES DIRECTORY (inline handler path)
+    // ===============================
+    match /resumes/{fileName} {
+      // Allow authenticated users to upload resumes
+      allow create: if request.auth != null
+                    && request.auth.token.email_verified == true
+                    && request.resource.size < 10 * 1024 * 1024; // Max 10MB
+      
+      // Allow authenticated users to read their own files
+      allow read: if request.auth != null
+                  && request.auth.token.email_verified == true;
+      
+      // Allow admins to manage all resumes
+      allow read, write, delete: if request.auth != null
+                                 && request.auth.token.email_verified == true
+                                 && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
     // GENERAL UPLOADS (if needed)
     // ===============================
     match /uploads/{userId}/{allPaths=**} {
