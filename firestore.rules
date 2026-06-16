@@ -93,6 +93,73 @@ service cloud.firestore {
     }
 
     // ===============================
+    // CONTACT ENQUIRIES
+    // ===============================
+    match /contact_enquiries/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
+                    && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if request.auth != null
+                                   && request.auth.token.email_verified == true
+                                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // QUICK ENQUIRIES
+    // ===============================
+    match /quick_enquiries/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
+                    && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if request.auth != null
+                                   && request.auth.token.email_verified == true
+                                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // VENDOR REGISTRATIONS
+    // ===============================
+    match /vendor_registrations/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
+                    && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if request.auth != null
+                                   && request.auth.token.email_verified == true
+                                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // CAREER APPLICATIONS
+    // ===============================
+    match /career_applications/{docId} {
+      allow create: if request.auth != null
+                    && request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
+                    && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if request.auth != null
+                                   && request.auth.token.email_verified == true
+                                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // BLOG COMMENTS
+    // ===============================
+    match /blog_comments/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
+                    && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if request.auth != null
+                                   && request.auth.token.email_verified == true
+                                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
+    // FAILED EMAIL QUEUE
+    // ===============================
+    match /failed_email_queue/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['leadId', 'formType', 'createdAt'])
+                    && request.resource.data.createdAt == request.time;
+      allow read, update, delete: if request.auth != null
+                                   && request.auth.token.email_verified == true
+                                   && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
     // ADMIN ACCESS (all collections)
     // ===============================
     match /{collection}/{docId} {

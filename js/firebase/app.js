@@ -582,9 +582,12 @@ async function handleFormSubmit(form, event) {
         firestoreDocId: result.id,
         reason
       })
-      const errorMsg = `Your information was saved successfully. However, the email notification encountered an issue: ${reason}`
-      Toast.error('Submission Saved', errorMsg)
-      dispatchFormResult(form, true, errorMsg)
+      // Lead is saved in Firestore and queued for email retry, so show success message to user
+      Toast.success('Thank You!', SUCCESS_MESSAGE)
+      setTimeout(() => {
+        SuccessModal.show({ title: 'Thank You!', message: SUCCESS_MESSAGE })
+      }, CONFIG.successModalDelay)
+      dispatchFormResult(form, true, null)
     }
 
     showFormSuccess(form)
