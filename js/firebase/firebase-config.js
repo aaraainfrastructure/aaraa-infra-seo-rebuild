@@ -1,7 +1,12 @@
 /**
- * Firebase Configuration - Browser Compatible CDN Version
- * Uses Firebase CDN modules instead of ES6 imports
+ * Firebase Configuration - ES6 Module Version
+ * Browser compatible with CDN import maps
  */
+
+import { initializeApp } from 'firebase/app'
+import { getFirestore, enableIndexedDbPersistence } from 'firebase/firestore'
+import { getAuth } from 'firebase/auth'
+import { getStorage } from 'firebase/storage'
 
 const firebaseConfig = {
   apiKey: "AIzaSyCjousdSRR0SJS3Qzv2sac-x7O-KnAzOAM",
@@ -13,16 +18,17 @@ const firebaseConfig = {
   measurementId: "G-DHGDK2T2VR"
 }
 
-// Initialize Firebase using global firebase object from CDN
-const app = firebase.initializeApp(firebaseConfig)
+// Initialize Firebase
+const app = initializeApp(firebaseConfig)
 
-// Get Firebase services from global firebase object
-const db = firebase.firestore()
-const auth = firebase.auth()
-const storage = firebase.storage()
+// Get Firebase services
+const db = getFirestore(app)
+const auth = getAuth(app)
+const storage = getStorage(app)
+const analytics = null // analytics is optional and handled dynamically
 
 // Enable persistence
-db.enablePersistence().catch(err => {
+enableIndexedDbPersistence(db).catch(err => {
   if (err.code === 'failed-precondition') {
     console.warn('[Firebase] Multiple tabs open — persistence enabled in one tab only')
   } else if (err.code === 'unimplemented') {
@@ -30,11 +36,12 @@ db.enablePersistence().catch(err => {
   }
 })
 
-// Make services available globally for other scripts
+// Make services available globally for legacy scripts
 window.firebaseServices = {
   app,
   db,
   auth,
-  storage,
-  firebase
+  storage
 }
+
+export { app, db, auth, storage, analytics }

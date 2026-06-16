@@ -211,3 +211,6 @@ function sendEmailNotification(formData, formType, retryCount = 0) {
 function sendCareerApplicationEmail(applicationData) {
   return sendEmailNotification(applicationData, 'Career Form')
 }
+
+export { sendEmailNotification, sendCareerApplicationEmail }
+
