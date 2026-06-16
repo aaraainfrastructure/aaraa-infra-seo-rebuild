@@ -1,0 +1,479 @@
+/* ==========================================================================
+   AARAA Infrastructure - Interactive Map Presence Styles
+   ========================================================================== */
+
+.presence-section {
+    background: #0b0b18;
+    background-image: radial-gradient(ellipse 60% 50% at 10% 90%, rgba(234, 42, 49, 0.08) 0%, transparent 80%);
+    padding: 100px 0;
+    color: #ffffff;
+    overflow: hidden;
+    position: relative;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.presence-section::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='80' height='80' viewBox='0 0 80 80' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.015'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+}
+
+.presence-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr; /* 40% text, 60% map */
+    gap: 60px;
+    align-items: center;
+}
+
+@media (max-width: 1024px) {
+    .presence-grid {
+        grid-template-columns: 1fr;
+        gap: 50px;
+    }
+}
+
+/* --- Left Column: Content --- */
+.presence-content {
+    z-index: 2;
+}
+
+.presence-pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    background: rgba(234, 42, 49, 0.12);
+    border: 1px solid rgba(234, 42, 49, 0.35);
+    color: #ea2a31;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.8px;
+    text-transform: uppercase;
+    padding: 6px 16px;
+    border-radius: 50px;
+    margin-bottom: 20px;
+}
+
+.presence-pill::before {
+    content: '';
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: #ea2a31;
+    display: block;
+}
+
+.presence-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: clamp(32px, 4vw, 44px);
+    font-weight: 800;
+    color: #ffffff;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    letter-spacing: -0.5px;
+}
+
+.presence-desc {
+    font-size: 16px;
+    line-height: 1.7;
+    color: rgba(255, 255, 255, 0.7);
+    margin-bottom: 35px;
+}
+
+/* --- Right Column: Interactive Map --- */
+.presence-map-col {
+    width: 100%;
+    z-index: 1;
+}
+
+.map-container-outer {
+    background: rgba(255, 255, 255, 0.01);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 24px;
+    padding: 16px;
+    position: relative;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+}
+
+.map-wrapper {
+    position: relative;
+    width: 100%;
+    aspect-ratio: 1672 / 941;
+    border-radius: 16px;
+    overflow: hidden;
+    background: #021028;
+}
+
+.map-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    user-select: none;
+    pointer-events: none;
+}
+
+/* Markers Overlay Container */
+.map-markers-overlay {
+    position: absolute;
+    inset: 0;
+    z-index: 10;
+}
+
+/* Pulsing Location Marker */
+.map-marker {
+    position: absolute;
+    width: 16px;
+    height: 16px;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+    z-index: 15;
+}
+
+/* Center core dot */
+.marker-core {
+    width: 10px;
+    height: 10px;
+    background-color: #ea2a31;
+    border: 2px solid #ffffff;
+    border-radius: 50%;
+    position: absolute;
+    top: 3px;
+    left: 3px;
+    box-shadow: 0 0 10px rgba(234, 42, 49, 0.8);
+    transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275), background-color 0.3s;
+    z-index: 2;
+}
+
+/* Pulsing outer ring */
+.marker-pulse {
+    width: 32px;
+    height: 32px;
+    border: 2px solid #ea2a31;
+    background-color: rgba(234, 42, 49, 0.2);
+    border-radius: 50%;
+    position: absolute;
+    top: -8px;
+    left: -8px;
+    animation: markerPulse 2s infinite ease-out;
+    opacity: 0;
+    pointer-events: none;
+    z-index: 1;
+}
+
+/* Delay pulses to look natural */
+.map-marker:nth-child(2n) .marker-pulse { animation-delay: 0.5s; }
+.map-marker:nth-child(3n) .marker-pulse { animation-delay: 1s; }
+.map-marker:nth-child(4n) .marker-pulse { animation-delay: 1.5s; }
+
+/* Marker Hover States */
+.map-marker:hover .marker-core {
+    transform: scale(1.4);
+    background-color: #ffffff;
+    border-color: #ea2a31;
+}
+
+.map-marker.active .marker-core {
+    transform: scale(1.4);
+    background-color: #ffffff;
+    border-color: #ea2a31;
+    box-shadow: 0 0 15px rgba(255, 255, 255, 1);
+}
+
+@keyframes markerPulse {
+    0% {
+        transform: scale(0.3);
+        opacity: 0.8;
+    }
+    50% {
+        opacity: 0.5;
+    }
+    100% {
+        transform: scale(2);
+        opacity: 0;
+    }
+}
+
+/* Hover Tooltip (City name) */
+.marker-tooltip {
+    position: absolute;
+    bottom: 24px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    background: rgba(10, 10, 28, 0.95);
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    color: #ffffff;
+    padding: 6px 12px;
+    font-size: 12px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-radius: 6px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.2s ease, transform 0.2s ease;
+    z-index: 30;
+    font-family: 'Outfit', sans-serif;
+    letter-spacing: 0.5px;
+}
+
+.marker-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(10, 10, 28, 0.95) transparent transparent transparent;
+}
+
+.map-marker:hover .marker-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+/* --- Click Detail Card / Popup --- */
+.marker-popup-card {
+    position: absolute;
+    background: rgba(13, 13, 33, 0.96);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(234, 42, 49, 0.3);
+    border-radius: 14px;
+    padding: 18px 22px;
+    width: 280px;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+    z-index: 50;
+    opacity: 0;
+    visibility: hidden;
+    transform: scale(0.9) translateY(10px);
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    font-family: 'Outfit', sans-serif;
+}
+
+.marker-popup-card.active {
+    opacity: 1;
+    visibility: visible;
+    transform: scale(1) translateY(0);
+}
+
+.popup-close {
+    position: absolute;
+    top: 10px;
+    right: 12px;
+    background: none;
+    border: none;
+    color: rgba(255, 255, 255, 0.5);
+    font-size: 16px;
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 4px;
+    line-height: 1;
+}
+
+.popup-close:hover {
+    color: #ea2a31;
+}
+
+.popup-city {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 18px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.popup-state {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ea2a31;
+    letter-spacing: 1px;
+    margin-bottom: 12px;
+}
+
+.popup-label {
+    font-size: 10px;
+    color: rgba(255, 255, 255, 0.4);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 4px;
+}
+
+.popup-presence {
+    font-size: 14px;
+    line-height: 1.5;
+    color: rgba(255, 255, 255, 0.85);
+    font-weight: 500;
+}
+
+/* Desktop absolute positioning of popup above/beside marker */
+.popup-anchor {
+    position: absolute;
+    pointer-events: none;
+    z-index: 45;
+    /* JS will position this wrapper at the same left/top percentage */
+}
+
+.popup-anchor .marker-popup-card {
+    pointer-events: auto;
+    position: absolute;
+    left: 50%;
+    bottom: 25px;
+    transform: translateX(-50%) scale(0.9) translateY(10px);
+}
+
+.popup-anchor .marker-popup-card.active {
+    transform: translateX(-50%) scale(1) translateY(0);
+}
+
+.popup-anchor .marker-popup-card::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 8px;
+    border-style: solid;
+    border-color: rgba(13, 13, 33, 0.96) transparent transparent transparent;
+}
+
+/* Responsive Overrides: Mobile/Tablet popup styling */
+@media (max-width: 767px) {
+    .map-container-outer {
+        padding: 8px;
+        border-radius: 16px;
+    }
+    
+    /* On mobile, instead of overlaying tooltips on coordinates, 
+       we display the card in a fixed panel below the map to prevent overflow and readability issues */
+    .popup-anchor {
+        position: static;
+        display: block;
+        pointer-events: auto;
+    }
+    
+    .popup-anchor .marker-popup-card {
+        position: relative;
+        left: 0;
+        bottom: 0;
+        transform: none !important;
+        width: 100%;
+        margin-top: 15px;
+        box-shadow: none;
+        border-color: rgba(234, 42, 49, 0.2);
+        background: rgba(255, 255, 255, 0.02);
+    }
+    
+    .popup-anchor .marker-popup-card::after {
+        display: none;
+    }
+}/* Permanent City Label (Pill style) */
+.marker-label {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    background: #ffffff;
+    color: #0b0b18;
+    padding: 4px 10px;
+    font-size: 11px;
+    font-weight: 700;
+    white-space: nowrap;
+    border-radius: 50px;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    z-index: 10;
+    pointer-events: none;
+    transition: all 0.2s ease;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 0.3px;
+}
+
+/* Hover scales the label slightly */
+.map-marker:hover .marker-label {
+    transform: translateY(-50%) scale(1.08);
+    box-shadow: 0 4px 15px rgba(234, 42, 49, 0.35);
+}
+
+/* Alignments */
+.label-right {
+    left: 20px;
+    right: auto;
+}
+
+.label-left {
+    right: 20px;
+    left: auto;
+}
+
+/* Mobile: hide permanent labels to prevent clutter */
+@media (max-width: 767px) {
+    .marker-label {
+        display: none;
+    }
+}
+
+/* Hover Tooltip (Details) */
+.marker-tooltip {
+    position: absolute;
+    bottom: 25px;
+    left: 50%;
+    transform: translateX(-50%) translateY(10px);
+    width: 240px;
+    background: rgba(11, 11, 24, 0.96);
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(234, 42, 49, 0.25);
+    border-radius: 12px;
+    padding: 12px 16px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    opacity: 0;
+    pointer-events: none;
+    transition: all 0.25s cubic-bezier(0.25, 0.8, 0.25, 1);
+    z-index: 30;
+    text-align: left;
+}
+
+.marker-tooltip::after {
+    content: '';
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border-width: 6px;
+    border-style: solid;
+    border-color: rgba(11, 11, 24, 0.96) transparent transparent transparent;
+}
+
+.map-marker:hover .marker-tooltip {
+    opacity: 1;
+    transform: translateX(-50%) translateY(0);
+}
+
+.tooltip-title {
+    font-family: 'Montserrat', sans-serif;
+    font-size: 14px;
+    font-weight: 800;
+    color: #ffffff;
+    margin-bottom: 2px;
+}
+
+.tooltip-subtitle {
+    font-family: 'Outfit', sans-serif;
+    font-size: 11px;
+    font-weight: 700;
+    text-transform: uppercase;
+    color: #ea2a31;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+}
+
+.tooltip-desc {
+    font-family: 'Outfit', sans-serif;
+    font-size: 12px;
+    line-height: 1.4;
+    color: rgba(255, 255, 255, 0.8);
+    font-weight: 500;
+}
