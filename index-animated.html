@@ -90,6 +90,18 @@ fbq('track', 'PageView');
 
 <link href="favicon.ico" rel="shortcut icon">
 <link href="favicon.ico" rel="apple-touch-icon-precomposed"/>
+  <!-- Firebase Import Map (CDN-based module resolution) -->
+  <script type="importmap">
+  {
+    "imports": {
+      "firebase/app": "https://www.gstatic.com/firebasejs/11.10.0/firebase-app.js",
+      "firebase/firestore": "https://www.gstatic.com/firebasejs/11.10.0/firebase-firestore.js",
+      "firebase/analytics": "https://www.gstatic.com/firebasejs/11.10.0/firebase-analytics.js",
+      "firebase/auth": "https://www.gstatic.com/firebasejs/11.10.0/firebase-auth.js",
+      "firebase/storage": "https://www.gstatic.com/firebasejs/11.10.0/firebase-storage.js"
+    }
+  }
+  </script>
 </head>
 
 <body class="counter-scroll">
@@ -1299,10 +1311,6 @@ AARAA is a trusted enterprise construction partner known for solving complex cha
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
-    // API Route Endpoint
-    const API_ENDPOINT = '/api/submit'; // Absolute URL, ex: 'http://localhost:3001/api/submit' if testing separate frontend
-    const forms = document.querySelectorAll('form');
-    
     // ------------------------------------------
     // 1. Popup Overlay Triggers (Enquiry & Vendor)
     // ------------------------------------------
@@ -1339,107 +1347,13 @@ document.addEventListener("DOMContentLoaded", () => {
             }
         });
     });
-
-    // ------------------------------------------
-    // 2. Global Form Submission Handling
-    // ------------------------------------------
-    forms.forEach(form => {
-        const id = form.getAttribute('id') || form.className || '';
-        
-        let leadType = null;
-        if (id.includes('vendorForm')) leadType = 'vendor';
-        else if (id.includes('callbackform')) leadType = 'callback';
-        else if (id.includes('emailform')) leadType = 'email';
-        else if (id.includes('contactform')) leadType = 'contact';
-        else if (id.includes('quickEnquiryForm') || id.includes('modalQuickEnquiryForm')) leadType = 'enquiry';
-        else if (id.includes('newsletterForm') || id.includes('form-newsletter')) leadType = 'newsletter';
-
-        if(leadType) {
-            form.addEventListener('submit', async (e) => {
-                e.preventDefault();
-                
-                if(!form.checkValidity()) {
-                    form.reportValidity();
-                    return;
-                }
-
-                const submitBtn = form.querySelector('button[type="submit"], input[type="submit"]');
-                const originalContent = submitBtn ? submitBtn.innerHTML : '';
-                const isInput = submitBtn && submitBtn.tagName === 'INPUT';
-                const originalText = isInput ? submitBtn.value : '';
-                
-                if(submitBtn) { 
-                    if(isInput) {
-                        submitBtn.value = 'Processing...'; 
-                    } else { 
-                        // Inject pure HTML spinner, preserving styling dimensions
-                        submitBtn.innerHTML = '<span class="spinner" style="display:inline-block; width:16px; height:16px; border:2px solid currentColor; border-top-color:transparent; border-radius:50%; animation:spin 0.6s linear infinite; margin-right:8px; vertical-align:middle;"></span> <span style="vertical-align:middle;">Processing...</span>'; 
-                    }
-                    submitBtn.disabled = true; 
-                }
-                
-                try {
-                    const formData = new FormData(form);
-                    formData.append('leadType', leadType);
-                    formData.append('sourceUrl', window.location.href);
-                    
-                    const res = await fetch(API_ENDPOINT, { 
-                        method: 'POST', 
-                        body: formData 
-                    });
-
-                    let data;
-                    try {
-                        data = await res.json();
-                    } catch(jsonErr) {
-                        throw new Error("Server returned an invalid response. API endpoint might not be reachable.");
-                    }
-                    
-                    if(res.ok && data.success) {
-                        if(leadType === 'vendor') {
-                            alert("Thank you for registering as a vendor. Our procurement team will review your details and contact you if suitable opportunities arise.");
-                        } else {
-                            alert("Thank you for contacting AARAA Infrastructure. Our team will contact you shortly.");
-                        }
-                        
-                        form.reset();
-                        
-                        // Close standard Bootstrap Modals natively
-                        const bsModal = form.closest('.modal');
-                        if(bsModal && typeof bootstrap !== 'undefined') {
-                            const modalInstance = bootstrap.Modal.getInstance(bsModal) || bootstrap.Modal.getOrCreateInstance(bsModal);
-                            if(modalInstance) modalInstance.hide();
-                        }
-                        
-                        // Close our custom HTML Overlays
-                        const customOverlay = form.closest('.aaraa-popup-overlay');
-                        if(customOverlay) {
-                            customOverlay.classList.remove('active');
-                            setTimeout(() => customOverlay.style.display = 'none', 300);
-                        }
-                    } else {
-                        throw new Error(data.message || "Server rejected submission");
-                    }
-                } catch(err) {
-                    console.error("Form Submission Error:", err);
-                    alert("Submission failed. Please try again or contact us directly at aaraainfrastructure@gmail.com.");
-                } finally {
-                    if(submitBtn) { 
-                        if(isInput) submitBtn.value = originalText; 
-                        else submitBtn.innerHTML = originalContent; 
-                        submitBtn.disabled = false; 
-                    }
-                }
-            });
-        }
-    });
 });
-
-// Minimal Universal Spinner CSS matching your branding
-const style = document.createElement('style');
-style.innerHTML = `@keyframes spin { to { transform: rotate(360deg); } }`;
-document.head.appendChild(style);
 </script>
+
+<script src="js/lib/emailjs.bundle.min.js"></script>
+<!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
+<script src="js/api-bridge.js"></script>
+<script type="module" src="js/firebase/app.js"></script>
 
 <script>
   if(!window._ytApiInjected){
