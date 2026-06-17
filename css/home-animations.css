@@ -1,0 +1,127 @@
+/* ==========================================================================
+   AARAA Infrastructure - Home Page Custom Animations & Interaction Styles
+   ========================================================================== */
+
+/* --- Typography Reveal Masks --- */
+.reveal-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    vertical-align: bottom;
+}
+
+.reveal-line {
+    display: block;
+    transform: translateY(100%);
+    opacity: 0;
+    transition: none; /* Will be driven by GSAP */
+}
+
+/* --- Base Scroll States for ScrollTrigger --- */
+.gsap-reveal {
+    opacity: 0;
+    transform: translateY(30px);
+    will-change: transform, opacity;
+}
+
+.gsap-reveal-left {
+    opacity: 0;
+    transform: translateX(-40px);
+    will-change: transform, opacity;
+}
+
+.gsap-reveal-right {
+    opacity: 0;
+    transform: translateX(40px);
+    will-change: transform, opacity;
+}
+
+.gsap-reveal-zoom {
+    opacity: 0;
+    transform: scale(0.95);
+    will-change: transform, opacity;
+}
+
+/* --- Card Interactive Hover Effects (3D depth) --- */
+.sector-card-animated, 
+.project-item.style-5,
+.services-item.style-5 {
+    transition: transform 0.4s cubic-bezier(0.25, 0.8, 0.25, 1), 
+                box-shadow 0.4s cubic-bezier(0.25, 0.8, 0.25, 1),
+                border-color 0.4s ease;
+    will-change: transform, box-shadow;
+}
+
+.sector-card-animated:hover,
+.project-item.style-5:hover,
+.services-item.style-5:hover {
+    transform: translateY(-8px) scale(1.02);
+    box-shadow: 0 15px 35px rgba(234, 42, 49, 0.12), 0 5px 15px rgba(0, 0, 0, 0.2);
+    border-color: rgba(234, 42, 49, 0.4) !important;
+}
+
+.sector-card-animated .image img,
+.project-item.style-5 .image img,
+.services-item.style-5 .image img {
+    transition: transform 0.6s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.sector-card-animated:hover .image img,
+.project-item.style-5:hover .image img,
+.services-item.style-5:hover .image img {
+    transform: scale(1.08);
+}
+
+/* --- Sticky Header Transitions --- */
+header.header-animated {
+    transition: transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+                background-color 0.4s ease,
+                backdrop-filter 0.4s ease,
+                box-shadow 0.4s ease;
+}
+
+header.header-animated.header-hidden {
+    transform: translateY(-100%);
+}
+
+header.header-animated.header-scrolled {
+    background-color: rgba(11, 11, 24, 0.92) !important;
+    backdrop-filter: blur(12px) !important;
+    -webkit-backdrop-filter: blur(12px) !important;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* --- Timeline Section Enhancements --- */
+.timeline-animated-container {
+    position: relative;
+}
+
+.timeline-progress-line {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 3px;
+    height: 100%;
+    background: rgba(255, 255, 255, 0.05);
+    z-index: 1;
+}
+
+.timeline-progress-fill {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 0%; /* Set via GSAP ScrollTrigger */
+    background: linear-gradient(to bottom, #ea2a31, #ea2a31);
+    box-shadow: 0 0 10px rgba(234, 42, 49, 0.8);
+    will-change: height;
+}
+
+@media (max-width: 767px) {
+    .timeline-progress-line {
+        left: 20px;
+        transform: none;
+    }
+}

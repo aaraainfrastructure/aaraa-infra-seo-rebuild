@@ -77,3 +77,6 @@ generated/
 Thumbs.db
 .Thumbs.db
 desktop.ini
+
+# Firebase cache
+.firebase/

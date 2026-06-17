@@ -71,6 +71,25 @@ service firebase.storage {
     }
 
     // ===============================
+    // JOIN AARAA APPLICATIONS
+    // ===============================
+    match /join_aaraa/{allPaths=**} {
+      // Allow authenticated users with verified email to upload files up to 20MB
+      allow create: if request.auth != null
+                    && request.auth.token.email_verified == true
+                    && request.resource.size < 20 * 1024 * 1024; // Max 20MB
+      
+      // Allow authenticated users to read files
+      allow read: if request.auth != null
+                  && request.auth.token.email_verified == true;
+      
+      // Allow admins to manage all files
+      allow read, write, delete: if request.auth != null
+                                 && request.auth.token.email_verified == true
+                                 && request.auth.token.email.matches('.*@aaraainfrastructure\\.com$');
+    }
+
+    // ===============================
     // DENY ALL OTHER ACCESS
     // ===============================
     match /{allPaths=**} {
