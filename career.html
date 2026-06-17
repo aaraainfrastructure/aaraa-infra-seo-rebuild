@@ -1162,10 +1162,12 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
       } catch (error) {
         console.error("Submission Error:", error);
         
-        let errorMessage = "An error occurred during submission. Please try again.";
+        let errorMessage = error.message || "An error occurred during submission. Please try again.";
         if (error.code === 'auth/popup-closed-by-user') {
             errorMessage = "Google Sign-In was cancelled. Authentication is required to apply.";
         }
+
+        alert("Submission Error: " + errorMessage);
 
         // Trigger the existing Error UI Event
         form.dispatchEvent(new CustomEvent('career-form-error', { 
