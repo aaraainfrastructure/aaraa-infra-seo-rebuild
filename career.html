@@ -1064,6 +1064,7 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
   import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+  import { sendEmailNotification } from "./js/firebase/email-service.js";
 
   // Initialize Firebase
   const firebaseConfig = {
@@ -1153,6 +1154,26 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
             `
           }
         });
+
+        // Send direct EmailJS fallback notification
+        try {
+          const emailParams = {
+            name: formData.get("name") || "",
+            email: user.email || "",
+            mobile: formData.get("mobile") || "",
+            position: formData.get("position") || "",
+            experience: formData.get("experience") || "",
+            location: formData.get("location") || "",
+            company: formData.get("company") || "",
+            salary: formData.get("salary") || "",
+            message: formData.get("message") || "",
+            resume: resumeUrl || ""
+          };
+          console.log("[Career Form] Triggering client-side EmailJS fallback notification...");
+          await sendEmailNotification(emailParams, "Career Form");
+        } catch (emailErr) {
+          console.error("[Career Form] EmailJS fallback failed:", emailErr);
+        }
 
         // 7. Trigger the existing Success UI Event
         form.dispatchEvent(new CustomEvent('career-form-success', { 

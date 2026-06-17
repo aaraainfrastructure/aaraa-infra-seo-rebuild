@@ -205,6 +205,7 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
   import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
   import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
   import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+  import { sendEmailNotification } from "./js/firebase/email-service.js";
 
   // Initialize Firebase
   const firebaseConfig = {
@@ -288,6 +289,21 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
             `
           }
         });
+
+        // Send direct EmailJS fallback notification
+        try {
+          const emailParams = {
+            name: formData.get("name") || "",
+            email: user.email || "",
+            phone: formData.get("phone") || "",
+            position: formData.get("position") || "",
+            resume: resumeUrl || ""
+          };
+          console.log("[Job Apply Form] Triggering client-side EmailJS fallback notification...");
+          await sendEmailNotification(emailParams, "Career Form");
+        } catch (emailErr) {
+          console.error("[Job Apply Form] EmailJS fallback failed:", emailErr);
+        }
 
         // 7. Show success feedback
         alert('Thank you! Your job application has been submitted successfully.');
