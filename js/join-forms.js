@@ -219,11 +219,35 @@ async function handleFormSubmission(e, formId, formType, fileConfig) {
     hideOverlay();
 
     if (!response.ok) {
-      const errRes = await response.json();
-      throw new Error(errRes.message || "Server error.");
+      let errorMessage = `Server error (Status ${response.status})`;
+      const contentType = response.headers.get("content-type");
+      if (contentType && contentType.includes("application/json")) {
+        try {
+          const errRes = await response.json();
+          errorMessage = errRes.message || errorMessage;
+        } catch (e) {
+          // ignore parsing error
+        }
+      } else {
+        try {
+          const textRes = await response.text();
+          if (textRes && textRes.trim().length < 150) {
+            errorMessage = textRes.trim();
+          }
+        } catch (e) {
+          // ignore reading error
+        }
+      }
+      throw new Error(errorMessage);
     }
 
-    const result = await response.json();
+    let result = {};
+    const responseContentType = response.headers.get("content-type");
+    if (responseContentType && responseContentType.includes("application/json")) {
+      result = await response.json();
+    } else {
+      throw new Error("Invalid response format from server (expected JSON).");
+    }
     alert(`Success! Application ID: ${result.applicationId}\n${result.message}`);
     form.reset();
     document.querySelectorAll('.file-selected-name').forEach(el => el.style.display = 'none');
