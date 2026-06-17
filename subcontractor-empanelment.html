@@ -173,10 +173,10 @@
 
             <div class="join-title-section">
                 <h1>Subcontractor Registration</h1>
-                <p>Register as a certified vendor or sub-contractor. Authenticate with Google to verify file uploads.</p>
+                <p>Register as a certified vendor or sub-contractor. Upload credentials to submit your registration.</p>
             </div>
 
-            <form class="join-form" id="subcontractorForm" novalidate>
+            <form class="join-form" id="subcontractorForm" data-form-type="subcontractor" novalidate>
                 <!-- Honeypot -->
                 <input type="text" name="_honeypot" class="hp-field" tabindex="-1" autocomplete="off" />
 
@@ -446,7 +446,7 @@
     <script src="js/jquery-validate.js"></script>
     <script src="js/main.js"></script>
     
-    <script type="module" src="js/join-forms.js"></script>
+    <script src="js/firebase-submit.js"></script>
     
     <script>
       document.getElementById("currentYear").textContent = new Date().getFullYear();

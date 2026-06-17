@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>AARAA Infrastructure | Administrative Portal</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --primary: #ed2f39;
+      --primary-hover: #d62029;
+      --dark: #121417;
+      --card-bg: #1e2024;
+      --text: #e2e8f0;
+      --text-muted: #94a3b8;
+      --border: #2e3238;
+      --success: #10b981;
+      --warning: #f59e0b;
+      --bg: #0b0c0e;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Outfit', sans-serif;
+      background-color: var(--bg);
+      color: var(--text);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    /* Login Area */
+    .login-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex: 1;
+      padding: 24px;
+    }
+
+    .login-card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      padding: 40px 32px;
+      max-width: 440px;
+      width: 100%;
+      text-align: center;
+      box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+    }
+
+    .login-logo {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 24px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 8px;
+    }
+
+    .login-logo span {
+      color: var(--primary);
+    }
+
+    .login-title {
+      font-size: 16px;
+      color: var(--text-muted);
+      margin-bottom: 30px;
+    }
+
+    .google-btn {
+      background: #fff;
+      color: #111;
+      border: none;
+      padding: 12px 24px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 12px;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 12px rgba(255,255,255,0.1);
+    }
+
+    .google-btn:hover {
+      background: #f1f1f1;
+      transform: translateY(-2px);
+    }
+
+    .google-icon {
+      width: 20px;
+      height: 20px;
+    }
+
+    /* Dashboard Layout */
+    .dashboard {
+      display: none;
+      grid-template-columns: 260px 1fr;
+      min-height: 100vh;
+    }
+
+    /* Sidebar */
+    .sidebar {
+      background-color: var(--card-bg);
+      border-right: 1px solid var(--border);
+      padding: 30px 20px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .sidebar-header {
+      font-family: 'Montserrat', sans-serif;
+      font-size: 20px;
+      font-weight: 700;
+      color: #fff;
+      margin-bottom: 40px;
+      padding-left: 10px;
+    }
+
+    .sidebar-header span {
+      color: var(--primary);
+    }
+
+    .nav-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      flex: 1;
+    }
+
+    .nav-item {
+      padding: 12px 16px;
+      border-radius: 10px;
+      cursor: pointer;
+      font-weight: 500;
+      color: var(--text-muted);
+      transition: all 0.2s ease;
+      font-size: 14px;
+    }
+
+    .nav-item:hover, .nav-item.active {
+      color: #fff;
+      background: rgba(237, 47, 57, 0.15);
+      border-left: 3px solid var(--primary);
+    }
+
+    .sidebar-footer {
+      border-top: 1px solid var(--border);
+      padding-top: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .admin-profile {
+      font-size: 13px;
+      color: var(--text-muted);
+      word-break: break-all;
+    }
+
+    .logout-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text);
+      padding: 8px 16px;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 13px;
+      transition: all 0.3s ease;
+    }
+
+    .logout-btn:hover {
+      background: rgba(255,255,255,0.05);
+      border-color: #888;
+    }
+
+    /* Main Panel */
+    .main-panel {
+      padding: 40px;
+      overflow-y: auto;
+    }
+
+    .panel-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+    }
+
+    .panel-title h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #fff;
+    }
+
+    .panel-actions {
+      display: flex;
+      gap: 16px;
+      align-items: center;
+    }
+
+    .search-box {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 30px;
+      padding: 8px 20px;
+      color: #fff;
+      font-size: 14px;
+      outline: none;
+      width: 260px;
+      transition: all 0.3s ease;
+    }
+
+    .search-box:focus {
+      border-color: var(--primary);
+      width: 320px;
+    }
+
+    .btn-action {
+      background: var(--primary);
+      color: #fff;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 30px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    .btn-action:hover {
+      background: var(--primary-hover);
+    }
+
+    /* Table */
+    .table-container {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      overflow: hidden;
+      margin-bottom: 20px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background: rgba(255,255,255,0.03);
+      padding: 16px 20px;
+      font-weight: 600;
+      color: #fff;
+      border-bottom: 1px solid var(--border);
+    }
+
+    td {
+      padding: 16px 20px;
+      border-bottom: 1px solid var(--border);
+      vertical-align: middle;
+    }
+
+    tr:last-child td {
+      border-bottom: none;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 4px 10px;
+      border-radius: 12px;
+      font-size: 12px;
+      font-weight: 600;
+      text-transform: capitalize;
+    }
+
+    .status-new { background: rgba(59, 130, 246, 0.2); color: #60a5fa; }
+    .status-reviewed { background: rgba(245, 158, 11, 0.2); color: #fbbf24; }
+    .status-shortlisted { background: rgba(16, 185, 129, 0.2); color: #34d399; }
+    .status-rejected { background: rgba(239, 68, 68, 0.2); color: #f87171; }
+
+    .action-select {
+      background: var(--bg);
+      color: var(--text);
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      padding: 4px 8px;
+      font-size: 12px;
+      outline: none;
+      cursor: pointer;
+    }
+
+    .file-link {
+      color: var(--primary);
+      text-decoration: none;
+      font-weight: 600;
+      margin-right: 12px;
+      display: inline-block;
+    }
+
+    .file-link:hover {
+      text-decoration: underline;
+    }
+
+    /* Details Panel */
+    .details-row {
+      background: rgba(0,0,0,0.2);
+    }
+
+    .details-box {
+      padding: 20px;
+      font-size: 13px;
+      color: var(--text-muted);
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .details-item strong {
+      color: #fff;
+      display: block;
+      margin-bottom: 4px;
+    }
+
+    /* Loader */
+    .loader {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      gap: 16px;
+      padding: 100px 0;
+    }
+
+    .spinner {
+      width: 40px;
+      height: 40px;
+      border: 3px solid rgba(237, 47, 57, 0.2);
+      border-radius: 50%;
+      border-top-color: var(--primary);
+      animation: spin 0.8s linear infinite;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+
+  <!-- Firebase v10 Modular CDN imports -->
+  <script type="module">
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+    import { getAuth, GoogleAuthProvider, signInWithPopup, signOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+    import { getFirestore, collection, doc, getDocs, updateDoc, query, orderBy } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+    // Firebase Configurations
+    const firebaseConfig = {
+      apiKey: "AIzaSyCjousdSRR0SJS3Qzv2sac-x7O-KnAzOAM",
+      authDomain: "aaraa-infra-web.firebaseapp.com",
+      projectId: "aaraa-infra-web",
+      storageBucket: "aaraa-infra-web.firebasestorage.app",
+      messagingSenderId: "1097946746049",
+      appId: "1:1097946746049:web:66255acd518f19b2a9d840"
+    };
+
+    const app = initializeApp(firebaseConfig);
+    const auth = getAuth(app);
+    const db = getFirestore(app);
+    const provider = new GoogleAuthProvider();
+
+    // Application state
+    let activeTab = "enquiries";
+    let allRecords = [];
+    let filteredRecords = [];
+
+    // UI Bindings
+    const loginContainer = document.getElementById("loginContainer");
+    const dashboard = document.getElementById("dashboard");
+    const adminEmail = document.getElementById("adminEmail");
+    const googleLoginBtn = document.getElementById("googleLoginBtn");
+    const logoutBtn = document.getElementById("logoutBtn");
+    const tableBody = document.getElementById("tableBody");
+    const tableHeader = document.getElementById("tableHeader");
+    const searchBox = document.getElementById("searchBox");
+    const btnExport = document.getElementById("btnExport");
+
+    // Auth Listeners
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // Enforce Admin Domain Verification
+        if (user.email.endsWith("@aaraainfrastructure.com") || user.email === "aaraainfrastructure@gmail.com") {
+          adminEmail.innerText = user.email;
+          loginContainer.style.display = "none";
+          dashboard.style.display = "grid";
+          loadTab(activeTab);
+        } else {
+          alert("Unauthorized access: Access restricted to @aaraainfrastructure.com administrators.");
+          signOut(auth);
+        }
+      } else {
+        loginContainer.style.display = "flex";
+        dashboard.style.display = "none";
+      }
+    });
+
+    googleLoginBtn.addEventListener("click", async () => {
+      try {
+        await signInWithPopup(auth, provider);
+      } catch (err) {
+        alert("Authentication failed: " + err.message);
+      }
+    });
+
+    logoutBtn.addEventListener("click", () => signOut(auth));
+
+    // Tab switcher
+    document.querySelectorAll(".nav-item[data-tab]").forEach(item => {
+      item.addEventListener("click", (e) => {
+        document.querySelectorAll(".nav-item").forEach(el => el.classList.remove("active"));
+        e.target.classList.add("active");
+        activeTab = e.target.dataset.tab;
+        loadTab(activeTab);
+      });
+    });
+
+    // Database Loaders
+    async function loadTab(tabName) {
+      showLoader();
+      try {
+        const q = query(collection(db, tabName), orderBy("createdAt", "desc"));
+        const snap = await getDocs(q);
+        
+        allRecords = [];
+        snap.forEach(docSnap => {
+          allRecords.push({ id: docSnap.id, ...docSnap.data() });
+        });
+
+        filteredRecords = [...allRecords];
+        renderTable();
+      } catch (err) {
+        console.error("Failed to load database records:", err);
+        tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;color:var(--primary);">Failed to load data: Security rule permissions rejected.</td></tr>`;
+      }
+    }
+
+    function showLoader() {
+      tableBody.innerHTML = `<tr><td colspan="5"><div class="loader"><div class="spinner"></div><div>Fetching data...</div></div></td></tr>`;
+    }
+
+    // Dynamic Table Renderer
+    function renderTable() {
+      // Setup Headers
+      let headers = "";
+      if (activeTab === "enquiries") {
+        headers = `<th>ID</th><th>Date</th><th>Name</th><th>Details</th><th>Status</th>`;
+      } else {
+        headers = `<th>ID</th><th>Date</th><th>Name/Company</th><th>Files</th><th>Status</th>`;
+      }
+      tableHeader.innerHTML = `<tr>${headers}</tr>`;
+
+      if (filteredRecords.length === 0) {
+        tableBody.innerHTML = `<tr><td colspan="5" style="text-align:center;">No submissions found.</td></tr>`;
+        return;
+      }
+
+      let rows = "";
+      filteredRecords.forEach((rec, idx) => {
+        const dateStr = rec.createdAt ? new Date(rec.createdAt).toLocaleDateString() : "N/A";
+        const recId = rec.applicationId || rec.id || "N/A";
+        
+        // Dynamic Fields Based on Tab
+        let nameField = "";
+        let detailsColumn = "";
+        
+        if (activeTab === "enquiries") {
+          nameField = rec.name || "N/A";
+          detailsColumn = `
+            <div><strong>Type:</strong> ${rec.leadType || 'Inquiry'}</div>
+            <div style="font-size:12px;color:var(--text-muted);">${rec.email || ''} | ${rec.phone || ''}</div>
+          `;
+        } else {
+          const det = rec.details || {};
+          nameField = det.name || det.company || rec.applicantName || "N/A";
+          
+          let fileLinks = "";
+          const files = rec.fileUrls || rec.files || {};
+          for (const [key, val] of Object.entries(files)) {
+            if (!key.endsWith("Name")) {
+              const name = files[`${key}Name`] || key;
+              fileLinks += `<a class="file-link" href="${val}" target="_blank" download>↓ ${name}</a> `;
+            }
+          }
+          detailsColumn = fileLinks || '<span style="color:var(--text-muted);">No documents</span>';
+        }
+
+        const statusClass = `status-${(rec.status || 'new').toLowerCase()}`;
+        const options = ['new', 'reviewed', 'shortlisted', 'rejected'].map(st => 
+          `<option value="${st}" ${rec.status === st ? 'selected' : ''}>${st.toUpperCase()}</option>`
+        ).join("");
+
+        rows += `
+          <tr style="cursor:pointer;" onclick="toggleDetailsRow(${idx})">
+            <td><strong>${recId}</strong></td>
+            <td>${dateStr}</td>
+            <td>${nameField}</td>
+            <td onclick="event.stopPropagation()">${detailsColumn}</td>
+            <td onclick="event.stopPropagation()">
+              <span class="status-badge ${statusClass}" id="badge-${rec.id}">${rec.status || 'New'}</span>
+              <select class="action-select" style="margin-left:12px;" onchange="updateRecordStatus('${rec.id}', this.value)">
+                ${options}
+              </select>
+            </td>
+          </tr>
+          <tr id="details-row-${idx}" class="details-row" style="display:none;">
+            <td colspan="5">
+              <div class="details-box">
+                ${renderExpandedDetails(rec)}
+              </div>
+            </td>
+          </tr>
+        `;
+      });
+      tableBody.innerHTML = rows;
+    }
+
+    // Helper: Expanded sub-row content
+    window.renderExpandedDetails = function(rec) {
+      let content = "";
+      const source = rec.sourcePage || rec.details?.sourceUrl || "N/A";
+      content += `<div class="details-item"><strong>Source Page URL</strong><a href="${source}" target="_blank" style="color:var(--primary);">${source}</a></div>`;
+      content += `<div class="details-item"><strong>IP Address</strong>${rec.ipAddress || "N/A"}</div>`;
+      content += `<div class="details-item"><strong>User Agent</strong>${rec.userAgent || "N/A"}</div>`;
+
+      const fields = rec.details || rec;
+      for (const [key, val] of Object.entries(fields)) {
+        if (["id", "files", "fileUrls", "details", "sourcePage", "sourceUrl", "ipAddress", "userAgent", "createdAt", "status", "applicationId"].includes(key)) continue;
+        content += `<div class="details-item"><strong>${key.replace(/_/g, ' ').toUpperCase()}</strong>${val}</div>`;
+      }
+      return content;
+    };
+
+    window.toggleDetailsRow = function(index) {
+      const el = document.getElementById(`details-row-${index}`);
+      if (el) {
+        el.style.display = el.style.display === "none" ? "table-row" : "none";
+      }
+    };
+
+    // DB Status Updater
+    window.updateRecordStatus = async function(docId, newStatus) {
+      try {
+        const docRef = doc(db, activeTab, docId);
+        await updateDoc(docRef, { status: newStatus });
+        
+        // Update Local Badge state
+        const badge = document.getElementById(`badge-${docId}`);
+        if (badge) {
+          badge.innerText = newStatus;
+          badge.className = `status-badge status-${newStatus}`;
+        }
+      } catch (err) {
+        alert("Failed to update status: " + err.message);
+      }
+    };
+
+    // Client-side search Box
+    searchBox.addEventListener("input", (e) => {
+      const q = e.target.value.toLowerCase();
+      filteredRecords = allRecords.filter(rec => {
+        const name = (rec.name || rec.details?.name || rec.details?.company || "").toLowerCase();
+        const email = (rec.email || rec.details?.email || "").toLowerCase();
+        const id = (rec.applicationId || rec.id || "").toLowerCase();
+        return name.includes(q) || email.includes(q) || id.includes(q);
+      });
+      renderTable();
+    });
+
+    // CSV Exporter
+    btnExport.addEventListener("click", () => {
+      if (filteredRecords.length === 0) {
+        alert("No records to export.");
+        return;
+      }
+
+      // Collect all possible keys dynamically
+      const keys = new Set(["id", "createdAt", "ipAddress", "status"]);
+      filteredRecords.forEach(rec => {
+        const fields = rec.details || rec;
+        Object.keys(fields).forEach(k => {
+          if (!["details", "files", "fileUrls"].includes(k)) keys.add(k);
+        });
+      });
+
+      const keyArray = Array.from(keys);
+      let csvContent = "data:text/csv;charset=utf-8,";
+      
+      // Header row
+      csvContent += keyArray.map(k => `"${k.toUpperCase()}"`).join(",") + "\n";
+      
+      // Data rows
+      filteredRecords.forEach(rec => {
+        const fields = rec.details || rec;
+        const row = keyArray.map(k => {
+          const val = fields[k] !== undefined ? fields[k] : (rec[k] || "");
+          return `"${val.toString().replace(/"/g, '""')}"`;
+        });
+        csvContent += row.join(",") + "\n";
+      });
+
+      const encodedUri = encodeURI(csvContent);
+      const link = document.createElement("a");
+      link.setAttribute("href", encodedUri);
+      link.setAttribute("download", `AARAA_${activeTab}_export_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    });
+
+  </script>
+</head>
+<body>
+
+  <!-- Login view -->
+  <div class="login-container" id="loginContainer">
+    <div class="login-card">
+      <div class="login-logo">AARAA <span>Dashboard</span></div>
+      <p class="login-title">Sign in to manage form submissions</p>
+      <button class="google-btn" id="googleLoginBtn">
+        <svg class="google-icon" viewBox="0 0 24 24">
+          <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+          <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+          <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+          <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+        </svg>
+        Sign in with Google
+      </button>
+    </div>
+  </div>
+
+  <!-- Dashboard view -->
+  <div class="dashboard" id="dashboard">
+    <!-- Sidebar -->
+    <div class="sidebar">
+      <div class="sidebar-header">AARAA <span>Portal</span></div>
+      <ul class="nav-list">
+        <li class="nav-item active" data-tab="enquiries">Contact & Enquiries</li>
+        <li class="nav-item" data-tab="careerApplications">Careers</li>
+        <li class="nav-item" data-tab="strategicPartnerships">Strategic Partnerships</li>
+        <li class="nav-item" data-tab="jointVentures">Joint Ventures</li>
+        <li class="nav-item" data-tab="subcontractorApplications">Subcontractors</li>
+        <li class="nav-item" data-tab="internshipApplications">Internship Program</li>
+      </ul>
+      <div class="sidebar-footer">
+        <div class="admin-profile">
+          <div style="font-weight: 600; color: #fff;">Logged in as:</div>
+          <div id="adminEmail"></div>
+        </div>
+        <button class="logout-btn" id="logoutBtn">Logout</button>
+      </div>
+    </div>
+
+    <!-- Main Panel -->
+    <div class="main-panel">
+      <div class="panel-header">
+        <div class="panel-title">
+          <h2>Form Submissions Management</h2>
+        </div>
+        <div class="panel-actions">
+          <input type="text" class="search-box" id="searchBox" placeholder="Search by name, email or ID...">
+          <button class="btn-action" id="btnExport">Export CSV</button>
+        </div>
+      </div>
+
+      <div class="table-container">
+        <table>
+          <thead id="tableHeader">
+            <!-- Dynamic Headers -->
+          </thead>
+          <tbody id="tableBody">
+            <!-- Dynamic Rows -->
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+</body>
+</html>

@@ -176,7 +176,7 @@
                 <p>Register your corporate details and upload capabilities to initiate strategic discussions.</p>
             </div>
 
-            <form class="join-form" id="partnershipForm" novalidate>
+            <form class="join-form" id="partnershipForm" data-form-type="partnership" novalidate>
                 <!-- Honeypot -->
                 <input type="text" name="_honeypot" class="hp-field" tabindex="-1" autocomplete="off" />
 
@@ -396,7 +396,7 @@
     <script src="js/jquery-validate.js"></script>
     <script src="js/main.js"></script>
     
-    <script type="module" src="js/join-forms.js"></script>
+    <script src="js/firebase-submit.js"></script>
     
     <script>
       document.getElementById("currentYear").textContent = new Date().getFullYear();

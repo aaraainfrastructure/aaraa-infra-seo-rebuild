@@ -737,29 +737,9 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
     <script type="text/javascript" src="js/main.js"></script>
 
   <!-- Centralized Firebase Form Handler (replaces all inline fetch/submit handlers) -->
-    <script src="js/lib/emailjs.bundle.min.js"></script>
-  <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
-  <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js"></script>
-  <script src="js/aaraa-modals.js"></script>
-  <script src="js/aaraa-popups.js"></script>
-    <!-- /Javascript -->
-	<script>
-document.getElementById('contactform')?.addEventListener('submit', async function(e){
-    e.preventDefault();
-
-    const fd = new FormData(this);
-    fd.append('leadType','contact');
-
-    const res = await fetch('/api/submit',{
-        method:'POST',
-        body:fd
-    });
-
-    const data = await res.json();
-    alert(data.message || 'Submitted');
-});
-</script>
+    <script src="js/firebase-submit.js"></script>
+    <script src="js/aaraa-modals.js"></script>
+    <script src="js/aaraa-popups.js"></script>
 
 </main>
 </body>

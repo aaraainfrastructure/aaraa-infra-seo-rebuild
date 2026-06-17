@@ -55,7 +55,6 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
-// Phone validator compatible with standard formats
 function isValidPhone(phone) {
   return /^[6789]\d{9}$/.test(phone.replace(/[-+ ]/g, '').slice(-10));
 }
@@ -127,7 +126,7 @@ async function handleFormSubmit(e) {
     }
   }
 
-  // File validations (only for Join/Upload Forms)
+  // File validations (only for Join Forms)
   const fileConfigs = {
     career: {
       required: ['resume'],

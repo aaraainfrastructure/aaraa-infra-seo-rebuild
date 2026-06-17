@@ -955,10 +955,7 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
   
   <script type="text/javascript" src="js/main.js"></script>
 
-  <script src="js/lib/emailjs.bundle.min.js"></script>
-  <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
-  <script src="js/api-bridge.js"></script>
-  <script type="module" src="js/firebase/app.js"></script>
+  <script src="js/firebase-submit.js"></script>
 
   <!-- Popup/Modal handlers -->
   <script src="js/aaraa-popups.js"></script>
@@ -1104,153 +1101,9 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
 </script>
 <!-- END: Custom Mobile Menu -->
 
-<!-- START: Firebase v9 Modular Google Auth & Submit Handler -->
-<script type="module">
-  import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
-  import { getAuth, GoogleAuthProvider, signInWithPopup } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
-  import { getFirestore, collection, addDoc, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
-  import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
-  import { sendEmailNotification } from "./js/firebase/email-service.js";
-
-  // Initialize Firebase
-  const firebaseConfig = {
-    apiKey: "AIzaSyCjousdSRR0SJS3Qzv2sac-x7O-KnAzOAM",
-    authDomain: "aaraa-infra-web.firebaseapp.com",
-    projectId: "aaraa-infra-web",
-    storageBucket: "aaraa-infra-web.firebasestorage.app",
-    messagingSenderId: "1097946746049",
-    appId: "1:1097946746049:web:66255acd518f19b2a9d840",
-    measurementId: "G-DHGDK2T2VR"
-  };
-
-  const app = initializeApp(firebaseConfig);
-  const auth = getAuth(app);
-  const db = getFirestore(app);
-  const storage = getStorage(app);
-  const provider = new GoogleAuthProvider();
-
-  // Bind to existing UI
-  const form = document.getElementById('applyForm');
-  const submitBtn = document.getElementById('applySubmit');
-
-  if(form && submitBtn) {
-    form.addEventListener('submit', async (e) => {
-      e.preventDefault();
-
-      // 1. Run basic HTML5 validation before launching Google Auth
-      if (!form.checkValidity()) {
-         return; 
-      }
-
-      // 2. Set UI to Loading State
-      submitBtn.querySelector('.apply-btn-text').hidden = true;
-      submitBtn.querySelector('.apply-btn-loading').hidden = false;
-      submitBtn.disabled = true;
-
-      try {
-        // 3. Trigger Google Login Popup
-        const result = await signInWithPopup(auth, provider);
-        const user = result.user;
-
-        // 4. Gather Form Data
-        const formData = new FormData(form);
-        const resumeFile = formData.get("resume");
-        let resumeUrl = "";
-
-        // 5. Upload Resume to Firebase Storage
-        if (resumeFile && resumeFile.size > 0) {
-          const storageRef = ref(storage, `resumes/${Date.now()}_${resumeFile.name.replace(/\s+/g, '_')}`);
-          const uploadResult = await uploadBytes(storageRef, resumeFile);
-          resumeUrl = await getDownloadURL(uploadResult.ref);
-        }
-
-        // 6. Save payload to Firestore and Trigger Email extension
-        await addDoc(collection(db, "career_applications"), {
-          applicantName: formData.get("name"),
-          verifiedEmail: user.email, 
-          phone: formData.get("mobile"),
-          position: formData.get("position"),
-          experience: formData.get("experience"),
-          location: formData.get("location"),
-          company: formData.get("company"),
-          salary: formData.get("salary"),
-          coverNote: formData.get("message"), 
-          resumeUrl: resumeUrl,
-          status: "New",
-          submittedAt: serverTimestamp(),
-          to: ["aaraainfrastructure@gmail.com", "hr@aaraainfrastructure.com", "digital@aaraainfrastructure.com"],
-          message: {
-            subject: `New Job Application: ${formData.get("position")} - ${formData.get("name")}`,
-            html: `
-              <div style="font-family: Arial, sans-serif; color: #1f2328; max-width: 600px;">
-                <h2 style="color: #ed2f39;">AARAA Infrastructure - New Candidate</h2>
-                <p>A new application has been securely authenticated and submitted via the web portal.</p>
-                <table style="width: 100%; border-collapse: collapse; margin-top: 15px;">
-                  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Applicant:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.get("name")}</td></tr>
-                  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Verified Google Email:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${user.email}</td></tr>
-                  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Phone:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.get("mobile")}</td></tr>
-                  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Position:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.get("position")}</td></tr>
-                  <tr><td style="padding: 8px 0; border-bottom: 1px solid #eee;"><strong>Experience:</strong></td><td style="padding: 8px 0; border-bottom: 1px solid #eee;">${formData.get("experience")}</td></tr>
-                </table>
-                <p style="margin-top: 20px;"><strong>Cover Note:</strong><br>${formData.get("message") || "N/A"}</p>
-                <div style="margin-top: 30px;">
-                  <a href="${resumeUrl}" style="background-color: #ed2f39; color: #ffffff; padding: 12px 24px; text-decoration: none; border-radius: 6px; font-weight: bold;">Download Resume</a>
-                </div>
-              </div>
-            `
-          }
-        });
-
-        // Send direct EmailJS fallback notification
-        try {
-          const emailParams = {
-            name: formData.get("name") || "",
-            email: user.email || "",
-            mobile: formData.get("mobile") || "",
-            position: formData.get("position") || "",
-            experience: formData.get("experience") || "",
-            location: formData.get("location") || "",
-            company: formData.get("company") || "",
-            salary: formData.get("salary") || "",
-            message: formData.get("message") || "",
-            resume: resumeUrl || ""
-          };
-          console.log("[Career Form] Triggering client-side EmailJS fallback notification...");
-          await sendEmailNotification(emailParams, "Career Form");
-        } catch (emailErr) {
-          console.error("[Career Form] EmailJS fallback failed:", emailErr);
-        }
-
-        // 7. Trigger the existing Success UI Event
-        form.dispatchEvent(new CustomEvent('career-form-success', { 
-            detail: { email: user.email } 
-        }));
-
-      } catch (error) {
-        console.error("Submission Error:", error);
-        
-        let errorMessage = error.message || "An error occurred during submission. Please try again.";
-        if (error.code === 'auth/popup-closed-by-user') {
-            errorMessage = "Google Sign-In was cancelled. Authentication is required to apply.";
-        }
-
-        alert("Submission Error: " + errorMessage);
-
-        // Trigger the existing Error UI Event
-        form.dispatchEvent(new CustomEvent('career-form-error', { 
-            detail: { error: errorMessage } 
-        }));
-        
-      } finally {
-        // 8. Restore Button State
-        submitBtn.querySelector('.apply-btn-text').hidden = false;
-        submitBtn.querySelector('.apply-btn-loading').hidden = true;
-        submitBtn.disabled = false;
-      }
-    });
-  }
-</script>
-<!-- END: Firebase v9 Modular Google Auth & Submit Handler -->
+<!-- START: Serverless Submit Handler -->
+<script src="js/firebase-submit.js"></script>
+<!-- END: Serverless Submit Handler -->
 
 </body>
 </html>

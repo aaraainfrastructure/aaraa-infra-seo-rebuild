@@ -1,57 +1,51 @@
 {
   "indexes": [
     {
-      "collectionGroup": "leads",
+      "collectionGroup": "enquiries",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "formType", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        { "fieldPath": "ipAddress", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
       ]
     },
     {
-      "collectionGroup": "leads",
+      "collectionGroup": "careerApplications",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        { "fieldPath": "ipAddress", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
       ]
     },
     {
-      "collectionGroup": "leads",
+      "collectionGroup": "strategicPartnerships",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "city", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        { "fieldPath": "ipAddress", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
       ]
     },
     {
-      "collectionGroup": "leads",
+      "collectionGroup": "jointVentures",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "mobile", "order": "ASCENDING" },
-        { "fieldPath": "createdAt", "order": "DESCENDING" }
+        { "fieldPath": "ipAddress", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
       ]
     },
     {
-      "collectionGroup": "leads",
+      "collectionGroup": "subcontractorApplications",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "leadId", "order": "ASCENDING" }
+        { "fieldPath": "ipAddress", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
       ]
     },
     {
-      "collectionGroup": "callback_requests",
+      "collectionGroup": "internshipApplications",
       "queryScope": "COLLECTION",
       "fields": [
-        { "fieldPath": "status", "order": "ASCENDING" },
-        { "fieldPath": "requestedAt", "order": "DESCENDING" }
-      ]
-    },
-    {
-      "collectionGroup": "newsletter",
-      "queryScope": "COLLECTION",
-      "fields": [
-        { "fieldPath": "email", "order": "ASCENDING" }
+        { "fieldPath": "ipAddress", "order": "ASCENDING" },
+        { "fieldPath": "createdAt", "order": "ASCENDING" }
       ]
     }
   ],

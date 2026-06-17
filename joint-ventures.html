@@ -173,10 +173,10 @@
 
             <div class="join-title-section">
                 <h1>Joint Venture Proposal</h1>
-                <p>Submit corporate registration details and financial statements. Google Auth is required to enable upload.</p>
+                <p>Submit corporate registration details and financial statements. Upload credentials to submit your proposal.</p>
             </div>
 
-            <form class="join-form" id="jvForm" novalidate>
+            <form class="join-form" id="jvForm" data-form-type="jv" novalidate>
                 <!-- Honeypot -->
                 <input type="text" name="_honeypot" class="hp-field" tabindex="-1" autocomplete="off" />
 
@@ -389,7 +389,7 @@
     <script src="js/jquery-validate.js"></script>
     <script src="js/main.js"></script>
     
-    <script type="module" src="js/join-forms.js"></script>
+    <script src="js/firebase-submit.js"></script>
     
     <script>
       document.getElementById("currentYear").textContent = new Date().getFullYear();
