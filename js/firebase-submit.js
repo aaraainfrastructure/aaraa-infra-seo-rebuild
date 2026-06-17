@@ -90,10 +90,8 @@ async function handleFormSubmit(e) {
   }
 
   // Determine Form Type & Path
-  const formId = form.id || '';
-  const formType = form.dataset.formType || '';
-  const isJoinForm = ['career', 'partnership', 'jv', 'subcontractor', 'internship', 'vendor'].includes(formType);
-  const targetPath = isJoinForm ? '/api/submit-join' : '/api/submit';
+  const apiBase = 'https://aaraa-infra-web.web.app';
+  const targetPath = isJoinForm ? `${apiBase}/api/submit-join` : `${apiBase}/api/submit`;
 
   // 2. Client-side field validations
   let hasErrors = false;
