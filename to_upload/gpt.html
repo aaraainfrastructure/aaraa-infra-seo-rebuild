@@ -1294,6 +1294,9 @@ We prioritize safety, quality, and innovation, using advanced methods and techno
 <input id="save1" name="terms" required="" type="checkbox"/>
 <label for="save1">Accept terms and conditions from AARAA.</label>
 </fieldset>
+
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
 <button class="tf-btn style-1 hover-bg-secondary text-uppercase" type="submit">
 <span>send message</span>
 <span class="icon"><i class="icon-arrow-right"></i></span>
@@ -1342,6 +1345,9 @@ We prioritize safety, quality, and innovation, using advanced methods and techno
 <input id="save1" name="terms" required="" type="checkbox"/>
 <label for="save1">Accept terms and conditions from AARAA.</label>
 </fieldset>
+
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
 <button class="tf-btn style-1 hover-bg-secondary text-uppercase" type="submit">
 <span>send message</span>
 <span class="icon"><i class="icon-arrow-right"></i></span>
@@ -1390,6 +1396,9 @@ We prioritize safety, quality, and innovation, using advanced methods and techno
 <input id="save1" name="terms" required="" type="checkbox"/>
 <label for="save1">Accept terms and conditions from AARAA.</label>
 </fieldset>
+
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
 <button class="tf-btn style-1 hover-bg-secondary text-uppercase" type="submit">
 <span>Send Email</span>
 <span class="icon"><i class="icon-arrow-right"></i></span>
@@ -1420,6 +1429,9 @@ We prioritize safety, quality, and innovation, using advanced methods and techno
 <fieldset class="item mb-20">
 <input id="callback-phone" name="phone" placeholder="*Phone number" required="" type="number"/>
 </fieldset>
+
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
 <button class="tf-btn style-1 hover-bg-secondary text-uppercase" type="submit">
 <span>send message</span>
 <span class="icon"><i class="icon-arrow-right"></i></span>
@@ -1508,6 +1520,9 @@ We prioritize safety, quality, and innovation, using advanced methods and techno
                                     </p>
 <form accept-charset="utf-8" class="form-newsletter subscribe-form" data-mailchimp="true">
 <input aria-required="true" class="subscribe-email" name="email-form" placeholder="Email address" required="" tabindex="0" type="email"/>
+
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
 <button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
 <i class="icon-arrow-right"></i>
 </button>
@@ -1672,13 +1687,15 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
 </script>
 </main>
 
-<script src="js/lib/emailjs.bundle.min.js"></script>
   <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
   <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js?v=2"></script>
+<script type="module" src="js/firebase/app.js?v=4"></script>
 
 <script src="js/aaraa-popups.js"></script>
 <script src="js/aaraa-modals.js"></script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 <!-- START: Custom Mobile Menu - devic_mnu -->
 <style>
@@ -1750,7 +1767,7 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
     }
 </style>
 <div class="devic_mnu-container">
-<button class="devic_mnu-toggle" onclick="toggleDevicMenu()">?</button>
+<button class="devic_mnu-toggle" onclick="toggleDevicMenu()"><i class="fa-solid fa-bars"></i></button>
 <ul class="devic_mnu-list" id="devicMenu">
 <li><a href="index.html">Home</a></li>
 <li>

@@ -56,7 +56,7 @@
             } else {
                 a(".header-sticky").removeClass("header-bg");
                 a(".header-sticky").css({
-                    transform: "translateY(-110%)",
+                    transform: "translateY(0%)",
                     top: adminBarHeight,
                 });
             }

@@ -349,7 +349,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       <input type="text" name="aadhaar" placeholder="Aadhaar Number" required><br><br>
       <input type="text" name="pan" placeholder="PAN Number" required><br><br>
       <input type="text" name="gst" placeholder="GST Number" required><br><br>
-      <input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
       <div id="message" style="margin-top:10px;"></div>
     </form>
   </div>
@@ -364,7 +367,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       <input type="email" name="email" placeholder="Your Email" required><br><br>
       <input type="text" name="phone" placeholder="Your Phone" required><br><br>
       <textarea name="message" placeholder="Your Message" rows="4" required style="width:100%;"></textarea><br><br>
-      <input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
       <div id="enquiryMessage" style="margin-top:10px;"></div>
     </form>
   </div>
@@ -618,7 +624,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
                                     </p>
                                     <form class="form-newsletter subscribe-form" accept-charset="utf-8" data-mailchimp="true">
                                         <input type="email" name="email-form" class="subscribe-email" placeholder="Email address" tabindex="0" aria-required="true" required>
-                                        <button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
+                                        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
                                             <i class="icon-arrow-right"></i>
                                         </button>
                                     </form>
@@ -952,13 +961,15 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
 
 </main>
 
-<script src="js/lib/emailjs.bundle.min.js"></script>
   <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
   <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js?v=2"></script>
+<script type="module" src="js/firebase/app.js?v=4"></script>
 
 <script src="js/aaraa-popups.js"></script>
 <script src="js/aaraa-modals.js"></script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 
 <!-- START: Custom Mobile Menu - devic_mnu -->
@@ -1032,7 +1043,7 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
 </style>
 
 <div class="devic_mnu-container">
-    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()">?</button>
+    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()"><i class="fa-solid fa-bars"></i></button>
     <ul class="devic_mnu-list" id="devicMenu">
         <li><a href="index.html">Home</a></li>
         <li>
@@ -1102,7 +1113,10 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
         <label for="description">Description*</label>
         <textarea id="description" name="description" required></textarea>
       </div>
-      <button type="submit">Submit</button>
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit">Submit</button>
     </form>
     <div id="thankYouMsg" style="display: none;">
       <h3>Thank You!</h3>

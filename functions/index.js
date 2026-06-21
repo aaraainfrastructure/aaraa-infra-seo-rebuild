@@ -4,25 +4,35 @@ const nodemailer = require("nodemailer");
 const Busboy = require("busboy");
 const he = require("he");
 const path = require("path");
+const crypto = require("crypto");
 
 // Initialize Firebase Admin SDK
 admin.initializeApp();
 const db = admin.firestore();
+
+// Firebase Storage Bucket
+const STORAGE_BUCKET = "aaraa-infra-web.firebasestorage.app";
 const storage = admin.storage();
 
-/* ---------- SMTP CONFIG (Gmail Backup) ---------- */
-const SMTP_USER = "aaraainfrastructure@gmail.com";
-const SMTP_PASS = "aumcvlriokritkwt"; // Existing Gmail app password
-
-const transporter = nodemailer.createTransport({
-  host: "smtp.gmail.com",
-  port: 587,
-  secure: false,
-  auth: {
-    user: SMTP_USER,
-    pass: SMTP_PASS
-  }
-});
+/* ---------- Helper: Security Headers ---------- */
+function setSecurityHeaders(res) {
+  // Enforce the most restrictive CSP possible
+  res.setHeader("Content-Security-Policy", 
+    "default-src 'self'; " +
+    "script-src 'self' 'unsafe-inline' https://challenges.cloudflare.com https://www.gstatic.com https://www.googletagmanager.com; " +
+    "frame-src 'self' https://challenges.cloudflare.com; " +
+    "style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://cdnjs.cloudflare.com; " +
+    "font-src 'self' https://fonts.gstatic.com https://cdnjs.cloudflare.com; " +
+    "img-src 'self' data: https://www.aaraainfrastructure.com https://firebasestorage.googleapis.com https://www.facebook.com; " +
+    "connect-src 'self' https://challenges.cloudflare.com https://aaraa-infra-web.web.app; " +
+    "object-src 'none'; " +
+    "base-uri 'self';"
+  );
+  res.setHeader("X-Frame-Options", "DENY");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("Permissions-Policy", "geolocation=(), camera=(), microphone=()");
+}
 
 /* ---------- Helper: HTML escape (XSS Protection) ---------- */
 function sanitizeString(str) {
@@ -43,551 +53,529 @@ function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
 }
 
+/* ---------- Helper: Get IP Hash ---------- */
+function getIpHash(ip) {
+  return crypto.createHash("sha256").update(ip || "").digest("hex");
+}
+
 /* ---------- Helper: Stateless Rate Limiter via Firestore ---------- */
-async function checkIpRateLimit(ipAddress, limitCount = 10, windowMinutes = 15) {
-  const collections = ["enquiries", "careerApplications", "strategicPartnerships", "jointVentures", "subcontractorApplications", "internshipApplications"];
+async function checkIpRateLimit(ipAddress, limitCount = 5, windowMinutes = 15) {
+  const formTypes = ['callback', 'contact', 'enquiry', 'careers', 'vendor', 'partnership', 'internship', 'subcontractor'];
   const windowMs = windowMinutes * 60 * 1000;
   const cutoffTime = new Date(Date.now() - windowMs).toISOString();
-  
-  let totalSubmissions = 0;
 
-  for (const collName of collections) {
-    const q = db.collection(collName)
+  const queries = formTypes.map(type => 
+    db.collection("submissions").doc(type).collection("entries")
       .where("ipAddress", "==", ipAddress)
-      .where("createdAt", ">", cutoffTime);
-    const snap = await q.get();
+      .where("createdAt", ">", cutoffTime)
+      .get()
+  );
+
+  const snaps = await Promise.all(queries);
+  let totalSubmissions = 0;
+  for (const snap of snaps) {
     totalSubmissions += snap.size;
-    
     if (totalSubmissions >= limitCount) {
-      return false; // Rate limit exceeded
+      return false;
     }
   }
-
   return true;
 }
 
-/* ---------- Helper: Send Email (Dual Mode) ---------- */
-async function sendNotificationEmail(subject, htmlContent, attachments = [], replyToEmail = null) {
-  const recipient = "aaraainfrastructure@gmail.com";
-  
-  // 1. Try Resend API if API Key is configured in environment
-  const resendApiKey = process.env.RESEND_API_KEY;
-  if (resendApiKey) {
-    try {
-      console.log("[Mailer] Attempting Resend API dispatch...");
-      
-      // Build attachments payload for Resend
-      const resendAttachments = [];
-      for (const att of attachments) {
-        // Fetch document buffer to send via Resend
-        if (att.path && att.path.startsWith("http")) {
-          const res = await fetch(att.path);
-          const buffer = await res.arrayBuffer();
-          resendAttachments.push({
-            filename: att.filename,
-            content: Buffer.from(buffer).toString("base64")
-          });
-        }
-      }
+/* ---------- Helper: Validate File Upload Security ---------- */
+function validateFile(filename, mimeType, bufferSize) {
+  const allowedExtensions = ['.pdf', '.doc', '.docx'];
+  const allowedMimeTypes = [
+    'application/pdf',
+    'application/msword',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
+  ];
 
-      const resendPayload = {
-        from: "AARAA Portal <no-reply@aaraainfrastructure.com>",
-        to: recipient,
-        subject: subject,
-        html: htmlContent,
-        attachments: resendAttachments
-      };
-      if (replyToEmail) {
-        resendPayload.reply_to = replyToEmail;
-      }
-
-      const response = await fetch("https://api.resend.com/emails", {
-        method: "POST",
-        headers: {
-          "Authorization": `Bearer ${resendApiKey}`,
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify(resendPayload)
-      });
-
-      if (response.ok) {
-        console.log("[Mailer] Resend API email sent successfully.");
-        return true;
-      } else {
-        const errorData = await response.json();
-        console.warn("[Mailer] Resend API failed:", errorData);
-      }
-    } catch (err) {
-      console.error("[Mailer] Resend API error:", err);
-    }
+  const ext = path.extname(filename).toLowerCase();
+  if (!allowedExtensions.includes(ext)) {
+    return { valid: false, message: `Extension ${ext} is not allowed. Only PDF, DOC, DOCX are permitted.` };
   }
 
-  // 2. Fallback to Gmail Nodemailer SMTP
-  console.log("[Mailer] Attempting Nodemailer Gmail SMTP dispatch...");
-  const mailOptions = {
-    from: `"AARAA Serverless Portal" <${SMTP_USER}>`,
-    to: recipient,
-    subject: subject,
-    html: htmlContent,
-    attachments: attachments // Nodemailer handles remote URLs out-of-the-box
+  if (!allowedMimeTypes.includes(mimeType)) {
+    return { valid: false, message: `MIME type ${mimeType} is not allowed. Only PDF, DOC, DOCX are permitted.` };
+  }
+
+  const maxSizeBytes = 5 * 1024 * 1024; // 5MB limit
+  if (bufferSize > maxSizeBytes) {
+    return { valid: false, message: `File size exceeds the 5MB limit.` };
+  }
+
+  return { valid: true };
+}
+
+/* ---------- Helper: Verify Turnstile Token ---------- */
+async function verifyTurnstile(token, ipAddress) {
+  const secretKey = process.env.TURNSTILE_SECRET_KEY || "1x0000000000000000000000000000000AA";
+  if (!token) return false;
+
+  try {
+    const verifyUrl = "https://challenges.cloudflare.com/turnstile/v0/siteverify";
+    const response = await fetch(verifyUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/x-www-form-urlencoded" },
+      body: `secret=${encodeURIComponent(secretKey)}&response=${encodeURIComponent(token)}&remoteip=${encodeURIComponent(ipAddress)}`
+    });
+    const data = await response.json();
+    return !!data.success;
+  } catch (err) {
+    console.error("Turnstile verify call failed:", err);
+    return false;
+  }
+}
+
+/* ---------- Helper: Build Email HTML ---------- */
+function buildEmailHTML(data, formType, submissionId, fileUrls = {}) {
+  const labelMap = {
+    name: 'Full Name',
+    email: 'Email Address',
+    phone: 'Phone Number',
+    mobile: 'Mobile Number',
+    message: 'Message',
+    company: 'Company Name',
+    aadhaar: 'Aadhaar Number',
+    pan: 'PAN Number',
+    gst: 'GST Number',
+    service: 'Service Interested In',
+    location: 'Project Location',
+    experience: 'Years of Experience',
+    position: 'Position Applied For',
+    college: 'College Name',
+    degree: 'Degree',
+    department: 'Department',
+    year_study: 'Year of Study',
+    website: 'Website',
+    turnover: 'Annual Turnover',
+    trade_category: 'Trade Category',
+    duration: 'Preferred Duration'
   };
-  if (replyToEmail) {
-    mailOptions.replyTo = replyToEmail;
+
+  let rows = '';
+  // Form fields
+  for (const [key, value] of Object.entries(data)) {
+    if (!value || key.startsWith('_') || ['cf-turnstile-response', 'formType', 'sourceUrl', 'pageTitle', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign'].includes(key)) continue;
+    const label = labelMap[key] || key.charAt(0).toUpperCase() + key.slice(1);
+    rows += `<tr>
+      <td style="padding:10px 15px; border:1px solid #ddd; font-weight:600; background:#f9f9f9; width:35%; font-family:sans-serif;">${label}</td>
+      <td style="padding:10px 15px; border:1px solid #ddd; font-family:sans-serif;">${value}</td>
+    </tr>`;
   }
 
-  await transporter.sendMail(mailOptions);
-  console.log("[Mailer] Nodemailer Gmail SMTP email sent successfully.");
-  return true;
+  // Uploaded files
+  for (const [key, url] of Object.entries(fileUrls)) {
+    if (key.endsWith('Name')) continue;
+    const originalName = fileUrls[`${key}Name`] || 'Download File';
+    const label = labelMap[key] || key.charAt(0).toUpperCase() + key.slice(1);
+    rows += `<tr>
+      <td style="padding:10px 15px; border:1px solid #ddd; font-weight:600; background:#f2f7fa; width:35%; font-family:sans-serif;">${label}</td>
+      <td style="padding:10px 15px; border:1px solid #ddd; font-family:sans-serif;">
+        <a href="${url}" target="_blank" style="color:#ed2f39; font-weight:bold; text-decoration:none;">Download ${originalName}</a>
+      </td>
+    </tr>`;
+  }
+
+  const titles = {
+    callback: 'New Call Back Request',
+    contact: 'New General Contact Submission',
+    enquiry: 'New Project/Service Enquiry',
+    careers: 'New Career Application',
+    vendor: 'New Vendor Registration',
+    partnership: 'New Strategic Partnership Proposal',
+    internship: 'New Internship Application',
+    subcontractor: 'New Subcontractor Empanelment'
+  };
+
+  return `
+    <div style="max-width:650px; margin:0 auto; font-family:sans-serif; border: 1px solid #eee; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,.05);">
+      <div style="background:#ed2f39; color:#fff; padding:24px; text-align:center;">
+        <h2 style="margin:0; font-size:22px;">${titles[formType] || 'New Form Submission'}</h2>
+        <p style="margin:4px 0 0; opacity:0.9;">Submission ID: ${submissionId}</p>
+      </div>
+      <table style="width:100%; border-collapse:collapse;">
+        ${rows}
+      </table>
+      <div style="padding:16px; text-align:center; color:#888; font-size:12px; background:#f5f5f5; border-top:1px solid #ddd;">
+        Submitted via ${data.sourceUrl || 'aaraainfrastructure.com'} &bull; ${new Date().toLocaleString('en-IN', { timeZone: 'Asia/Kolkata' })}
+      </div>
+    </div>
+  `;
 }
 
-/* ---------- MAIN API ENDPOINT ---------- */
+/* ==========================================================================
+   MAIN CLOUD FUNCTION ENTRY POINT
+   Routes:
+     GET  /api/config         → Return client Turnstile sitekey
+     POST /api/forms          → Handles JSON & multipart form submissions
+ ========================================================================== */
 exports.api = onRequest({ cors: true }, async (req, res) => {
-  // Only accept POST requests
-  if (req.method !== "POST") {
-    return res.status(405).json({ success: false, message: "Method Not Allowed" });
-  }
+  // Set security headers on all responses
+  setSecurityHeaders(res);
 
   const pathName = req.path || "";
-  const ipAddress = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "Unknown";
-  const userAgent = req.headers["user-agent"] || "Unknown";
+  const method = req.method;
 
-  // Enforce Rate Limiting (stateless check)
-  try {
-    const underLimit = await checkIpRateLimit(ipAddress);
-    if (!underLimit) {
-      return res.status(429).json({ success: false, message: "Too many submissions. Please wait 15 minutes." });
-    }
-  } catch (err) {
-    console.error("Rate limiter failure:", err);
+  /* -----------------------------------------------------------------------
+     ROUTE 1: GET /config — Expose sitekey
+  ----------------------------------------------------------------------- */
+  if ((pathName === "/config" || pathName.endsWith("/config")) && method === "GET") {
+    const siteKey = process.env.TURNSTILE_SITE_KEY || "1x00000000000000000000AA";
+    return res.json({
+      success: true,
+      turnstileSiteKey: siteKey
+    });
   }
 
-  // Route 1: Contact / Enquiries (JSON payload, no files)
-  if (pathName === "/submit" || pathName.endsWith("/submit")) {
+  /* -----------------------------------------------------------------------
+     ROUTE 2: POST /forms — Handle form processing
+  ----------------------------------------------------------------------- */
+  if ((pathName === "/forms" || pathName.endsWith("/forms")) && method === "POST") {
+    const ipAddress = req.headers["x-forwarded-for"] || req.socket.remoteAddress || "Unknown";
+    const userAgent = req.headers["user-agent"] || "Unknown";
+    const ip_hash = getIpHash(ipAddress);
+
+    // 1. IP-Based Rate Limiting (5 requests per 15 minutes)
     try {
-      const payload = req.body;
-
-      // Anti-Spam Honeypot check
-      if (payload._honeypot && payload._honeypot.trim() !== "") {
-        console.warn(`[Spam Blocked] Honeypot field filled: ${payload._honeypot}`);
-        return res.status(400).json({ success: false, message: "Spam detected." });
+      const underLimit = await checkIpRateLimit(ipAddress);
+      if (!underLimit) {
+        console.warn(`[Rate Limit Exceeded] IP: ${ipAddress}`);
+        return res.status(429).json({ success: false, message: "Too many submissions. Please wait 15 minutes." });
       }
-
-      // Extract and sanitize fields
-      const name = sanitizeString(payload.name);
-      const email = sanitizeString(payload.email);
-      const phone = sanitizeString(payload.phone);
-      const message = sanitizeString(payload.message || "");
-      const leadType = sanitizeString(payload.leadType || "General Inquiry");
-      const sourcePage = sanitizeString(payload.sourcePage || req.headers.referer || "Unknown");
-
-      // Validations
-      if (!name || !email || !phone) {
-        return res.status(400).json({ success: false, message: "Required fields (Name, Email, Phone) are missing." });
-      }
-      if (!isValidEmail(email)) {
-        return res.status(400).json({ success: false, message: "Invalid email format." });
-      }
-      if (!isValidPhone(phone)) {
-        return res.status(400).json({ success: false, message: "Invalid 10-digit mobile number." });
-      }
-
-      // Generate unique application/lead ID
-      const timestamp = new Date().toISOString();
-      const random = Math.floor(1000 + Math.random() * 9000);
-      const leadId = `AAR-ENQ-${Date.now().toString().slice(-6)}-${random}`;
-
-      const docData = {
-        applicationId: leadId,
-        name,
-        email,
-        phone,
-        message,
-        leadType,
-        sourcePage,
-        ipAddress,
-        userAgent,
-        createdAt: timestamp,
-        status: "new"
-      };
-
-      // Write to Firestore
-      await db.collection("enquiries").doc(leadId).set(docData);
-
-      // Construct HTML Email
-      const emailSubject = `[AARAA Website Inquiry] - ${name} (${leadType})`;
-      const htmlContent = `
-        <div style="max-width: 600px; margin: 0 auto; font-family: sans-serif; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden;">
-          <div style="background-color: #ed2f39; color: white; padding: 20px; text-align: center;">
-            <h2 style="margin: 0;">New Enquiry Received</h2>
-            <p style="margin: 4px 0 0 0; opacity: 0.9;">Lead ID: ${leadId}</p>
-          </div>
-          <div style="padding: 20px;">
-            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
-              <tr>
-                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9; width: 35%;">Lead Type</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${leadType}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9;">Name</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${name}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9;">Email</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${email}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9;">Mobile</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${phone}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9;">Message</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${message || "N/A"}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9;">Source Page</td>
-                <td style="padding: 8px; border: 1px solid #ddd;"><a href="${sourcePage}" target="_blank">${sourcePage}</a></td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #ddd; font-weight: bold; background: #f9f9f9;">IP Address</td>
-                <td style="padding: 8px; border: 1px solid #ddd;">${ipAddress}</td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      `;
-
-      await sendNotificationEmail(emailSubject, htmlContent, [], email);
-
-      return res.json({ success: true, message: "Enquiry submitted successfully.", applicationId: leadId });
-
-    } catch (err) {
-      console.error("Enquiry submission handler error:", err);
-      return res.status(500).json({ success: false, message: "Internal Server Error." });
+    } catch (limitErr) {
+      console.error("Rate limiter check failed:", limitErr);
     }
-  }
 
-  // Route 2: Join AARAA Forms (multipart/form-data with file attachments)
-  if (pathName === "/submit-join" || pathName.endsWith("/submit-join")) {
-    const busboy = Busboy({ headers: req.headers });
-    const fields = {};
-    const uploads = [];
-    let fileError = null;
-
-    const fileLimitConfigs = {
-      career: { required: ["resume"], allowed: { resume: [".pdf", ".doc", ".docx"], portfolio: [".pdf", ".docx", ".zip"] }, sizeMB: { resume: 10, portfolio: 15 }, folder: "career" },
-      partnership: { required: ["company_profile", "capability_statement"], allowed: { company_profile: [".pdf"], capability_statement: [".pdf"], brochure: [".pdf", ".zip"] }, sizeMB: { company_profile: 15, capability_statement: 15, brochure: 15 }, folder: "partnership" },
-      jv: { required: ["company_profile", "reg_certificate", "financial_doc"], allowed: { company_profile: [".pdf"], reg_certificate: [".pdf"], financial_doc: [".pdf"] }, sizeMB: { company_profile: 15, reg_certificate: 10, financial_doc: 15 }, folder: "joint-venture" },
-      subcontractor: { required: ["gst_cert", "pan_copy", "company_profile", "work_orders"], allowed: { gst_cert: [".pdf", ".jpg", ".jpeg", ".png"], pan_copy: [".pdf", ".jpg", ".jpeg", ".png"], company_profile: [".pdf"], work_orders: [".pdf", ".zip"], safety_cert: [".pdf"] }, sizeMB: { gst_cert: 10, pan_copy: 10, company_profile: 15, work_orders: 20, safety_cert: 10 }, folder: "subcontractor" },
-      internship: { required: ["resume", "bonafide_cert", "transcript"], allowed: { resume: [".pdf", ".doc", ".docx"], bonafide_cert: [".pdf", ".jpg", ".jpeg", ".png"], transcript: [".pdf"] }, sizeMB: { resume: 10, bonafide_cert: 10, transcript: 10 }, folder: "internship" },
-      vendor: { required: ["incorporationCert", "identityProof", "addressProof"], allowed: { incorporationCert: [".pdf"], identityProof: [".pdf", ".jpg", ".jpeg", ".png"], addressProof: [".pdf", ".jpg", ".jpeg", ".png"], tradeLicense: [".pdf", ".jpg", ".jpeg", ".png"] }, sizeMB: { incorporationCert: 10, identityProof: 10, addressProof: 10, tradeLicense: 10 }, folder: "vendor" }
-    };
-
-    busboy.on("field", (fieldname, val) => {
-      fields[fieldname] = val;
-    });
-
-    busboy.on("file", (fieldname, file, info) => {
-      const { filename, mimeType } = info;
-      
-      if (!filename) {
-        file.resume();
-        return;
-      }
-
-      const fileBuffers = [];
-      file.on("data", (data) => {
-        fileBuffers.push(data);
-      });
-
-      file.on("end", () => {
-        uploads.push({
-          fieldname,
-          filename,
-          mimeType,
-          buffer: Buffer.concat(fileBuffers)
-        });
-      });
-    });
-
-    busboy.on("finish", async () => {
-      // Check Spam
-      if (fields._honeypot && fields._honeypot.trim() !== "") {
-        return res.status(400).json({ success: false, message: "Spam detected." });
-      }
-
-      const formType = fields.formType || "";
-      const config = fileLimitConfigs[formType];
-
-      if (!config) {
-        return res.status(400).json({ success: false, message: "Invalid or missing formType." });
-      }
-
-      // Validate uploads against configuration
-      const validatedUploads = [];
-      for (const up of uploads) {
-        const ext = path.extname(up.filename).toLowerCase();
-        const allowedExts = config.allowed[up.fieldname];
-
-        if (!allowedExts) {
-          return res.status(400).json({ success: false, message: `Unsupported file upload field: ${up.fieldname}` });
-        }
-
-        // Extension Validation
-        if (!allowedExts.includes(ext)) {
-          return res.status(400).json({ success: false, message: `Invalid file extension for ${up.fieldname}. Allowed: ${allowedExts.join(", ").toUpperCase()}` });
-        }
-
-        const limitMB = config.sizeMB[up.fieldname] || 10;
-        const fileSize = up.buffer.length;
-
-        if (fileSize > limitMB * 1024 * 1024) {
-          return res.status(400).json({ success: false, message: `File ${up.fieldname} exceeds size limit of ${limitMB}MB.` });
-        }
-
-        validatedUploads.push({
-          ...up,
-          folder: config.folder
-        });
-      }
-
-      // Verify Required Uploads exist in payload
-      const uploadedFieldNames = validatedUploads.map(u => u.fieldname);
-      for (const reqField of config.required) {
-        if (!uploadedFieldNames.includes(reqField)) {
-          return res.status(400).json({ success: false, message: `Required document is missing: ${reqField}` });
-        }
-      }
-
-      // Sanitize fields
-      const sanitizedData = {};
-      for (const [key, value] of Object.entries(fields)) {
-        if (key === "files" || key === "_honeypot") continue;
-        sanitizedData[key] = sanitizeString(value);
-      }
-
-      // Custom validations
-      if (sanitizedData.email && !isValidEmail(sanitizedData.email)) {
-        return res.status(400).json({ success: false, message: "Invalid email format." });
-      }
-      if ((sanitizedData.phone || sanitizedData.mobile) && !isValidPhone(sanitizedData.phone || sanitizedData.mobile)) {
-        return res.status(400).json({ success: false, message: "Invalid 10-digit mobile number." });
-      }
-
-      // Generate Unique Application ID
-      const prefix = { career: "CAR", partnership: "PRT", jv: "JV", subcontractor: "SUB", internship: "INT", vendor: "VND" }[formType] || "JOIN";
-      const randomId = Math.floor(1000 + Math.random() * 9000);
-      const applicationId = `${prefix}-${Date.now().toString().slice(-6)}-${randomId}`;
-
-      // Upload parsed files to Firebase Storage
-      const fileUrls = {};
-      const emailAttachments = [];
-      const bucket = storage.bucket();
-
+    const contentType = req.headers["content-type"] || "";
+    
+    // JSON Form Submissions
+    if (contentType.includes("application/json")) {
       try {
-        for (const up of validatedUploads) {
-          const sanitizedFilename = up.filename.replace(/\s+/g, "_");
-          const storagePath = `${up.folder}/${applicationId}_${Date.now()}_${sanitizedFilename}`;
-          const storageFile = bucket.file(storagePath);
+        const payload = req.body || {};
 
-          // Upload buffer
-          await storageFile.save(up.buffer, {
-            metadata: { contentType: up.mimeType }
+        // Honeypot spam check
+        if (payload._honeypot && payload._honeypot.trim() !== "") {
+          console.warn("[Spam Blocked] Honeypot triggered");
+          return res.status(400).json({ success: false, message: "Spam detected." });
+        }
+
+        const formType = (payload.formType || "contact").toLowerCase();
+        
+        // Validate Turnstile token
+        const turnstileToken = payload["cf-turnstile-response"];
+        const isVerified = await verifyTurnstile(turnstileToken, ipAddress);
+        if (!isVerified) {
+          return res.status(400).json({ success: false, message: "Security verification failed." });
+        }
+
+        // Sanitize fields
+        const name = sanitizeString(payload.name || "");
+        const phone = sanitizeString(payload.phone || payload.mobile || "");
+        const email = sanitizeString(payload.email || "");
+        const message = sanitizeString(payload.message || "");
+        const service = sanitizeString(payload.service || "");
+        const company = sanitizeString(payload.company || "");
+
+        // Backend Server-Side Validations
+        if (!name || !phone) {
+          return res.status(400).json({ success: false, message: "Name and Mobile Number are required." });
+        }
+        if (!isValidPhone(phone)) {
+          return res.status(400).json({ success: false, message: "Please enter a valid 10-digit mobile number." });
+        }
+        if (email && !isValidEmail(email)) {
+          return res.status(400).json({ success: false, message: "Please enter a valid email address." });
+        }
+
+        if (formType === "contact" && !message) {
+          return res.status(400).json({ success: false, message: "Message is required." });
+        }
+        if (formType === "enquiry" && !service) {
+          return res.status(400).json({ success: false, message: "Project / Service Interested In is required." });
+        }
+
+        // Generate Submission ID
+        const timestamp = new Date().toISOString();
+        const submissionId = `AAR-${formType.toUpperCase().slice(0, 3)}-${Date.now().toString().slice(-6)}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+        // Build Record
+        const record = {
+          submission_id: submissionId,
+          form_type: formType,
+          timestamp,
+          createdAt: timestamp,
+          name,
+          phone,
+          email: email || null,
+          message: message || null,
+          service: service || null,
+          company: company || null,
+          page_url: sanitizeString(payload.sourceUrl || req.headers.referer || "Unknown"),
+          ipAddress,
+          ip_hash,
+          referrer: sanitizeString(payload.referrer || req.headers.referer || "Direct"),
+          utm_source: sanitizeString(payload.utm_source || "none"),
+          utm_medium: sanitizeString(payload.utm_medium || "none"),
+          utm_campaign: sanitizeString(payload.utm_campaign || "none"),
+          lead_status: "new"
+        };
+
+        // 1. Store lead in Firestore first (Persistence First)
+        try {
+          await db.collection("submissions").doc(formType).collection("entries").doc(submissionId).set(record);
+        } catch (dbErr) {
+          console.error("Firestore write failed:", dbErr);
+          return res.status(500).json({ success: false, message: "Failed to store submission." });
+        }
+
+        // 2. Attempt Email Delivery
+        try {
+          const smtpUser = process.env.SMTP_USER;
+          const smtpPass = process.env.SMTP_PASS;
+          if (!smtpUser || !smtpPass) {
+            throw new Error("SMTP credentials are not configured in environment variables.");
+          }
+
+          const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: { user: smtpUser, pass: smtpPass }
           });
 
-          // Generate public URL with download access token
-          const token = admin.firestore().collection("temp").doc().id; // generate unique token
-          await storageFile.setMetadata({
-            metadata: {
-              firebaseStorageDownloadTokens: token
-            }
+          const subject = `[AARAA Web] ${formType.toUpperCase()} Submission | ${name}`;
+          const html = buildEmailHTML(record, formType, submissionId);
+
+          await transporter.sendMail({
+            from: `"AARAA Portal" <no-reply@aaraainfrastructure.com>`,
+            replyTo: email || undefined,
+            to: "aaraainfrastructure@gmail.com",
+            subject,
+            html
           });
 
-          const publicUrl = `https://firebasestorage.googleapis.com/v1/b/${bucket.name}/o/${encodeURIComponent(storagePath)}?alt=media&token=${token}`;
+          console.log(`[Email Success] Submission ${submissionId} emailed to receiver.`);
+          return res.json({ success: true, message: "Your enquiry has been submitted successfully.", submission_id: submissionId });
+        } catch (mailErr) {
+          console.error(`[Email Failure] Failed to send email for ${submissionId}:`, mailErr);
           
-          fileUrls[up.fieldname] = publicUrl;
-          fileUrls[`${up.fieldname}Name`] = up.filename;
+          // Update status in Firestore to email_failed
+          await db.collection("submissions").doc(formType).collection("entries").doc(submissionId).update({
+            lead_status: "email_failed",
+            email_error: mailErr.message
+          });
 
-          emailAttachments.push({
-            filename: up.filename,
-            path: publicUrl // Nodemailer fetches the media directly
+          // Return partial success message
+          return res.json({
+            success: true,
+            message: "Your enquiry has been received successfully. Our team has been notified and will contact you shortly.",
+            submission_id: submissionId
           });
         }
-      } catch (uploadErr) {
-        console.error("Storage upload failed:", uploadErr);
-        return res.status(500).json({ success: false, message: "Failed to upload file attachments. Please try again." });
+
+      } catch (jsonErr) {
+        console.error("JSON parse/process failed:", jsonErr);
+        return res.status(400).json({ success: false, message: "Invalid payload." });
       }
-
-      // Construct Firestore Record payload
-      const timestamp = new Date().toISOString();
-      const firestoreCollections = {
-        career: "careerApplications",
-        partnership: "strategicPartnerships",
-        jv: "jointVentures",
-        subcontractor: "subcontractorApplications",
-        internship: "internshipApplications",
-        vendor: "vendors"
-      };
-
-      const targetCollection = firestoreCollections[formType];
-      const applicantRecord = {
-        applicationId,
-        ipAddress,
-        userAgent,
-        sourcePage: sanitizedData.sourceUrl || "Unknown",
-        createdAt: timestamp,
-        status: "new",
-        fileUrls,
-        details: sanitizedData
-      };
-
-      try {
-        await db.collection(targetCollection).doc(applicationId).set(applicantRecord);
-      } catch (dbErr) {
-        console.error("Firestore database write failed:", dbErr);
-        return res.status(500).json({ success: false, message: "Failed to save application details." });
-      }
-
-      // Build Notification Email Subject
-      const emailSubjectPrefixes = {
-        career: "[AARAA Career Application]",
-        partnership: "[AARAA Strategic Partnership]",
-        jv: "[AARAA Joint Venture Proposal]",
-        subcontractor: "[AARAA Subcontractor Registration]",
-        internship: "[AARAA Internship Application]",
-        vendor: "[AARAA Vendor Registration]"
-      };
-
-      const emailSubject = `${emailSubjectPrefixes[formType]} - ${sanitizedData.name || sanitizedData.company || ""}`;
-
-      // Build Pretty Email HTML Rows
-      const labelMap = {
-        incorporationCert: "Certificate of Incorporation",
-        identityProof: "Proprietor Identity Proof",
-        addressProof: "Company Address Proof",
-        tradeLicense: "Trade License / Other Registration",
-        name: "Full Name / Representative",
-        college: "College Name",
-        degree: "Degree",
-        department: "Department",
-        year_study: "Year of Study",
-        phone: "Contact Number",
-        mobile: "Mobile Number",
-        email: "Email Address",
-        location: "Current Location",
-        position: "Position Applied For",
-        experience: "Years of Experience",
-        current_employer: "Current Employer",
-        current_ctc: "Current CTC",
-        expected_ctc: "Expected CTC",
-        notice_period: "Notice Period",
-        qualification: "Highest Qualification",
-        skills: "Skills / Expertise",
-        message: "Cover Letter / Statement of Purpose / Objective",
-        company: "Company Name",
-        designation: "Designation",
-        website: "Website",
-        industry: "Industry",
-        partnership_type: "Partnership Type",
-        turnover: "Annual Turnover",
-        geo_presence: "Geographic Presence",
-        reg_number: "Company Registration Number",
-        years_operation: "Years in Operation",
-        collaboration_areas: "Areas of Collaboration",
-        gst: "GST Number",
-        pan: "PAN Number",
-        state: "State",
-        city: "City",
-        trade_category: "Trade Category",
-        employees: "Number of Employees",
-        clients: "Major Clients",
-        safety_declaration: "Safety Compliance Accepted",
-        internship_area: "Internship Area",
-        duration: "Preferred Duration",
-        cgpa: "Current CGPA"
-      };
-
-      let tableRows = "";
-      for (const [key, val] of Object.entries(sanitizedData)) {
-        if (["formType", "sourceUrl", "pageTitle"].includes(key)) continue;
-        const label = labelMap[key] || key.charAt(0).toUpperCase() + key.slice(1);
-        tableRows += `
-          <tr>
-            <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f9f9f9; width: 35%;">${label}</td>
-            <td style="padding: 10px; border: 1px solid #ddd;">${val}</td>
-          </tr>
-        `;
-      }
-
-      // Add File Links Row
-      let fileRows = "";
-      for (const reqField of Object.keys(config.allowed)) {
-        if (fileUrls[reqField]) {
-          const label = labelMap[reqField] || reqField.charAt(0).toUpperCase() + reqField.slice(1);
-          fileRows += `
-            <tr>
-              <td style="padding: 10px; border: 1px solid #ddd; font-weight: bold; background-color: #f2f7fa; width: 35%;">${label}</td>
-              <td style="padding: 10px; border: 1px solid #ddd;">
-                <a href="${fileUrls[reqField]}" target="_blank" style="color: #ed2f39; font-weight: bold; text-decoration: none;">Download ${fileUrls[`${reqField}Name`]}</a>
-              </td>
-            </tr>
-          `;
-        }
-      }
-
-      const emailHtml = `
-        <div style="max-width: 650px; margin: 0 auto; font-family: sans-serif; border: 1px solid #e0e0e0; border-radius: 8px; overflow: hidden; box-shadow: 0 4px 6px rgba(0,0,0,0.05);">
-          <div style="background-color: #ed2f39; color: white; padding: 24px; text-align: center;">
-            <h2 style="margin: 0; font-size: 22px;">${emailSubject.split(" - ")[0]}</h2>
-            <p style="margin: 6px 0 0 0; font-size: 14px; opacity: 0.9;">Application ID: <strong>${applicationId}</strong></p>
-          </div>
-          <div style="padding: 20px;">
-            <h3 style="color: #333; border-bottom: 2px solid #ed2f39; padding-bottom: 6px; margin-top: 0;">Applicant Information</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px; color: #444;">
-              ${tableRows}
-            </table>
-            <h3 style="color: #333; border-bottom: 2px solid #ed2f39; padding-bottom: 6px; margin-top: 24px;">Uploaded Attachments</h3>
-            <table style="width: 100%; border-collapse: collapse; margin-bottom: 20px; font-size: 14px;">
-              ${fileRows}
-            </table>
-            <h3 style="color: #333; border-bottom: 2px solid #ed2f39; padding-bottom: 6px; margin-top: 24px;">Submission Metadata</h3>
-            <table style="width: 100%; border-collapse: collapse; font-size: 13px; color: #666;">
-              <tr>
-                <td style="padding: 8px; border: 1px solid #eee; font-weight: bold; background-color: #fafafa; width: 35%;">Submission Time (IST)</td>
-                <td style="padding: 8px; border: 1px solid #eee;">${new Date().toLocaleString("en-IN", { timeZone: "Asia/Kolkata" })}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #eee; font-weight: bold; background-color: #fafafa;">Applicant IP Address</td>
-                <td style="padding: 8px; border: 1px solid #eee;">${ipAddress}</td>
-              </tr>
-              <tr>
-                <td style="padding: 8px; border: 1px solid #eee; font-weight: bold; background-color: #fafafa;">Form Source URL</td>
-                <td style="padding: 8px; border: 1px solid #eee;"><a href="${sanitizedData.sourceUrl}" target="_blank" style="color: #ed2f39;">${sanitizedData.sourceUrl}</a></td>
-              </tr>
-            </table>
-          </div>
-        </div>
-      `;
-
-      try {
-        await sendNotificationEmail(emailSubject, emailHtml, emailAttachments, sanitizedData.email);
-      } catch (mailErr) {
-        console.error("Mail dispatch failed:", mailErr);
-        // Note: We still return success: true because the application was successfully saved to Storage and Firestore.
-      }
-
-      return res.json({
-        success: true,
-        message: "Application submitted and received successfully.",
-        applicationId
-      });
-    });
-
-    if (req.rawBody) {
-      busboy.end(req.rawBody);
-    } else {
-      req.pipe(busboy);
     }
-  } else {
-    return res.status(404).json({ success: false, message: "Endpoint Not Found." });
+
+    // Multipart Form Submissions (Forms containing files)
+    if (contentType.includes("multipart/form-data")) {
+      const busboy = Busboy({ headers: req.headers });
+      const fields = {};
+      const uploads = [];
+      let isFileError = false;
+      let fileErrorMessage = "";
+
+      busboy.on("field", (fieldname, val) => {
+        fields[fieldname] = val;
+      });
+
+      busboy.on("file", (fieldname, file, info) => {
+        const { filename, mimeType } = info;
+        if (!filename) { file.resume(); return; }
+
+        const fileBuffers = [];
+        file.on("data", (data) => fileBuffers.push(data));
+        file.on("end", () => {
+          const buffer = Buffer.concat(fileBuffers);
+          // Security checks for file uploads
+          const check = validateFile(filename, mimeType, buffer.length);
+          if (!check.valid) {
+            isFileError = true;
+            fileErrorMessage = check.message;
+          }
+          uploads.push({ fieldname, filename, mimeType, buffer });
+        });
+      });
+
+      busboy.on("finish", async () => {
+        if (isFileError) {
+          return res.status(400).json({ success: false, message: fileErrorMessage });
+        }
+
+        // Honeypot spam check
+        if (fields._honeypot && fields._honeypot.trim() !== "") {
+          return res.status(400).json({ success: false, message: "Spam detected." });
+        }
+
+        const formType = (fields.formType || "careers").toLowerCase();
+
+        // Validate Turnstile token
+        const turnstileToken = fields["cf-turnstile-response"];
+        const isVerified = await verifyTurnstile(turnstileToken, ipAddress);
+        if (!isVerified) {
+          return res.status(400).json({ success: false, message: "Security verification failed." });
+        }
+
+        // Sanitize fields
+        const name = sanitizeString(fields.name || "");
+        const phone = sanitizeString(fields.phone || fields.mobile || "");
+        const email = sanitizeString(fields.email || "");
+        const message = sanitizeString(fields.message || fields.description || "");
+
+        // Validations
+        if (!name || !phone || !email) {
+          return res.status(400).json({ success: false, message: "Name, Phone, and Email are required." });
+        }
+        if (!isValidPhone(phone)) {
+          return res.status(400).json({ success: false, message: "Please enter a valid 10-digit mobile number." });
+        }
+        if (!isValidEmail(email)) {
+          return res.status(400).json({ success: false, message: "Please enter a valid email address." });
+        }
+
+        // Generate Submission ID
+        const timestamp = new Date().toISOString();
+        const submissionId = `AAR-${formType.toUpperCase().slice(0, 3)}-${Date.now().toString().slice(-6)}-${Math.floor(1000 + Math.random() * 9000)}`;
+
+        // Upload files to Firebase Storage
+        const fileUrls = {};
+        const emailAttachments = [];
+        const bucket = storage.bucket(STORAGE_BUCKET);
+
+        try {
+          for (const up of uploads) {
+            const sanitizedFilename = up.filename.replace(/\s+/g, "_");
+            const storagePath = `submissions/${formType}/${submissionId}_${sanitizedFilename}`;
+            const storageFile = bucket.file(storagePath);
+
+            await storageFile.save(up.buffer, {
+              metadata: { contentType: up.mimeType }
+            });
+
+            // Generate token
+            const token = db.collection("temp").doc().id;
+            await storageFile.setMetadata({
+              metadata: { firebaseStorageDownloadTokens: token }
+            });
+
+            const publicUrl = `https://firebasestorage.googleapis.com/v0/b/${STORAGE_BUCKET}/o/${encodeURIComponent(storagePath)}?alt=media&token=${token}`;
+            
+            fileUrls[up.fieldname] = publicUrl;
+            fileUrls[`${up.fieldname}Name`] = up.filename;
+            emailAttachments.push({ filename: up.filename, path: publicUrl });
+          }
+        } catch (uploadErr) {
+          console.error("Storage upload failed:", uploadErr);
+          return res.status(500).json({ success: false, message: "Failed to upload attachments." });
+        }
+
+        // Build Record
+        const record = {
+          submission_id: submissionId,
+          form_type: formType,
+          timestamp,
+          createdAt: timestamp,
+          name,
+          phone,
+          email,
+          message: message || null,
+          fileUrls,
+          page_url: sanitizeString(fields.sourceUrl || req.headers.referer || "Unknown"),
+          ipAddress,
+          ip_hash,
+          referrer: sanitizeString(fields.referrer || req.headers.referer || "Direct"),
+          utm_source: sanitizeString(fields.utm_source || "none"),
+          utm_medium: sanitizeString(fields.utm_medium || "none"),
+          utm_campaign: sanitizeString(fields.utm_campaign || "none"),
+          lead_status: "new"
+        };
+
+        // Add additional form fields
+        for (const [key, val] of Object.entries(fields)) {
+          if (['name', 'phone', 'mobile', 'email', 'message', 'description', '_honeypot', 'cf-turnstile-response', 'formType', 'sourceUrl', 'pageTitle', 'referrer', 'utm_source', 'utm_medium', 'utm_campaign'].includes(key)) continue;
+          record[key] = sanitizeString(val);
+        }
+
+        // 1. Store lead in Firestore first (Persistence First)
+        try {
+          await db.collection("submissions").doc(formType).collection("entries").doc(submissionId).set(record);
+        } catch (dbErr) {
+          console.error("Firestore write failed:", dbErr);
+          return res.status(500).json({ success: false, message: "Failed to store submission." });
+        }
+
+        // 2. Attempt Email Delivery
+        try {
+          const smtpUser = process.env.SMTP_USER;
+          const smtpPass = process.env.SMTP_PASS;
+          if (!smtpUser || !smtpPass) {
+            throw new Error("SMTP credentials are not configured in environment variables.");
+          }
+
+          const transporter = nodemailer.createTransport({
+            host: "smtp.gmail.com",
+            port: 587,
+            secure: false,
+            auth: { user: smtpUser, pass: smtpPass }
+          });
+
+          const subject = `[AARAA Web] ${formType.toUpperCase()} Application | ${name}`;
+          const html = buildEmailHTML(record, formType, submissionId, fileUrls);
+
+          await transporter.sendMail({
+            from: `"AARAA Portal" <no-reply@aaraainfrastructure.com>`,
+            replyTo: email,
+            to: "aaraainfrastructure@gmail.com",
+            subject,
+            html,
+            attachments: emailAttachments
+          });
+
+          console.log(`[Email Success] Submission ${submissionId} with attachments emailed to receiver.`);
+          return res.json({ success: true, message: "Your application has been submitted successfully.", submission_id: submissionId });
+        } catch (mailErr) {
+          console.error(`[Email Failure] Failed to send email for ${submissionId}:`, mailErr);
+          
+          // Update status in Firestore to email_failed
+          await db.collection("submissions").doc(formType).collection("entries").doc(submissionId).update({
+            lead_status: "email_failed",
+            email_error: mailErr.message
+          });
+
+          // Return partial success message
+          return res.json({
+            success: true,
+            message: "Your enquiry has been received successfully. Our team has been notified and will contact you shortly.",
+            submission_id: submissionId
+          });
+        }
+      });
+
+      if (req.rawBody) {
+        busboy.end(req.rawBody);
+      } else {
+        req.pipe(busboy);
+      }
+      return;
+    }
+
+    return res.status(400).json({ success: false, message: "Unsupported Content-Type." });
   }
+
+  // Route Not Found
+  return res.status(404).json({ success: false, message: "Endpoint Not Found." });
 });

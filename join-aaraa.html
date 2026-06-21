@@ -484,7 +484,10 @@
                                     <p class="text">Subscribe to receive the latest news from us.</p>
                                     <form class="form-newsletter subscribe-form" accept-charset="utf-8" data-mailchimp="true">
                                         <input type="email" name="email-form" class="subscribe-email" placeholder="Email address" tabindex="0" aria-required="true" required>
-                                        <button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter"><i class="icon-arrow-right"></i></button>
+                                        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter"><i class="icon-arrow-right"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -530,7 +533,7 @@
 
 <!-- START: Custom Mobile Menu - devic_mnu -->
 <div class="devic_mnu-container">
-    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()">?</button>
+    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()"><i class="fa-solid fa-bars"></i></button>
     <ul class="devic_mnu-list" id="devicMenu">
         <li><a href="index.html">Home</a></li>
         <li>
@@ -581,5 +584,8 @@
         menu.style.display = (menu.style.display === "flex") ? "none" : "flex";
     }
 </script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

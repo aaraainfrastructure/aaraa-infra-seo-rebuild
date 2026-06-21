@@ -421,7 +421,7 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
   <div style="background:#fff; padding:30px; border-radius:10px; width:90%; max-width:500px; position:relative;">
     <button onclick="closePopup()" aria-label="Close" style="position:absolute; top:10px; right:10px;">&times;</button>
     <h2 style="margin-bottom:10px;">Vendor Registration</h2>
-    <form id="vendorForm">
+    <form id="vendorForm" data-form-type="contact">
       <input type="text" name="name" placeholder="Full Name" required><br><br>
       <input type="email" name="email" placeholder="Email" required><br><br>
       <input type="text" name="phone" placeholder="Phone Number" required><br><br>
@@ -429,7 +429,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       <input type="text" name="aadhaar" placeholder="Aadhaar Number" required><br><br>
       <input type="text" name="pan" placeholder="PAN Number" required><br><br>
       <input type="text" name="gst" placeholder="GST Number" required><br><br>
-      <input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
       <div id="message" style="margin-top:10px;"></div>
     </form>
   </div>
@@ -439,12 +442,15 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
   <div style="background:#fff; padding:30px; border-radius:10px; width:90%; max-width:500px; position:relative;">
     <button onclick="closeEnquiry()" style="position:absolute; top:10px; right:10px;">&times;</button>
     <h2 style="margin-bottom:10px;">Quick Enquiry</h2>
-    <form id="quickEnquiryForm">
+    <form id="quickEnquiryForm" data-form-type="contact">
       <input type="text" name="name" placeholder="Your Name" required><br><br>
       <input type="email" name="email" placeholder="Your Email" required><br><br>
       <input type="text" name="phone" placeholder="Your Phone" required><br><br>
       <textarea name="message" placeholder="Your Message" rows="4" required style="width:100%;"></textarea><br><br>
-      <input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
       <div id="enquiryMessage" style="margin-top:10px;"></div>
     </form>
   </div>
@@ -941,7 +947,7 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
                             <i class="icon-close"></i>
                         </button>
                     </div>
-                   <form id="contactform" class="form-contact-us" method="post">
+                   <form id="contactform" class="form-contact-us" method="post" data-form-type="contact">
     <div class="cols">
         <fieldset class="item">
             <input type="text" name="name" id="name" placeholder="*Full name" required>
@@ -966,7 +972,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
             <input type="checkbox" name="terms" id="save1" required>
             <label for="save1">Accept terms and conditions from AARAA.</label>
         </fieldset>
-        <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
+        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
             <span>send message</span>
             <span class="icon"><i class="icon-arrow-right"></i></span>
         </button>
@@ -995,7 +1004,7 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
                             <i class="icon-close"></i>
                         </button>
                     </div>
-                  <form id="quickform" class="form-contact-us" method="post" >
+                  <form id="quickform" class="form-contact-us" method="post" data-form-type="contact">
     <div class="cols">
         <fieldset class="item">
             <input type="text" name="name" id="name" placeholder="*Full name" required>
@@ -1020,7 +1029,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
             <input type="checkbox" name="terms" id="save1" required>
             <label for="save1">Accept terms and conditions from AARAA.</label>
         </fieldset>
-        <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
+        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
             <span>send message</span>
             <span class="icon"><i class="icon-arrow-right"></i></span>
         </button>
@@ -1049,7 +1061,7 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
                             <i class="icon-close"></i>
                         </button>
                     </div>
-                  <form id="quickform" class="form-contact-us" method="post" >
+                  <form id="emailform" class="form-contact-us" method="post" data-form-type="contact">
     <div class="cols">
 	
 	
@@ -1081,7 +1093,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
             <input type="checkbox" name="terms" id="save1" required>
             <label for="save1">Accept terms and conditions from AARAA.</label>
         </fieldset>
-        <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
+        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
             <span>Send Email</span>
             <span class="icon"><i class="icon-arrow-right"></i></span>
         </button>
@@ -1111,14 +1126,17 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
                             <i class="icon-close"></i>
                         </button>
                     </div>
-                   <form id="callbackform" class="form-contact-us" method="post" >
+                   <form id="callbackform" class="form-contact-us" method="post" data-form-type="callback">
     <fieldset class="item mb-20">
         <input type="text" name="name" id="callback-name" placeholder="*Full name" required>
     </fieldset>
     <fieldset class="item mb-20">
         <input type="number" name="phone" id="callback-phone" placeholder="*Phone number" required>
     </fieldset>
-    <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
+    
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
         <span>send message</span>
         <span class="icon"><i class="icon-arrow-right"></i></span>
     </button>
@@ -1213,9 +1231,12 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
                                     <p class="text">
                                         Subscribe to receive the latest news from us, we make sure not to spam your inbox.
                                     </p>
-                                    <form class="form-newsletter subscribe-form" accept-charset="utf-8" data-mailchimp="true">
+                                    <form class="form-newsletter subscribe-form" accept-charset="utf-8" data-mailchimp="true" data-form-type="contact">
                                         <input type="email" name="email-form" class="subscribe-email" placeholder="Email address" tabindex="0" aria-required="true" required>
-                                        <button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
+                                        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
                                             <i class="icon-arrow-right"></i>
                                         </button>
                                     </form>
@@ -1294,102 +1315,14 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
     <script type="text/javascript" src="js/main.js"></script>
     <!-- /Javascript -->
 	
-	<script>
-document.getElementById("callbackform").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    fetch("callback-form.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.text())
-    .then(result => {
-        alert(result); // ? You can replace with a popup/toast
-        form.reset();  // Optional: Clear form after submit
-    })
-    .catch(() => {
-        alert("Something went wrong. Please try again.");
-    });
-});
-</script>
+<!-- PHP handler removed - handled by firebase-submit.js -->
 
 
-<script>
-document.getElementById("emailform").addEventListener("submit", function (e) {
-    e.preventDefault();
-    
-    const form = e.target;
-    const formData = new FormData(form);
+<!-- PHP handler removed - handled by firebase-submit.js -->
 
-    fetch("send-email-form.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.text())
-    .then(result => {
-        alert(result); // You can replace with a custom popup
-        form.reset();
-    })
-    .catch(() => {
-        alert("Something went wrong. Please try again.");
-    });
-});
-</script>
+<!-- PHP handler removed - handled by firebase-submit.js -->
 
-<script>
-document.getElementById("quickform").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    fetch("quick-enquiry.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.text())
-    .then(result => {
-        if (result.trim() === "success") {
-            document.getElementById("form-message").style.display = "block";
-            form.reset();
-        } else {
-            alert(result);
-        }
-    })
-    .catch(() => {
-        alert("Something went wrong. Please try again.");
-    });
-});
-</script>
-
-<script>
-document.getElementById("quickform").addEventListener("submit", function (e) {
-    e.preventDefault();
-
-    const form = e.target;
-    const formData = new FormData(form);
-
-    fetch("quick-enquiry.php", {
-        method: "POST",
-        body: formData
-    })
-    .then(res => res.text())
-    .then(result => {
-        if (result.trim() === "success") {
-            document.getElementById("form-message").style.display = "block";
-            form.reset();
-        } else {
-            alert(result);
-        }
-    })
-    .catch(() => {
-        alert("Something went wrong. Please try again.");
-    });
-});
-</script>
+<!-- PHP handler removed - handled by firebase-submit.js -->
 
 
 
@@ -1398,13 +1331,16 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
 
 </main>
 
-<script src="js/lib/emailjs.bundle.min.js"></script>
   <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
   <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js?v=2"></script>
+<script type="module" src="js/firebase/app.js?v=4"></script>
 
+<script src="js/firebase-submit.js?v=5"></script>
 <script src="js/aaraa-popups.js"></script>
 <script src="js/aaraa-modals.js"></script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 
 <!-- START: Custom Mobile Menu - devic_mnu -->
@@ -1548,7 +1484,7 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
 </style>
 
 <div class="devic_mnu-container">
-    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()">?</button>
+    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()"><i class="fa-solid fa-bars"></i></button>
     <ul class="devic_mnu-list" id="devicMenu">
         <li><a href="index.html">Home</a></li>
         <li>
@@ -1592,7 +1528,7 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
   <div class="modal-content">
     <span class="close-btn" onclick="closeEnquiryModal()">&times;</span>
     <h2>Quick Enquiry</h2>
-    <form id="enquiryForm">
+    <form id="enquiryForm" data-form-type="contact">
       <div class="form-group">
         <label for="clientName">Full Name*</label>
         <input type="text" id="clientName" name="clientName" required>
@@ -1609,7 +1545,10 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
         <label for="description">Description*</label>
         <textarea id="description" name="description" required></textarea>
       </div>
-      <button type="submit">Submit</button>
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit">Submit</button>
     </form>
     <div id="thankYouMsg" style="display: none;">
       <h3>Thank You!</h3>
@@ -1618,8 +1557,6 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
 <script>
   const enquiryBtn = document.getElementById("enquiryBtn");
   const enquiryModal = document.getElementById("enquiryModal");
-  const enquiryForm = document.getElementById("enquiryForm");
-  const thankYouMsg = document.getElementById("thankYouMsg");
 
   enquiryBtn.addEventListener("click", () => {
     enquiryModal.style.display = "block";
@@ -1627,9 +1564,9 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
 
   function closeEnquiryModal() {
     enquiryModal.style.display = "none";
-    enquiryForm.style.display = "block";
-    thankYouMsg.style.display = "none";
-    enquiryForm.reset();
+    document.getElementById("enquiryForm").style.display = "block";
+    document.getElementById("thankYouMsg").style.display = "none";
+    document.getElementById("enquiryForm").reset();
   }
 
   window.onclick = function(event) {
@@ -1637,26 +1574,8 @@ document.getElementById("quickform").addEventListener("submit", function (e) {
       closeEnquiryModal();
     }
   }
-
-  enquiryForm.addEventListener("submit", function (e) {
-    e.preventDefault();
-    const formData = new FormData(enquiryForm);
-    fetch("submit-enquiry.php", {
-      method: "POST",
-      body: formData
-    })
-    .then(res => res.json())
-    .then(data => {
-      if (data.success) {
-        enquiryForm.style.display = "none";
-        thankYouMsg.style.display = "block";
-      } else {
-        alert("There was an error submitting the form.");
-      }
-    })
-    .catch(() => alert("Submission failed."));
-  });
 </script>
+<!-- PHP handler removed - handled by firebase-submit.js -->
 <script>
 function openPopup() {
   document.getElementById('popupForm').style.display = 'flex';
@@ -1664,23 +1583,8 @@ function openPopup() {
 function closePopup() {
   document.getElementById('popupForm').style.display = 'none';
 }
-
-document.getElementById('vendorForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-  const message = document.getElementById('message');
-
-  const response = await fetch("send_email.php", {
-    method: "POST",
-    body: formData
-  });
-
-  const result = await response.text();
-  message.innerHTML = result.includes("Success")
-    ? "<span style='color:green;'>Registration sent successfully!</span>"
-    : "<span style='color:red;'>Failed to send. Try again.</span>";
-});
 </script>
+<!-- PHP handler removed - handled by firebase-submit.js -->
 
 
 <script>
@@ -1690,23 +1594,8 @@ function openEnquiry() {
 function closeEnquiry() {
   document.getElementById('enquiryForm').style.display = 'none';
 }
-
-document.getElementById('quickEnquiryForm').addEventListener('submit', async function(e) {
-  e.preventDefault();
-  const formData = new FormData(this);
-  const message = document.getElementById('enquiryMessage');
-
-  const response = await fetch("send_enquiry.php", {
-    method: "POST",
-    body: formData
-  });
-
-  const result = await response.text();
-  message.innerHTML = result.includes("Success")
-    ? "<span style='color:green;'>Thank you! We'll get back to you soon.</span>"
-    : "<span style='color:red;'>Submission failed. Please try again.</span>";
-});
 </script>
+<!-- PHP handler removed - handled by firebase-submit.js -->
 
 <script>
   document.getElementById("currentYear").textContent = new Date().getFullYear();

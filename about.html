@@ -1439,7 +1439,10 @@ Our Legacy
                                     </p>
                                     <form class="form-newsletter subscribe-form" accept-charset="utf-8" data-mailchimp="true">
                                         <input type="email" name="email-form" class="subscribe-email" placeholder="Email address" tabindex="0" aria-required="true" required>
-                                        <button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
+                                        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
                                             <i class="icon-arrow-right"></i>
                                         </button>
                                     </form>
@@ -1478,7 +1481,7 @@ Our Legacy
                             <i class="icon-close"></i>
                         </button>
                     </div>
-                    <form id="contactform" class="form-contact-us" method="post" action="#">
+                    <form id="contactform" class="form-contact-us" method="post" action="#" data-form-type="contact">
                         <div class="cols">
                             <fieldset class="item">
                                 <input type="text" name="name" id="name" placeholder="*Full name">
@@ -1516,7 +1519,10 @@ Our Legacy
                                 <input type="checkbox" name="save" id="save1" checked="">
                                 <label for="save">Accept terms and conditions from Graviton AARAA INFRASTRUCTURE. </label>
                             </fieldset>
-                            <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
+                            
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
                                 <span>send message</span>
                                 <span class="icon"><i class="icon-arrow-right"></i></span>
                             </button>
@@ -1535,14 +1541,17 @@ Our Legacy
                             <i class="icon-close"></i>
                         </button>
                     </div>
-                    <form class="form-contact-us" action="#">
+                    <form class="form-contact-us" action="#" data-form-type="callback">
                         <fieldset class="item mb-20">
                             <input type="text" name="name" id="name1" placeholder="*Full name">
                         </fieldset>
                         <fieldset class="item mb-20">
                             <input type="number" name="phone" id="phone1" placeholder="*Phone number">
                         </fieldset>
-                        <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
+                        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
                             <span>send message</span>
                             <span class="icon"><i class="icon-arrow-right"></i></span>
                         </button>
@@ -1560,7 +1569,7 @@ Our Legacy
                             <i class="icon-close"></i>
                         </button>
                     </div>
-                    <form class="form-contact-us" action="#">
+                    <form class="form-contact-us" action="#" data-form-type="contact">
                         <div class="cols">
                             <fieldset class="item">
                                 <input type="text" name="name" id="name2" placeholder="*Full name">
@@ -1580,7 +1589,10 @@ Our Legacy
                                 <input type="checkbox" name="save" id="save" checked="">
                                 <label for="save">Accept terms and conditions from Graviton AARAA INFRASTRUCTURE. </label>
                             </fieldset>
-                            <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
+                            
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase">
                                 <span>send message</span>
                                 <span class="icon"><i class="icon-arrow-right"></i></span>
                             </button>
@@ -1620,17 +1632,20 @@ Our Legacy
 <script src="js/jquery-validate.js"></script>
 <script src="js/main.js"></script>
 
-<script src="js/lib/emailjs.bundle.min.js"></script>
 <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
 <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js?v=2"></script>
+<script type="module" src="js/firebase/app.js?v=4"></script>
 
 <script src="js/aaraa-popups.js"></script>
+<script src="js/firebase-submit.js?v=5"></script>
 <script src="js/aaraa-modals.js"></script>
     <!-- /Javascript -->
 
 
 </main>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 
 <!-- START: Custom Mobile Menu - devic_mnu -->
@@ -1704,7 +1719,7 @@ Our Legacy
 </style>
 
 <div class="devic_mnu-container">
-    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()">?</button>
+    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()"><i class="fa-solid fa-bars"></i></button>
     <ul class="devic_mnu-list" id="devicMenu">
         <li><a href="index.html">Home</a></li>
         <li>

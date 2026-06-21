@@ -119,6 +119,38 @@
 .rb-submenu a::before { content: ''; position: absolute; left: 0; top: 0; width: 3px; height: 0; background: white; transition: height 0.3s ease; }
 .rb-submenu a:hover { background: rgba(255, 255, 255, 0.1); padding-left: 25px; }
 .rb-submenu a:hover::before { height: 100%; }
+
+/* Nested Submenus (.rb-submenu-2) */
+.has-sub-2 { position: relative; }
+.rb-submenu-2 {
+    position: absolute;
+    top: 0;
+    left: 100%;
+    min-width: 220px;
+    background: #d01f29;
+    list-style: none;
+    padding: 10px 0;
+    border-radius: 8px;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateX(10px);
+    transition: all 0.3s ease;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+}
+.has-sub-2:hover .rb-submenu-2 {
+    opacity: 1;
+    visibility: visible;
+    transform: translateX(0);
+}
+.has-sub-2 > a::after {
+    content: '\f105';
+    font-family: 'Font Awesome 6 Free';
+    font-weight: 900;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+}
 .rb-actions { display: flex; gap: 15px; align-items: center; flex-shrink: 0; }
 .rb-btn { padding: 12px 25px; border-radius: 30px; text-decoration: none; font-size: 14px; font-weight: 600; transition: all 0.3s ease; display: inline-block; position: relative; overflow: hidden; }
 .rb-btn--ghost { color: white; border: 2px solid rgba(255, 255, 255, 0.3); background: transparent; }
@@ -137,6 +169,22 @@
     .rb-menu > li > a::after { display: none; }
     .rb-submenu { position: static; transform: none; width: 100%; background: rgba(237, 47, 57, 0.2); border-radius: 0; display: none; opacity: 1; visibility: visible; padding-left: 20px; box-shadow: none; }
     .has-sub.active .rb-submenu { display: block; animation: slideDown 0.3s ease; }
+    .rb-submenu-2 { position: static; transform: none; width: 100%; background: rgba(255, 255, 255, 0.05); border-radius: 0; display: none; opacity: 1; visibility: visible; padding-left: 20px; box-shadow: none; }
+    .has-sub-2.active .rb-submenu-2 { display: block; animation: slideDown 0.3s ease; }
+    .has-sub-2 > a { position: relative; }
+    .has-sub-2 > a::after {
+        content: '\f107';
+        font-family: 'Font Awesome 6 Free';
+        font-weight: 900;
+        position: absolute;
+        right: 15px;
+        top: 50%;
+        transform: translateY(-50%);
+        transition: transform 0.3s ease;
+    }
+    .has-sub-2.active > a::after {
+        transform: translateY(-50%) rotate(180deg);
+    }
     @keyframes slideDown { from { opacity: 0; max-height: 0; } to { opacity: 1; max-height: 500px; } }
     .rb-actions { width: 100%; flex-direction: column; gap: 10px; margin-top: 30px; padding-top: 30px; border-top: 1px solid rgba(255, 255, 255, 0.1); }
     .rb-btn { width: 100%; text-align: center; }

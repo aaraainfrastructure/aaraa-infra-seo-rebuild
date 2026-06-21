@@ -512,7 +512,10 @@
                                     <p class="text">Subscribe to receive the latest news from us, we make sure not to spam your inbox.</p>
                                     <form class="form-newsletter subscribe-form" id="newsletterForm" accept-charset="utf-8">
                                         <input type="email" name="email" class="subscribe-email" placeholder="Email address" tabindex="0" aria-required="true" required>
-                                        <button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter"><i class="icon-arrow-right"></i></button>
+                                        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter"><i class="icon-arrow-right"></i></button>
                                     </form>
                                 </div>
                             </div>
@@ -561,7 +564,10 @@
               </select>
             </div>
             <div class="aaraa-popup-group"><label>Services / Materials Provided <span class="required">*</span></label><textarea class="aaraa-popup-field" name="services" required></textarea></div>
-            <div class="aaraa-popup-btns"><button type="submit" class="aaraa-popup-submit"><span class="aaraa-popup-btn-text">Submit Registration</span></button></div>
+            <div class="aaraa-popup-btns">
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="aaraa-popup-submit"><span class="aaraa-popup-btn-text">Submit Registration</span></button></div>
           </form>
         </div>
       </div>
@@ -575,7 +581,10 @@
                     <div class="cols"><fieldset class="item"><input name="name" placeholder="*Full name" required type="text"></fieldset><fieldset class="item"><input name="email" placeholder="*Email address" required type="email"></fieldset></div>
                     <div class="cols"><fieldset class="item"><input name="phone" placeholder="*Phone number" required type="tel"></fieldset><fieldset class="item"><input name="subject" placeholder="Subject" required type="text"></fieldset></div>
                     <fieldset><textarea name="message" placeholder="Your Message*" required></textarea></fieldset>
-                    <div class="bottom-form flex justify-content-between align-items-center flex-wrap gap-20"><button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase"><span>send message</span><span class="icon"><i class="icon-arrow-right"></i></span></button></div>
+                    <div class="bottom-form flex justify-content-between align-items-center flex-wrap gap-20">
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase"><span>send message</span><span class="icon"><i class="icon-arrow-right"></i></span></button></div>
                 </form>
             </div>
         </div>
@@ -589,7 +598,10 @@
                     <div class="cols"><fieldset class="item"><input name="name" placeholder="*Full name" required type="text"></fieldset><fieldset class="item"><input name="email" placeholder="*Email address" required type="email"></fieldset></div>
                     <div class="cols"><fieldset class="item"><input name="phone" placeholder="*Phone number" required type="tel"></fieldset><fieldset class="item"><input name="subject" placeholder="Subject" required type="text"></fieldset></div>
                     <fieldset><textarea name="message" placeholder="Your Message*" required></textarea></fieldset>
-                    <div class="bottom-form flex justify-content-between align-items-center flex-wrap gap-20"><button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase"><span>Send Email</span><span class="icon"><i class="icon-arrow-right"></i></span></button></div>
+                    <div class="bottom-form flex justify-content-between align-items-center flex-wrap gap-20">
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase"><span>Send Email</span><span class="icon"><i class="icon-arrow-right"></i></span></button></div>
                 </form>
             </div>
         </div>
@@ -602,7 +614,10 @@
                 <form id="callbackform" class="form-contact-us">
                     <fieldset class="item mb-20"><input name="name" placeholder="*Full name" required type="text"></fieldset>
                     <fieldset class="item mb-20"><input name="phone" placeholder="*Phone number" required type="number"></fieldset>
-                    <button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase"><span>send message</span><span class="icon"><i class="icon-arrow-right"></i></span></button>
+                    
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="tf-btn style-1 hover-bg-secondary text-uppercase"><span>send message</span><span class="icon"><i class="icon-arrow-right"></i></span></button>
                 </form>
             </div>
         </div>
@@ -694,5 +709,8 @@
         });
     });
     </script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

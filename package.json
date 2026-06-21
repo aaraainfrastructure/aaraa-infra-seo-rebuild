@@ -4,14 +4,19 @@
   "description": "AARAA Infrastructure Website",
   "main": "index.js",
   "scripts": {
-    "start": "node server/server.js",
-    "server": "node server/server.js",
-    "server:dev": "node --watch server/server.js",
+    "start": "firebase emulators:start --only functions,hosting,firestore,storage --project aaraa-erp-2026",
+    "serve": "firebase emulators:start --only functions,hosting,firestore,storage --project aaraa-erp-2026",
+    "deploy": "firebase deploy",
     "build": "echo Build completed"
   },
   "dependencies": {
-    "@emailjs/browser": "^4.4.1",
-    "firebase": "^11.10.0"
+    "cors": "^2.8.5",
+    "express": "^4.19.2",
+    "express-rate-limit": "^7.2.0",
+    "firebase": "^11.10.0",
+    "helmet": "^7.1.0",
+    "multer": "^1.4.5-lts.1",
+    "nodemailer": "^6.9.13"
   },
   "author": "AARAA Infrastructure",
   "license": "ISC"

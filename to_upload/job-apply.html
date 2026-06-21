@@ -137,7 +137,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       <input type="email" name="email" placeholder="Email Address" required>
       <input type="tel" name="phone" placeholder="Phone Number" required>
       <input type="file" name="resume" required>
-      <button type="submit" id="applySubmit" class="apply-btn">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" id="applySubmit" class="apply-btn">
         <span class="apply-btn-text">Submit Application</span>
         <span class="apply-btn-loading" hidden>
           <span class="spinner" style="display:inline-block; width:16px; height:16px; border:2px solid currentColor; border-top-color:transparent; border-radius:50%; animation:spin 0.6s linear infinite; margin-right:8px; vertical-align:middle;"></span>
@@ -194,10 +197,9 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
   };
 </script>
 
-<script src="js/lib/emailjs.bundle.min.js"></script>
   <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
   <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js?v=2"></script>
+<script type="module" src="js/firebase/app.js?v=4"></script>
 
 <!-- START: Firebase v9 Modular Google Auth & Submit Handler -->
 <script type="module">
@@ -314,5 +316,8 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
 </script>
 <!-- END: Firebase v9 Modular Google Auth & Submit Handler -->
 </main>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

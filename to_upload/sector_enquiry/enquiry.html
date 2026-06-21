@@ -82,7 +82,10 @@
                     <textarea name="message" placeholder="Your Message / Project Description" required style="width:100%; height:100px; padding:10px; border:1px solid #ccc; border-radius:5px; margin-top:10px;"></textarea>
                 </div>
             </div>
-            <button type="submit" style="background-color:#F15D23; color:white; border:none; padding:12px 20px; margin-top:20px; border-radius:5px; cursor:pointer;">Submit Enquiry</button>
+            
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" style="background-color:#F15D23; color:white; border:none; padding:12px 20px; margin-top:20px; border-radius:5px; cursor:pointer;">Submit Enquiry</button>
         </form>
         <button onclick="closePopup()" style="background:#999; color:white; border:none; padding:10px 20px; margin-top:20px; border-radius:5px;">Close</button>
     </div>
@@ -98,7 +101,6 @@
     document.getElementById("enquiryPopup").style.display = "none";
   }
 </script>
-<script src="../js/lib/emailjs.bundle.min.js"></script>
   <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
   <script src="../js/api-bridge.js"></script>
 <script type="module" src="../js/firebase/app.js"></script>
@@ -106,5 +108,8 @@
 
 <script src="../js/aaraa-popups.js"></script>
 <script src="../js/aaraa-modals.js"></script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

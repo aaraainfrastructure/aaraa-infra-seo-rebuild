@@ -352,7 +352,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
           <textarea id="productDetails" name="productDetails" required></textarea>
           <span class="error" id="productDetailsError">Product Details are required</span>
         </div>
-        <button type="submit" class="submit-btn">Submit</button>
+        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" class="submit-btn">Submit</button>
       </form>
       <div class="confirmation-page" id="confirmationPage">
         <div class="tick">?</div>
@@ -523,13 +526,15 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       return isValid;
     }
   </script>
-    <script src="js/lib/emailjs.bundle.min.js"></script>
-  <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
+      <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
   <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js?v=2"></script>
+<script type="module" src="js/firebase/app.js?v=4"></script>
 </main>
 
 <script src="js/aaraa-popups.js"></script>
 <script src="js/aaraa-modals.js"></script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

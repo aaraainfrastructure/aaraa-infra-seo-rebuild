@@ -280,7 +280,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       <input type="text" name="aadhaar" placeholder="Aadhaar Number" required><br><br>
       <input type="text" name="pan" placeholder="PAN Number" required><br><br>
       <input type="text" name="gst" placeholder="GST Number" required><br><br>
-      <input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
       <div id="message" style="margin-top:10px;"></div>
     </form>
   </div>
@@ -295,7 +298,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       <input type="email" name="email" placeholder="Your Email" required><br><br>
       <input type="text" name="phone" placeholder="Your Phone" required><br><br>
       <textarea name="message" placeholder="Your Message" rows="4" required style="width:100%;"></textarea><br><br>
-      <input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<input type="submit" value="Send" style="background:#e0572a; color:white; padding:10px 20px; border:none; cursor:pointer; border-radius:5px;">
       <div id="enquiryMessage" style="margin-top:10px;"></div>
     </form>
   </div>
@@ -616,7 +622,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
           <textarea class="apply-input apply-textarea" name="message" id="applyMessage" rows="4" placeholder="Tell us why you're a great fit for this role..."></textarea>
         </div>
 
-        <button id="applySubmit" class="apply-btn" type="submit">
+        
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button id="applySubmit" class="apply-btn" type="submit">
           <span class="apply-btn-text">Submit Application</span>
           <span class="apply-btn-loading" hidden>
             <span class="spinner"></span> Submitting...
@@ -901,7 +910,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
                             </p>
                             <form class="form-newsletter subscribe-form" accept-charset="utf-8" data-mailchimp="true">
                                 <input type="email" name="email-form" class="subscribe-email" placeholder="Email address" required>
-                                <button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
+                                
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button class="subscribe-button tf-btn-newsletter" aria-label="Subscribe to newsletter">
                                     <i class="icon-arrow-right"></i>
                                 </button>
                             </form>
@@ -955,7 +967,7 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
   
   <script type="text/javascript" src="js/main.js"></script>
 
-  <script src="js/firebase-submit.js?v=2"></script>
+  <script src="js/firebase-submit.js?v=4"></script>
 
   <!-- Popup/Modal handlers -->
   <script src="js/aaraa-popups.js"></script>
@@ -1032,7 +1044,7 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
 </style>
 
 <div class="devic_mnu-container">
-    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()">?</button>
+    <button class="devic_mnu-toggle" onclick="toggleDevicMenu()"><i class="fa-solid fa-bars"></i></button>
     <ul class="devic_mnu-list" id="devicMenu">
         <li><a href="index.html">Home</a></li>
         <li>
@@ -1102,8 +1114,11 @@ document.getElementById("currentYear").textContent = new Date().getFullYear();
 <!-- END: Custom Mobile Menu -->
 
 <!-- START: Serverless Submit Handler -->
-<script src="js/firebase-submit.js?v=2"></script>
+<script src="js/firebase-submit.js?v=4"></script>
 <!-- END: Serverless Submit Handler -->
 
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

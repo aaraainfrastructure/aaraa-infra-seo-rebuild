@@ -62,7 +62,7 @@
 <div class="popup" id="enquiryPopup" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.6); z-index:9999; justify-content:center; align-items:center; font-family:'Montserrat', sans-serif;">
     <div class="popup-content" style="background:#fff; padding:30px; border-radius:10px; max-width:700px; width:90%;">
         <h2 style="margin-top:0;">Submit an Enquiry</h2>
-        <form id="enquiryForm" action="#" method="POST" data-form-type="enquiry">
+        <form id="enquiryForm" action="#" method="POST" data-form-type="contact">
             <div style="display:flex; flex-wrap:wrap; gap:20px;">
                 <div style="flex:1;">
                     <input type="text" name="name" placeholder="Your Name" required style="width:100%; padding:10px; border:1px solid #ccc; border-radius:5px;">
@@ -82,7 +82,10 @@
                     <textarea name="message" placeholder="Your Message / Project Description" required style="width:100%; height:100px; padding:10px; border:1px solid #ccc; border-radius:5px; margin-top:10px;"></textarea>
                 </div>
             </div>
-            <button type="submit" style="background-color:#F15D23; color:white; border:none; padding:12px 20px; margin-top:20px; border-radius:5px; cursor:pointer;">Submit Enquiry</button>
+            
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<button type="submit" style="background-color:#F15D23; color:white; border:none; padding:12px 20px; margin-top:20px; border-radius:5px; cursor:pointer;">Submit Enquiry</button>
         </form>
         <button onclick="closePopup()" style="background:#999; color:white; border:none; padding:10px 20px; margin-top:20px; border-radius:5px;">Close</button>
     </div>
@@ -98,13 +101,14 @@
     document.getElementById("enquiryPopup").style.display = "none";
   }
 </script>
-<script src="../js/lib/emailjs.bundle.min.js"></script>
-  <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
-  <script src="../js/api-bridge.js"></script>
-<script type="module" src="../js/firebase/app.js"></script>
+  <!-- Firebase Universal Form Handler -->
+  <script src="../js/firebase-submit.js?v=5"></script>
 </main>
 
 <script src="../js/aaraa-popups.js"></script>
 <script src="../js/aaraa-modals.js"></script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

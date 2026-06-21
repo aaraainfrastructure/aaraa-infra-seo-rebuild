@@ -167,7 +167,10 @@ loading="lazy" decoding="async" src="https://www.facebook.com/tr?id=149510223534
       <input type="file" name="pan_file" accept="application/pdf" required>
       <label>GST Document (PDF):</label>
       <input type="file" name="gst_file" accept="application/pdf" required>
-      <input type="submit" value="Send">
+      
+      <!-- Cloudflare Turnstile Widget -->
+      <div class="cf-turnstile-placeholder" style="margin-bottom: 15px; display: flex; justify-content: center;"></div>
+<input type="submit" value="Send">
       <div id="message"></div>
     </form>
   </div>
@@ -184,13 +187,15 @@ function closePopup() {
 // Form handled by Firebase app.js
 </script>
 
-<script src="js/lib/emailjs.bundle.min.js"></script>
   <!-- ⭐ API BRIDGE - MUST be before app.js ⭐ -->
   <script src="js/api-bridge.js"></script>
-<script type="module" src="js/firebase/app.js?v=2"></script>
+<script type="module" src="js/firebase/app.js?v=4"></script>
 </main>
 
 <script src="js/aaraa-popups.js"></script>
 <script src="js/aaraa-modals.js"></script>
+
+<!-- Cloudflare Turnstile API Script -->
+<script src="https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onloadTurnstileCallback&render=explicit" async defer></script>
 </body>
 </html>

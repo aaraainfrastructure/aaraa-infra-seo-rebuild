@@ -80,3 +80,7 @@ desktop.ini
 
 # Firebase cache
 .firebase/
+
+# Local test submissions and uploads
+local_submissions/
+local_uploads/
