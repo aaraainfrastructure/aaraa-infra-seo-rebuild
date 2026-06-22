@@ -19436,3 +19436,26 @@ body {
     background-repeat: no-repeat !important;
     width: 100%;
 }
+
+/* --- Prevent header menu items from wrapping and squeezing --- */
+.menu-primary-menu .menu-item .item-link,
+.rb-menu > li > a {
+    white-space: nowrap !important;
+}
+
+/* Replace hardcoded inline margins with dynamic flex push to prevent menu squeeze */
+.custom-header-buttons {
+    margin-left: auto !important;
+}
+
+/* Ensure the menu and buttons container fills the header content space correctly */
+.header .header-content .header-left {
+    flex: 1 !important;
+    width: 100% !important;
+}
+.header .main-menu {
+    flex: 1 !important;
+}
+.header .menu-primary-menu {
+    width: 100% !important;
+}
